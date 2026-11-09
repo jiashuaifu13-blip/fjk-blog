@@ -1,15 +1,278 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
+
+const postsByYear = posts.reduce(
+  (groups, post) => {
+    const year = post.data.date.getFullYear();
+
+    if (!groups[year]) {
+      groups[year] = [];
+    }
+
+    groups[year].push(post);
+
+    return groups;
+  },
+  {} as Record<number, typeof posts>
+);
+
+const years = Object.keys(postsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
 ---
 
-<Layout title="归档">
-  <section class="section">
-    <h1 class="section-title">
-      归档
-    </h1>
+<Layout
+  title="归档"
+  description="按照年份浏览所有博客文章。"
+>
+  <section class="archive-page">
+    <header class="archive-header">
+      <p class="archive-label">
+        ARCHIVE
+      </p>
 
-    <p class="section-description">
-      博客文章归档将在文章系统完成后生成。
-    </p>
+      <h1>
+        归档
+      </h1>
+
+      <p>
+        这里记录了博客发布过的所有文章。
+      </p>
+    </header>
+
+    {
+      years.length > 0 ? (
+        <div class="archive-list">
+          {years.map((year) => (
+            <section class="archive-year">
+              <div class="year-heading">
+                <h2>
+                  {year}
+                </h2>
+
+                <span>
+                  {postsByYear[year].length} 篇
+                </span>
+              </div>
+
+              <div class="year-posts">
+                {postsByYear[year].map((post) => (
+                  <article class="archive-item">
+                    <a href={`/blog/${post.id}/`}>
+                      <time
+                        datetime={post.data.date.toISOString()}
+                      >
+                        {post.data.date.toLocaleDateString(
+                          "zh-CN",
+                          {
+                            month: "2-digit",
+                            day: "2-digit",
+                          }
+                        )}
+                      </time>
+
+                      <div class="archive-post-info">
+                        <h3>
+                          {post.data.title}
+                        </h3>
+
+                        <span>
+                          {post.data.category}
+                        </span>
+                      </div>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-message">
+          暂时还没有文章。
+        </p>
+      )
+    }
   </section>
 </Layout>
+
+<style>
+  .archive-page {
+    width: min(
+      100%,
+      820px
+    );
+
+    margin: 0 auto;
+
+    padding: 72px 0;
+  }
+
+  .archive-header {
+    padding-bottom: 52px;
+  }
+
+  .archive-label {
+    margin: 0 0 14px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+  }
+
+  .archive-header h1 {
+    margin: 0;
+
+    font-size: clamp(40px, 6vw, 56px);
+
+    line-height: 1.1;
+
+    letter-spacing: -0.045em;
+  }
+
+  .archive-header > p:last-child {
+    margin: 18px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 17px;
+  }
+
+  .archive-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 64px;
+  }
+
+  .archive-year {
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
+
+    gap: 36px;
+  }
+
+  .year-heading h2 {
+    margin: 0;
+
+    font-size: 28px;
+
+    letter-spacing: -0.03em;
+  }
+
+  .year-heading span {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+
+  .year-posts {
+    border-top: 1px solid var(--border);
+  }
+
+  .archive-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .archive-item a {
+    padding: 20px 0;
+
+    display: grid;
+
+    grid-template-columns: 70px 1fr;
+
+    align-items: center;
+
+    gap: 20px;
+  }
+
+  .archive-item time {
+    color: var(--text-secondary);
+
+    font-size: 13px;
+  }
+
+  .archive-post-info {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+  }
+
+  .archive-post-info h3 {
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.01em;
+  }
+
+  .archive-post-info span {
+    flex-shrink: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+
+  .archive-item:hover h3 {
+    text-decoration: underline;
+
+    text-underline-offset: 4px;
+  }
+
+  .empty-message {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 700px) {
+    .archive-page {
+      padding: 52px 0;
+    }
+
+    .archive-year {
+      grid-template-columns: 1fr;
+
+      gap: 18px;
+    }
+
+    .archive-item a {
+      grid-template-columns: 58px 1fr;
+
+      gap: 14px;
+    }
+
+    .archive-post-info {
+      align-items: flex-start;
+
+      flex-direction: column;
+
+      gap: 4px;
+    }
+  }
+</style>

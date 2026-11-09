@@ -1,7 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
----
+import { getCollection } from "astro:content";
 
+const posts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
+
+const latestPosts = posts.slice(0, 4);
+---
 <Layout>
   <section class="hero">
     <div class="hero-content">
@@ -52,34 +61,50 @@ import Layout from "../layouts/Layout.astro";
     </div>
 
     <div class="post-grid">
-      <article class="post-card">
-        <p class="post-meta">
-          即将发布
-        </p>
+  {
+    latestPosts.length > 0 ? (
+      latestPosts.map((post) => (
+        <article class="post-card">
+          <a href={`/blog/${post.id}/`}>
+            <div class="post-card-meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("zh-CN")}
+              </time>
 
-        <h3>
-          我的第一篇博客文章
-        </h3>
+              <span>
+                {post.data.category}
+              </span>
+            </div>
 
-        <p>
-          博客文章系统将在下一阶段完成。
-        </p>
-      </article>
+            <h3>
+              {post.data.title}
+            </h3>
 
-      <article class="post-card">
-        <p class="post-meta">
-          即将发布
-        </p>
+            <p>
+              {post.data.description}
+            </p>
 
-        <h3>
-          Astro 博客开发记录
-        </h3>
-
-        <p>
-          记录这个个人博客从零开始构建的完整过程。
-        </p>
-      </article>
-    </div>
+            {
+              post.data.tags.length > 0 && (
+                <div class="post-card-tags">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span>
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )
+            }
+          </a>
+        </article>
+      ))
+    ) : (
+      <p class="empty-message">
+        暂时还没有文章。
+      </p>
+    )
+  }
+</div>
   </section>
 
   <section class="section project-section">
@@ -258,16 +283,71 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .post-card {
-    padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
 
-    border: 1px solid var(--border);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
 
-    border-radius: 12px;
+.post-card:hover {
+  transform: translateY(-2px);
 
-    transition:
-      transform 0.2s ease,
-      border-color 0.2s ease;
-  }
+  border-color: #c9c9c9;
+}
+
+.post-card > a {
+  height: 100%;
+
+  padding: 28px;
+
+  display: block;
+}
+
+.post-card-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+}
+
+.post-card h3 {
+  margin: 12px 0 8px;
+
+  font-size: 20px;
+
+  letter-spacing: -0.02em;
+}
+
+.post-card p {
+  margin: 0;
+
+  color: var(--text-secondary);
+}
+
+.post-card-tags {
+  margin-top: 18px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+}
+
+.empty-message {
+  color: var(--text-secondary);
+}
 
   .post-card:hover {
     transform: translateY(-2px);
