@@ -1,0 +1,201 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  return posts
+    .filter((post) => !post.data.draft)
+    .map((post) => ({
+      params: {
+        id: post.id,
+      },
+      props: {
+        post,
+      },
+    }));
+}
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+>
+  <article class="article">
+    <header class="article-header">
+      <div class="article-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString("zh-CN")}
+        </time>
+
+        <span>
+          {post.data.category}
+        </span>
+      </div>
+
+      <h1>
+        {post.data.title}
+      </h1>
+
+      <p class="article-description">
+        {post.data.description}
+      </p>
+
+      <div class="article-tags">
+        {
+          post.data.tags.map((tag) => (
+            <span>
+              #{tag}
+            </span>
+          ))
+        }
+      </div>
+    </header>
+
+    <div class="article-content">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article {
+    width: min(
+      100%,
+      var(--article-width)
+    );
+
+    margin: 0 auto;
+
+    padding: 72px 0;
+  }
+
+  .article-header {
+    padding-bottom: 36px;
+
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-meta {
+    display: flex;
+
+    gap: 14px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+  }
+
+  .article-header h1 {
+    margin: 18px 0;
+
+    font-size: clamp(36px, 6vw, 56px);
+
+    line-height: 1.1;
+
+    letter-spacing: -0.045em;
+  }
+
+  .article-description {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 18px;
+  }
+
+  .article-tags {
+    margin-top: 20px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+  }
+
+  .article-content {
+    padding-top: 40px;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+  }
+
+  .article-content :global(h2) {
+    margin-top: 48px;
+
+    font-size: 28px;
+
+    letter-spacing: -0.03em;
+  }
+
+  .article-content :global(h3) {
+    margin-top: 36px;
+
+    font-size: 22px;
+  }
+
+  .article-content :global(p) {
+    margin: 18px 0;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    padding-left: 24px;
+  }
+
+  .article-content :global(pre) {
+    overflow-x: auto;
+
+    margin: 24px 0;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    background: #111111;
+  }
+
+  .article-content :global(code) {
+    font-family:
+      "JetBrains Mono",
+      Consolas,
+      monospace;
+  }
+
+  .article-content :global(:not(pre) > code) {
+    padding: 2px 6px;
+
+    border-radius: 5px;
+
+    background: var(--surface);
+
+    font-size: 0.9em;
+  }
+
+  .article-content :global(blockquote) {
+    margin: 24px 0;
+
+    padding-left: 18px;
+
+    border-left: 3px solid var(--border);
+
+    color: var(--text-secondary);
+  }
+
+  .article-content :global(a) {
+    color: var(--accent);
+
+    text-decoration: underline;
+  }
+</style>

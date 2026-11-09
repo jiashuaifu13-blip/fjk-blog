@@ -1,15 +1,148 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
 ---
 
-<Layout title="文章">
+<Layout
+  title="文章"
+  description="所有博客文章"
+>
   <section class="section">
-    <h1 class="section-title">
-      文章
-    </h1>
+    <div class="blog-header">
+      <p class="section-label">
+        BLOG
+      </p>
 
-    <p class="section-description">
-      文章系统正在建设中。
-    </p>
+      <h1 class="section-title">
+        文章
+      </h1>
+
+      <p class="section-description">
+        技术笔记、项目记录和学习过程。
+      </p>
+    </div>
+
+    <div class="post-list">
+      {
+        posts.map((post) => (
+          <article class="post-item">
+            <a href={`/blog/${post.id}/`}>
+              <div class="post-meta">
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString("zh-CN")}
+                </time>
+
+                <span>
+                  {post.data.category}
+                </span>
+              </div>
+
+              <h2>
+                {post.data.title}
+              </h2>
+
+              <p>
+                {post.data.description}
+              </p>
+
+              {
+                post.data.tags.length > 0 && (
+                  <div class="tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="tag">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )
+              }
+            </a>
+          </article>
+        ))
+      }
+    </div>
   </section>
 </Layout>
+
+<style>
+  .blog-header {
+    max-width: 700px;
+  }
+
+  .post-list {
+    margin-top: 48px;
+
+    display: flex;
+
+    flex-direction: column;
+  }
+
+  .post-item {
+    border-top: 1px solid var(--border);
+  }
+
+  .post-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-item a {
+    padding: 28px 0;
+
+    display: block;
+  }
+
+  .post-item h2 {
+    margin: 10px 0;
+
+    font-size: 24px;
+
+    letter-spacing: -0.025em;
+  }
+
+  .post-item p {
+    max-width: 720px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+  }
+
+  .post-meta {
+    display: flex;
+
+    gap: 16px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+
+  .tags {
+    margin-top: 16px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+  }
+
+  .tag {
+    padding: 3px 8px;
+
+    border-radius: 6px;
+
+    background: var(--surface);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+</style>
