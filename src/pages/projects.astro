@@ -1,15 +1,423 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const projects = [
+  {
+    title: "Personal Blog",
+    description:
+      "从零开始构建的个人博客，用于记录技术学习、项目实践和个人内容。",
+    status: "开发中",
+    year: "2026",
+    technologies: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Markdown",
+      "Git",
+    ],
+    github: "",
+    demo: "",
+    featured: true,
+  },
+  {
+    title: "Future Project",
+    description:
+      "这里预留给后续开发的个人项目。完成新的项目后，可以直接在这里添加。",
+    status: "计划中",
+    year: "Future",
+    technologies: [
+      "Coming Soon",
+    ],
+    github: "",
+    demo: "",
+    featured: false,
+  },
+];
 ---
 
-<Layout title="项目">
-  <section class="section">
-    <h1 class="section-title">
-      项目
-    </h1>
+<Layout
+  title="项目"
+  description="我的个人项目与开发实践。"
+>
+  <section class="projects-page">
+    <header class="projects-header">
+      <p class="eyebrow">
+        PROJECTS
+      </p>
 
-    <p class="section-description">
-      这里将展示我的个人项目。
-    </p>
+      <h1>
+        项目
+      </h1>
+
+      <p class="projects-description">
+        这里记录一些我正在开发、已经完成，
+        或者计划中的个人项目。
+      </p>
+    </header>
+
+    <div class="projects-list">
+      {
+        projects.map((project) => (
+          <article
+            class:list={[
+              "project-card",
+              {
+                featured: project.featured,
+              },
+            ]}
+          >
+            <div class="project-main">
+              <div class="project-top">
+                <div class="project-meta">
+                  <span>
+                    {project.year}
+                  </span>
+
+                  <span>
+                    {project.status}
+                  </span>
+                </div>
+
+                {
+                  project.featured && (
+                    <span class="featured-label">
+                      FEATURED
+                    </span>
+                  )
+                }
+              </div>
+
+              <h2>
+                {project.title}
+              </h2>
+
+              <p class="project-description">
+                {project.description}
+              </p>
+
+              <div class="technology-list">
+                {
+                  project.technologies.map((technology) => (
+                    <span class="technology">
+                      {technology}
+                    </span>
+                  ))
+                }
+              </div>
+            </div>
+
+            {
+              (project.github || project.demo) && (
+                <div class="project-links">
+                  {
+                    project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        在线访问 ↗
+                      </a>
+                    )
+                  }
+
+                  {
+                    project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GitHub ↗
+                      </a>
+                    )
+                  }
+                </div>
+              )
+            }
+          </article>
+        ))
+      }
+    </div>
+
+    <section class="projects-note">
+      <p class="eyebrow">
+        MORE
+      </p>
+
+      <h2>
+        更多项目正在路上。
+      </h2>
+
+      <p>
+        随着新的学习和实践，
+        我会持续把值得记录的项目添加到这里。
+      </p>
+    </section>
   </section>
 </Layout>
+
+<style>
+  .projects-page {
+    width: min(
+      100%,
+      920px
+    );
+
+    margin: 0 auto;
+
+    padding: 72px 0;
+  }
+
+  .projects-header {
+    max-width: 720px;
+
+    padding-bottom: 56px;
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+  }
+
+  .projects-header h1 {
+    margin: 0;
+
+    font-size: clamp(
+      44px,
+      7vw,
+      64px
+    );
+
+    line-height: 1;
+
+    letter-spacing: -0.05em;
+  }
+
+  .projects-description {
+    max-width: 620px;
+
+    margin: 22px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 18px;
+
+    line-height: 1.8;
+  }
+
+  .projects-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+  }
+
+  .project-card {
+    padding: 32px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--background);
+
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #c9c9c9;
+  }
+
+  .project-card.featured {
+    background: var(--surface);
+  }
+
+  .project-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+  }
+
+  .project-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+
+  .featured-label {
+    padding: 4px 8px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+  }
+
+  .project-card h2 {
+    margin: 18px 0 10px;
+
+    font-size: 28px;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.035em;
+  }
+
+  .project-description {
+    max-width: 720px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    line-height: 1.8;
+  }
+
+  .technology-list {
+    margin-top: 24px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+  }
+
+  .technology {
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background: var(--surface);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+  }
+
+  .featured .technology {
+    background: var(--background);
+  }
+
+  .project-links {
+    margin-top: 28px;
+
+    padding-top: 22px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    border-top: 1px solid var(--border);
+  }
+
+  .project-links a {
+    font-size: 14px;
+
+    font-weight: 600;
+  }
+
+  .project-links a:hover {
+    text-decoration: underline;
+
+    text-underline-offset: 4px;
+  }
+
+  .projects-note {
+    margin-top: 72px;
+
+    padding-top: 56px;
+
+    border-top: 1px solid var(--border);
+  }
+
+  .projects-note h2 {
+    margin: 0;
+
+    font-size: clamp(
+      30px,
+      5vw,
+      42px
+    );
+
+    letter-spacing: -0.04em;
+  }
+
+  .projects-note > p:last-child {
+    max-width: 620px;
+
+    margin: 18px 0 0;
+
+    color: var(--text-secondary);
+
+    line-height: 1.8;
+  }
+
+  @media (max-width: 700px) {
+    .projects-page {
+      padding: 52px 0;
+    }
+
+    .projects-header {
+      padding-bottom: 40px;
+    }
+
+    .projects-description {
+      font-size: 16px;
+    }
+
+    .project-card {
+      padding: 24px;
+    }
+
+    .project-top {
+      align-items: flex-start;
+
+      flex-direction: column;
+
+      gap: 12px;
+    }
+
+    .project-card h2 {
+      font-size: 24px;
+    }
+
+    .projects-note {
+      margin-top: 52px;
+
+      padding-top: 40px;
+    }
+  }
+</style>

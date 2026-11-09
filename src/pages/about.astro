@@ -1,15 +1,401 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const skills = [
+  "Astro",
+  "TypeScript",
+  "JavaScript",
+  "HTML",
+  "CSS",
+  "Tailwind CSS",
+  "Git",
+  "Linux",
+];
+
+const interests = [
+  "Web 开发",
+  "个人项目",
+  "技术学习",
+  "工具研究",
+  "服务器",
+  "开源技术",
+];
 ---
 
-<Layout title="关于">
-  <section class="section">
-    <h1 class="section-title">
-      关于我
-    </h1>
+<Layout
+  title="关于"
+  description="关于我、我的技术栈以及这个博客。"
+>
+  <section class="about-page">
+    <header class="about-hero">
+      <p class="eyebrow">
+        ABOUT
+      </p>
 
-    <p class="section-description">
-      关于我的介绍将在这里展示。
-    </p>
+      <h1>
+        关于我
+      </h1>
+
+      <p class="intro">
+        你好，我是 FJK。
+      </p>
+
+      <p class="description">
+        这里是我的个人博客。
+        我会在这里记录技术学习、项目开发、
+        工具使用和一些值得长期保存的内容。
+      </p>
+    </header>
+
+    <section class="about-section">
+      <div class="section-heading">
+        <p class="section-number">
+          01
+        </p>
+
+        <h2>
+          关于这个博客
+        </h2>
+      </div>
+
+      <div class="section-content">
+        <p>
+          这个博客从零开始构建，
+          主要目标是拥有一个真正属于自己的内容空间。
+        </p>
+
+        <p>
+          与依赖第三方内容平台不同，
+          文章、代码和网站本身都会由我自己维护，
+          并部署到个人服务器。
+        </p>
+
+        <p>
+          当前博客使用 Astro、TypeScript、
+          Markdown 和 Git 构建。
+          后续还会继续增加搜索、暗色模式、
+          RSS、SEO 和其他功能。
+        </p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="section-heading">
+        <p class="section-number">
+          02
+        </p>
+
+        <h2>
+          技术栈
+        </h2>
+      </div>
+
+      <div class="section-content">
+        <p>
+          目前正在学习和使用的技术：
+        </p>
+
+        <div class="skill-list">
+          {
+            skills.map((skill) => (
+              <span class="skill">
+                {skill}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="section-heading">
+        <p class="section-number">
+          03
+        </p>
+
+        <h2>
+          兴趣方向
+        </h2>
+      </div>
+
+      <div class="section-content">
+        <div class="interest-grid">
+          {
+            interests.map((interest) => (
+              <div class="interest-item">
+                {interest}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="section-heading">
+        <p class="section-number">
+          04
+        </p>
+
+        <h2>
+          联系方式
+        </h2>
+      </div>
+
+      <div class="section-content">
+        <p>
+          后续可以在这里添加 GitHub、
+          Email 或其他公开联系方式。
+        </p>
+
+        <div class="contact-placeholder">
+          <span>
+            GitHub
+          </span>
+
+          <strong>
+            暂未公开
+          </strong>
+        </div>
+
+        <div class="contact-placeholder">
+          <span>
+            Email
+          </span>
+
+          <strong>
+            暂未公开
+          </strong>
+        </div>
+      </div>
+    </section>
   </section>
 </Layout>
+
+<style>
+  .about-page {
+    width: min(
+      100%,
+      860px
+    );
+
+    margin: 0 auto;
+
+    padding: 72px 0;
+  }
+
+  .about-hero {
+    max-width: 740px;
+
+    padding-bottom: 72px;
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+  }
+
+  .about-hero h1 {
+    margin: 0;
+
+    font-size: clamp(
+      44px,
+      7vw,
+      64px
+    );
+
+    line-height: 1;
+
+    letter-spacing: -0.05em;
+  }
+
+  .intro {
+    margin: 30px 0 0;
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.025em;
+  }
+
+  .description {
+    max-width: 660px;
+
+    margin: 14px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 18px;
+
+    line-height: 1.9;
+  }
+
+  .about-section {
+    padding: 56px 0;
+
+    display: grid;
+
+    grid-template-columns: 220px 1fr;
+
+    gap: 48px;
+
+    border-top: 1px solid var(--border);
+  }
+
+  .section-heading {
+    position: sticky;
+
+    top: 100px;
+
+    align-self: start;
+  }
+
+  .section-number {
+    margin: 0 0 8px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+
+    font-size: 22px;
+
+    letter-spacing: -0.025em;
+  }
+
+  .section-content {
+    min-width: 0;
+  }
+
+  .section-content > p {
+    margin: 0 0 18px;
+
+    color: var(--text-secondary);
+
+    line-height: 1.9;
+  }
+
+  .section-content > p:last-child {
+    margin-bottom: 0;
+  }
+
+  .skill-list {
+    margin-top: 24px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+  }
+
+  .skill {
+    padding: 7px 11px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    font-size: 13px;
+  }
+
+  .interest-grid {
+    display: grid;
+
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+    gap: 12px;
+  }
+
+  .interest-item {
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    font-size: 14px;
+  }
+
+  .contact-placeholder {
+    padding: 18px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-placeholder:first-of-type {
+    margin-top: 24px;
+
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-placeholder span {
+    color: var(--text-secondary);
+
+    font-size: 14px;
+  }
+
+  .contact-placeholder strong {
+    font-size: 14px;
+
+    font-weight: 500;
+  }
+
+  @media (max-width: 700px) {
+    .about-page {
+      padding: 52px 0;
+    }
+
+    .about-hero {
+      padding-bottom: 52px;
+    }
+
+    .description {
+      font-size: 16px;
+    }
+
+    .about-section {
+      padding: 40px 0;
+
+      grid-template-columns: 1fr;
+
+      gap: 24px;
+    }
+
+    .section-heading {
+      position: static;
+    }
+
+    .interest-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

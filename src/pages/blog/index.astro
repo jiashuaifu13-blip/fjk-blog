@@ -1,10 +1,14 @@
 ﻿---
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
 ---
 
 <Layout
@@ -13,9 +17,13 @@ const posts = (await getCollection("posts"))
 >
   <section class="blog-page">
     <header class="blog-header">
-      <p class="section-label">BLOG</p>
+      <p class="section-label">
+        BLOG
+      </p>
 
-      <h1>文章</h1>
+      <h1>
+        文章
+      </h1>
 
       <p>
         技术笔记、项目记录和学习过程。
@@ -26,46 +34,73 @@ const posts = (await getCollection("posts"))
       {
         posts.map((post) => (
           <article class="post-item">
-            <div class="post-meta">
-              <time datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString("zh-CN")}
-              </time>
-
-              <a
-                class="category-link"
-                href={`/blog/category/${encodeURIComponent(post.data.category)}/`}
-              >
-                {post.data.category}
-              </a>
-            </div>
-
-            <h2>
-              <a
-                class="post-title-link"
-                href={`/blog/${post.id}/`}
-              >
-                {post.data.title}
-              </a>
-            </h2>
-
-            <p class="post-description">
-              {post.data.description}
-            </p>
-
             {
-              post.data.tags.length > 0 && (
-                <div class="tags">
-                  {post.data.tags.map((tag) => (
-                    <a
-                      class="tag"
-                      href={`/blog/tag/${encodeURIComponent(tag)}/`}
-                    >
-                      #{tag}
-                    </a>
-                  ))}
-                </div>
+              post.data.cover && (
+                <a
+                  class="cover-link"
+                  href={`/blog/${post.id}/`}
+                  aria-label={post.data.title}
+                >
+                  <Image
+                    class="post-cover"
+                    src={post.data.cover}
+                    alt={
+                      post.data.coverAlt ??
+                      post.data.title
+                    }
+                  />
+                </a>
               )
             }
+
+            <div class="post-body">
+              <div class="post-meta">
+                <time
+                  datetime={post.data.date.toISOString()}
+                >
+                  {post.data.date.toLocaleDateString("zh-CN")}
+                </time>
+
+                <a
+                  class="category-link"
+                  href={`/blog/category/${encodeURIComponent(
+                    post.data.category
+                  )}/`}
+                >
+                  {post.data.category}
+                </a>
+              </div>
+
+              <h2>
+                <a
+                  class="post-title-link"
+                  href={`/blog/${post.id}/`}
+                >
+                  {post.data.title}
+                </a>
+              </h2>
+
+              <p class="post-description">
+                {post.data.description}
+              </p>
+
+              {
+                post.data.tags.length > 0 && (
+                  <div class="tags">
+                    {post.data.tags.map((tag) => (
+                      <a
+                        class="tag"
+                        href={`/blog/tag/${encodeURIComponent(
+                          tag
+                        )}/`}
+                      >
+                        #{tag}
+                      </a>
+                    ))}
+                  </div>
+                )
+              }
+            </div>
           </article>
         ))
       }
@@ -75,7 +110,7 @@ const posts = (await getCollection("posts"))
 
 <style>
   .blog-page {
-    width: min(100%, 820px);
+    width: min(100%, 900px);
     margin: 0 auto;
     padding: 72px 0;
   }
@@ -86,22 +121,34 @@ const posts = (await getCollection("posts"))
 
   .section-label {
     margin: 0 0 14px;
+
     color: var(--text-secondary);
+
     font-size: 12px;
     font-weight: 700;
+
     letter-spacing: 0.14em;
   }
 
   .blog-header h1 {
     margin: 0;
-    font-size: clamp(40px, 6vw, 56px);
+
+    font-size: clamp(
+      40px,
+      6vw,
+      56px
+    );
+
     line-height: 1.1;
+
     letter-spacing: -0.045em;
   }
 
   .blog-header > p:last-child {
     margin: 16px 0 0;
+
     color: var(--text-secondary);
+
     font-size: 17px;
   }
 
@@ -110,20 +157,56 @@ const posts = (await getCollection("posts"))
   }
 
   .post-item {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 32px 0;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 28px;
+
+    border-bottom:
+      1px solid var(--border);
+  }
+
+  .post-item:has(.post-cover) {
+    grid-template-columns:
+      260px minmax(0, 1fr);
+  }
+
+  .cover-link {
+    display: block;
+  }
+
+  .post-cover {
+    width: 100%;
+    height: 170px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+  }
+
+  .post-body {
+    min-width: 0;
   }
 
   .post-meta {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 16px;
+
     color: var(--text-secondary);
+
     font-size: 12px;
   }
 
   .category-link {
     color: var(--text-secondary);
+
     transition: color 0.2s ease;
   }
 
@@ -133,33 +216,47 @@ const posts = (await getCollection("posts"))
 
   .post-item h2 {
     margin: 10px 0;
+
     font-size: 24px;
+
     letter-spacing: -0.025em;
   }
 
   .post-title-link:hover {
     text-decoration: underline;
+
     text-underline-offset: 4px;
   }
 
   .post-description {
     max-width: 720px;
+
     margin: 0;
+
     color: var(--text-secondary);
+
+    line-height: 1.7;
   }
 
   .tags {
     margin-top: 16px;
+
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 8px;
   }
 
   .tag {
     padding: 3px 8px;
+
     border-radius: 6px;
+
     background: var(--surface);
+
     color: var(--text-secondary);
+
     font-size: 12px;
 
     transition:
@@ -169,6 +266,7 @@ const posts = (await getCollection("posts"))
 
   .tag:hover {
     color: var(--text-primary);
+
     background: var(--border);
   }
 
@@ -177,8 +275,15 @@ const posts = (await getCollection("posts"))
       padding: 52px 0;
     }
 
-    .post-item {
-      padding: 24px 0;
+    .post-item,
+    .post-item:has(.post-cover) {
+      grid-template-columns: 1fr;
+    }
+
+    .post-cover {
+      height: auto;
+
+      aspect-ratio: 16 / 9;
     }
 
     .post-item h2 {

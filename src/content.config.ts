@@ -8,14 +8,18 @@ const posts = defineCollection({
     pattern: "**/*.{md,mdx}",
   }),
 
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    category: z.string(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.coerce.date(),
+      category: z.string(),
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false),
+
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+    }),
 });
 
 export const collections = {
