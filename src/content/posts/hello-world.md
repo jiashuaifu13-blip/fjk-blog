@@ -6,7 +6,7 @@ category: "博客"
 tags:
   - Astro
   - Blog
-cover: "/images/covers/hello-world.svg"
+cover: "/images/covers/hello-world.jpg"
 coverAlt: "我的第一篇博客文章封面"
 draft: false
 ---
@@ -30,6 +30,5 @@ draft: false
 
 ```js
 console.log("Hello, Blog!");
-```
 
 后续我会继续完善文章系统、项目展示和其他功能。
