@@ -1,6 +1,5 @@
 ﻿---
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("posts"))
@@ -41,13 +40,14 @@ const posts = (await getCollection("posts"))
                   href={`/blog/${post.id}/`}
                   aria-label={post.data.title}
                 >
-                  <Image
+                  <img
                     class="post-cover"
                     src={post.data.cover}
                     alt={
                       post.data.coverAlt ??
                       post.data.title
                     }
+                    loading="lazy"
                   />
                 </a>
               )
@@ -56,9 +56,15 @@ const posts = (await getCollection("posts"))
             <div class="post-body">
               <div class="post-meta">
                 <time
-                  datetime={post.data.date.toISOString()}
+                  datetime={
+                    post.data.date.toISOString()
+                  }
                 >
-                  {post.data.date.toLocaleDateString("zh-CN")}
+                  {
+                    post.data.date.toLocaleDateString(
+                      "zh-CN"
+                    )
+                  }
                 </time>
 
                 <a
@@ -87,16 +93,18 @@ const posts = (await getCollection("posts"))
               {
                 post.data.tags.length > 0 && (
                   <div class="tags">
-                    {post.data.tags.map((tag) => (
-                      <a
-                        class="tag"
-                        href={`/blog/tag/${encodeURIComponent(
-                          tag
-                        )}/`}
-                      >
-                        #{tag}
-                      </a>
-                    ))}
+                    {
+                      post.data.tags.map((tag) => (
+                        <a
+                          class="tag"
+                          href={`/blog/tag/${encodeURIComponent(
+                            tag
+                          )}/`}
+                        >
+                          #{tag}
+                        </a>
+                      ))
+                    }
                   </div>
                 )
               }
@@ -110,8 +118,13 @@ const posts = (await getCollection("posts"))
 
 <style>
   .blog-page {
-    width: min(100%, 900px);
+    width: min(
+      100%,
+      900px
+    );
+
     margin: 0 auto;
+
     padding: 72px 0;
   }
 
@@ -125,6 +138,7 @@ const posts = (await getCollection("posts"))
     color: var(--text-secondary);
 
     font-size: 12px;
+
     font-weight: 700;
 
     letter-spacing: 0.14em;
@@ -162,30 +176,47 @@ const posts = (await getCollection("posts"))
     display: grid;
 
     grid-template-columns:
-      minmax(0, 1fr);
+      260px minmax(0, 1fr);
 
     gap: 28px;
+
+    align-items: center;
 
     border-bottom:
       1px solid var(--border);
   }
 
-  .post-item:has(.post-cover) {
-    grid-template-columns:
-      260px minmax(0, 1fr);
+  .post-item:not(:has(.post-cover)) {
+    grid-template-columns: 1fr;
   }
 
   .cover-link {
     display: block;
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background: var(--surface);
   }
 
   .post-cover {
     width: 100%;
-    height: 170px;
+
+    height: 100%;
+
+    display: block;
 
     object-fit: cover;
 
-    border-radius: 10px;
+    transition:
+      transform 0.3s ease;
+  }
+
+  .cover-link:hover .post-cover {
+    transform: scale(1.025);
   }
 
   .post-body {
@@ -206,8 +237,6 @@ const posts = (await getCollection("posts"))
 
   .category-link {
     color: var(--text-secondary);
-
-    transition: color 0.2s ease;
   }
 
   .category-link:hover {
@@ -258,10 +287,6 @@ const posts = (await getCollection("posts"))
     color: var(--text-secondary);
 
     font-size: 12px;
-
-    transition:
-      color 0.2s ease,
-      background 0.2s ease;
   }
 
   .tag:hover {
@@ -276,12 +301,14 @@ const posts = (await getCollection("posts"))
     }
 
     .post-item,
-    .post-item:has(.post-cover) {
+    .post-item:not(:has(.post-cover)) {
       grid-template-columns: 1fr;
+
+      gap: 20px;
     }
 
-    .post-cover {
-      height: auto;
+    .cover-link {
+      width: 100%;
 
       aspect-ratio: 16 / 9;
     }

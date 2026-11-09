@@ -7,6 +7,8 @@ tags:
   - Astro
   - TypeScript
   - Blog
+cover: "/images/covers/building-blog.svg"
+coverAlt: "从零开始搭建个人博客的文章封面"
 draft: false
 ---
 

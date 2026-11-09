@@ -6,6 +6,8 @@ category: "博客"
 tags:
   - Astro
   - Blog
+cover: "/images/covers/hello-world.svg"
+coverAlt: "我的第一篇博客文章封面"
 draft: false
 ---
 
