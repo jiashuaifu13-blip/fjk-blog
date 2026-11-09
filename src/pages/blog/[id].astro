@@ -1,0 +1,354 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts"))
+    .filter((post) => !post.data.draft);
+
+  return posts.map((post) => ({
+    params: {
+      id: post.id,
+    },
+
+    props: {
+      post,
+    },
+  }));
+}
+
+const { post } = Astro.props;
+
+const allPosts = (await getCollection("posts"))
+  .filter((item) => !item.data.draft)
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
+
+const currentIndex = allPosts.findIndex(
+  (item) => item.id === post.id
+);
+
+const olderPost =
+  currentIndex < allPosts.length - 1
+    ? allPosts[currentIndex + 1]
+    : undefined;
+
+const newerPost =
+  currentIndex > 0
+    ? allPosts[currentIndex - 1]
+    : undefined;
+
+const { Content } = await render(post);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+>
+  <article class="article">
+    <header class="article-header">
+      <div class="article-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString("zh-CN")}
+        </time>
+
+        <a
+          class="article-category"
+          href={`/blog/category/${encodeURIComponent(post.data.category)}/`}
+        >
+          {post.data.category}
+        </a>
+      </div>
+
+      <h1>{post.data.title}</h1>
+
+      <p class="article-description">
+        {post.data.description}
+      </p>
+
+      {
+        post.data.tags.length > 0 && (
+          <div class="article-tags">
+            {post.data.tags.map((tag) => (
+              <a
+                href={`/blog/tag/${encodeURIComponent(tag)}/`}
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="article-content">
+      <Content />
+    </div>
+
+    <nav
+      class="article-navigation"
+      aria-label="文章导航"
+    >
+      <div class="navigation-item">
+        {
+          olderPost ? (
+            <a href={`/blog/${olderPost.id}/`}>
+              <span class="navigation-label">
+                ← 较早文章
+              </span>
+
+              <strong>
+                {olderPost.data.title}
+              </strong>
+            </a>
+          ) : (
+            <div></div>
+          )
+        }
+      </div>
+
+      <div class="navigation-item navigation-newer">
+        {
+          newerPost ? (
+            <a href={`/blog/${newerPost.id}/`}>
+              <span class="navigation-label">
+                较新文章 →
+              </span>
+
+              <strong>
+                {newerPost.data.title}
+              </strong>
+            </a>
+          ) : (
+            <div></div>
+          )
+        }
+      </div>
+    </nav>
+  </article>
+</Layout>
+
+<style>
+  .article {
+    width: min(100%, var(--article-width));
+    margin: 0 auto;
+    padding: 72px 0;
+  }
+
+  .article-header {
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .article-category {
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .article-category:hover {
+    color: var(--text-primary);
+  }
+
+  .article-header h1 {
+    margin: 18px 0;
+    font-size: clamp(36px, 6vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+  }
+
+  .article-description {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .article-tags {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .article-tags a {
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 13px;
+
+    transition:
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .article-tags a:hover {
+    color: var(--text-primary);
+    background: var(--border);
+  }
+
+  .article-content {
+    padding-top: 40px;
+    font-size: 17px;
+    line-height: 1.9;
+  }
+
+  .article-content :global(h1) {
+    margin-top: 48px;
+    font-size: 34px;
+    line-height: 1.3;
+    letter-spacing: -0.035em;
+  }
+
+  .article-content :global(h2) {
+    margin-top: 48px;
+    font-size: 28px;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+  }
+
+  .article-content :global(h3) {
+    margin-top: 36px;
+    font-size: 22px;
+  }
+
+  .article-content :global(p) {
+    margin: 18px 0;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    padding-left: 24px;
+  }
+
+  .article-content :global(li) {
+    margin: 8px 0;
+  }
+
+  .article-content :global(pre) {
+    overflow-x: auto;
+    margin: 24px 0;
+    padding: 18px;
+    border-radius: 10px;
+    background: #111111;
+  }
+
+  .article-content :global(code) {
+    font-family:
+      "JetBrains Mono",
+      Consolas,
+      monospace;
+  }
+
+  .article-content :global(:not(pre) > code) {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--surface);
+    font-size: 0.9em;
+  }
+
+  .article-content :global(blockquote) {
+    margin: 24px 0;
+    padding-left: 18px;
+    border-left: 3px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .article-content :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .article-navigation {
+    margin-top: 64px;
+    padding-top: 28px;
+
+    display: grid;
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+    gap: 16px;
+
+    border-top: 1px solid var(--border);
+  }
+
+  .navigation-item {
+    min-width: 0;
+  }
+
+  .navigation-item a {
+    height: 100%;
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .navigation-item a:hover {
+    transform: translateY(-2px);
+    border-color: #c9c9c9;
+    background: var(--surface);
+  }
+
+  .navigation-label {
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+
+  .navigation-item strong {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .navigation-newer {
+    text-align: right;
+  }
+
+  @media (max-width: 700px) {
+    .article {
+      padding: 52px 0;
+    }
+
+    .article-header h1 {
+      font-size: clamp(34px, 11vw, 48px);
+    }
+
+    .article-description {
+      font-size: 16px;
+    }
+
+    .article-content {
+      font-size: 16px;
+    }
+
+    .article-navigation {
+      grid-template-columns: 1fr;
+    }
+
+    .navigation-newer {
+      text-align: left;
+    }
+  }
+</style>

@@ -1,69 +1,71 @@
----
+﻿---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
-  .sort(
-    (a, b) =>
-      b.data.date.getTime() - a.data.date.getTime()
-  );
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <Layout
   title="文章"
   description="所有博客文章"
 >
-  <section class="section">
-    <div class="blog-header">
-      <p class="section-label">
-        BLOG
-      </p>
+  <section class="blog-page">
+    <header class="blog-header">
+      <p class="section-label">BLOG</p>
 
-      <h1 class="section-title">
-        文章
-      </h1>
+      <h1>文章</h1>
 
-      <p class="section-description">
+      <p>
         技术笔记、项目记录和学习过程。
       </p>
-    </div>
+    </header>
 
     <div class="post-list">
       {
         posts.map((post) => (
           <article class="post-item">
-            <a href={`/blog/${post.id}/`}>
-              <div class="post-meta">
-                <time datetime={post.data.date.toISOString()}>
-                  {post.data.date.toLocaleDateString("zh-CN")}
-                </time>
+            <div class="post-meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("zh-CN")}
+              </time>
 
-                <span>
-                  {post.data.category}
-                </span>
-              </div>
+              <a
+                class="category-link"
+                href={`/blog/category/${encodeURIComponent(post.data.category)}/`}
+              >
+                {post.data.category}
+              </a>
+            </div>
 
-              <h2>
+            <h2>
+              <a
+                class="post-title-link"
+                href={`/blog/${post.id}/`}
+              >
                 {post.data.title}
-              </h2>
+              </a>
+            </h2>
 
-              <p>
-                {post.data.description}
-              </p>
+            <p class="post-description">
+              {post.data.description}
+            </p>
 
-              {
-                post.data.tags.length > 0 && (
-                  <div class="tags">
-                    {post.data.tags.map((tag) => (
-                      <span class="tag">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )
-              }
-            </a>
+            {
+              post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.map((tag) => (
+                    <a
+                      class="tag"
+                      href={`/blog/tag/${encodeURIComponent(tag)}/`}
+                    >
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+              )
+            }
           </article>
         ))
       }
@@ -72,77 +74,115 @@ const posts = (await getCollection("posts"))
 </Layout>
 
 <style>
+  .blog-page {
+    width: min(100%, 820px);
+    margin: 0 auto;
+    padding: 72px 0;
+  }
+
   .blog-header {
-    max-width: 700px;
+    padding-bottom: 48px;
+  }
+
+  .section-label {
+    margin: 0 0 14px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .blog-header h1 {
+    margin: 0;
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+  }
+
+  .blog-header > p:last-child {
+    margin: 16px 0 0;
+    color: var(--text-secondary);
+    font-size: 17px;
   }
 
   .post-list {
-    margin-top: 48px;
-
-    display: flex;
-
-    flex-direction: column;
-  }
-
-  .post-item {
     border-top: 1px solid var(--border);
   }
 
-  .post-item:last-child {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .post-item a {
+  .post-item {
     padding: 28px 0;
-
-    display: block;
-  }
-
-  .post-item h2 {
-    margin: 10px 0;
-
-    font-size: 24px;
-
-    letter-spacing: -0.025em;
-  }
-
-  .post-item p {
-    max-width: 720px;
-
-    margin: 0;
-
-    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
   }
 
   .post-meta {
     display: flex;
-
+    flex-wrap: wrap;
     gap: 16px;
-
     color: var(--text-secondary);
-
     font-size: 12px;
+  }
+
+  .category-link {
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .category-link:hover {
+    color: var(--text-primary);
+  }
+
+  .post-item h2 {
+    margin: 10px 0;
+    font-size: 24px;
+    letter-spacing: -0.025em;
+  }
+
+  .post-title-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .post-description {
+    max-width: 720px;
+    margin: 0;
+    color: var(--text-secondary);
   }
 
   .tags {
     margin-top: 16px;
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 8px;
   }
 
   .tag {
     padding: 3px 8px;
-
     border-radius: 6px;
-
     background: var(--surface);
-
     color: var(--text-secondary);
-
     font-size: 12px;
+
+    transition:
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .tag:hover {
+    color: var(--text-primary);
+    background: var(--border);
+  }
+
+  @media (max-width: 700px) {
+    .blog-page {
+      padding: 52px 0;
+    }
+
+    .post-item {
+      padding: 24px 0;
+    }
+
+    .post-item h2 {
+      font-size: 21px;
+    }
   }
 </style>
