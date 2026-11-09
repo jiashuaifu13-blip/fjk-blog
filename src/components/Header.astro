@@ -1,33 +1,231 @@
 ---
-import { NAV_ITEMS, SITE } from "../config/site";
+import ThemeToggle from "./ThemeToggle.astro";
+import {
+  NAV_ITEMS,
+  SITE,
+} from "../config/site";
 
-const pathname = Astro.url.pathname;
+const pathname =
+  Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname.startsWith(href);
+}
 ---
 
 <header class="site-header">
-  <div class="header-container">
-    <a class="site-logo" href="/">
+  <div class="header-inner">
+    <a
+      class="site-logo"
+      href="/"
+      aria-label={`${SITE.title} 首页`}
+    >
       {SITE.title}
     </a>
 
-    <nav class="desktop-nav" aria-label="主要导航">
-      {
-        NAV_ITEMS.map((item) => {
-          const isActive =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
-
-          return (
+    <div class="header-right">
+      <nav
+        class="navigation"
+        aria-label="主导航"
+      >
+        {
+          NAV_ITEMS.map((item) => (
             <a
               href={item.href}
-              class:list={["nav-link", { active: isActive }]}
+              class:list={[
+                "nav-link",
+                {
+                  active:
+                    isActive(
+                      item.href
+                    ),
+                },
+              ]}
             >
               {item.label}
             </a>
-          );
-        })
-      }
-    </nav>
+          ))
+        }
+      </nav>
+
+      <ThemeToggle />
+    </div>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    border-bottom:
+      1px solid var(--border);
+
+    background:
+      color-mix(
+        in srgb,
+        var(--background) 88%,
+        transparent
+      );
+
+    backdrop-filter:
+      blur(16px);
+
+    -webkit-backdrop-filter:
+      blur(16px);
+  }
+
+  .header-inner {
+    width: min(
+      calc(100% - 40px),
+      var(--content-width)
+    );
+
+    min-height: 68px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+      space-between;
+
+    gap: 28px;
+  }
+
+  .site-logo {
+    flex-shrink: 0;
+
+    color:
+      var(--text-primary);
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    letter-spacing:
+      -0.025em;
+  }
+
+  .header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+  }
+
+  .navigation {
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+  }
+
+  .nav-link {
+    position: relative;
+
+    padding: 22px 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size: 14px;
+
+    transition:
+      color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color:
+      var(--text-primary);
+  }
+
+  .nav-link.active {
+    color:
+      var(--text-primary);
+
+    font-weight: 600;
+  }
+
+  .nav-link.active::after {
+    content: "";
+
+    position: absolute;
+
+    right: 0;
+    bottom: -1px;
+    left: 0;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+      var(--text-primary);
+  }
+
+  @media (
+    max-width: 760px
+  ) {
+    .header-inner {
+      width: min(
+        calc(100% - 28px),
+        var(--content-width)
+      );
+
+      min-height: 60px;
+
+      gap: 14px;
+    }
+
+    .header-right {
+      gap: 10px;
+    }
+
+    .navigation {
+      max-width:
+        calc(100vw - 150px);
+
+      gap: 16px;
+
+      overflow-x: auto;
+
+      scrollbar-width: none;
+    }
+
+    .navigation::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      padding: 19px 0;
+
+      white-space: nowrap;
+
+      font-size: 13px;
+    }
+  }
+
+  @media (
+    max-width: 480px
+  ) {
+    .site-logo {
+      font-size: 15px;
+    }
+
+    .navigation {
+      gap: 13px;
+    }
+  }
+</style>

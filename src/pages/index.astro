@@ -183,9 +183,7 @@ const latestPosts = posts.slice(0, 4);
     min-height: 520px;
 
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
 
     border-bottom: 1px solid var(--border);
@@ -197,7 +195,6 @@ const latestPosts = posts.slice(0, 4);
     color: var(--text-secondary);
 
     font-size: 12px;
-
     font-weight: 700;
 
     letter-spacing: 0.14em;
@@ -237,7 +234,6 @@ const latestPosts = posts.slice(0, 4);
     margin-top: 34px;
 
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 12px;
@@ -245,31 +241,111 @@ const latestPosts = posts.slice(0, 4);
 
   .primary,
   .secondary {
-    min-height: 44px;
+    min-height: 46px;
 
-    padding: 0 18px;
+    padding: 0 20px;
 
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
     font-size: 14px;
-
     font-weight: 600;
+
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
+  /*
+   * 主按钮
+   *
+   * 不再使用固定黑底/白字。
+   * 使用当前主题文字颜色生成透明背景，
+   * 所以浅色和暗色模式都会自动适配。
+   */
   .primary {
-    background: var(--text-primary);
+    border: 1px solid
+      var(--border-strong);
 
-    color: white;
+    background:
+      color-mix(
+        in srgb,
+        var(--text-primary) 8%,
+        transparent
+      );
+
+    color:
+      var(--text-primary);
+
+    box-shadow:
+      0 1px 2px
+      color-mix(
+        in srgb,
+        var(--text-primary) 8%,
+        transparent
+      );
   }
 
+  .primary:hover {
+    border-color:
+      var(--text-primary);
+
+    background:
+      var(--text-primary);
+
+    color:
+      var(--background);
+
+    transform:
+      translateY(-2px);
+
+    box-shadow:
+      0 8px 24px
+      color-mix(
+        in srgb,
+        var(--text-primary) 14%,
+        transparent
+      );
+  }
+
+  /*
+   * 次级按钮保持更轻，
+   * 与主按钮形成层级区别。
+   */
   .secondary {
-    border: 1px solid var(--border);
+    border:
+      1px solid var(--border);
+
+    background:
+      transparent;
+
+    color:
+      var(--text-primary);
+  }
+
+  .secondary:hover {
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--surface-hover);
+
+    transform:
+      translateY(-2px);
+  }
+
+  .primary:active,
+  .secondary:active {
+    transform:
+      translateY(0)
+      scale(0.97);
   }
 
   .section {
@@ -281,7 +357,8 @@ const latestPosts = posts.slice(0, 4);
 
     align-items: flex-end;
 
-    justify-content: space-between;
+    justify-content:
+      space-between;
 
     gap: 32px;
   }
@@ -291,19 +368,25 @@ const latestPosts = posts.slice(0, 4);
 
     font-size: 28px;
 
-    letter-spacing: -0.03em;
+    letter-spacing:
+      -0.03em;
   }
 
   .view-all {
     flex-shrink: 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 14px;
+
+    transition:
+      color 0.2s ease;
   }
 
   .view-all:hover {
-    color: var(--text-primary);
+    color:
+      var(--text-primary);
   }
 
   .post-grid {
@@ -312,7 +395,10 @@ const latestPosts = posts.slice(0, 4);
     display: grid;
 
     grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
 
     gap: 20px;
   }
@@ -320,21 +406,35 @@ const latestPosts = posts.slice(0, 4);
   .post-card {
     overflow: hidden;
 
-    border: 1px solid var(--border);
+    border:
+      1px solid var(--border);
 
     border-radius: 14px;
 
-    background: var(--background);
+    background:
+      var(--background);
 
     transition:
       transform 0.2s ease,
-      border-color 0.2s ease;
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .post-card:hover {
-    transform: translateY(-3px);
+    transform:
+      translateY(-3px);
 
-    border-color: #c9c9c9;
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      0 10px 30px
+      color-mix(
+        in srgb,
+        var(--text-primary) 7%,
+        transparent
+      );
   }
 
   .post-card > a {
@@ -352,12 +452,12 @@ const latestPosts = posts.slice(0, 4);
 
     overflow: hidden;
 
-    background: var(--surface);
+    background:
+      var(--surface);
   }
 
   .post-cover {
     width: 100%;
-
     height: 100%;
 
     display: block;
@@ -368,8 +468,10 @@ const latestPosts = posts.slice(0, 4);
       transform 0.35s ease;
   }
 
-  .post-card:hover .post-cover {
-    transform: scale(1.025);
+  .post-card:hover
+  .post-cover {
+    transform:
+      scale(1.025);
   }
 
   .post-content {
@@ -389,25 +491,29 @@ const latestPosts = posts.slice(0, 4);
 
     gap: 12px;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 12px;
   }
 
   .post-card h3 {
-    margin: 12px 0 8px;
+    margin:
+      12px 0 8px;
 
     font-size: 21px;
 
     line-height: 1.4;
 
-    letter-spacing: -0.025em;
+    letter-spacing:
+      -0.025em;
   }
 
   .post-card p {
     margin: 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     line-height: 1.7;
   }
@@ -423,13 +529,15 @@ const latestPosts = posts.slice(0, 4);
 
     gap: 8px;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 12px;
   }
 
   .projects {
-    border-top: 1px solid var(--border);
+    border-top:
+      1px solid var(--border);
   }
 
   .project-card {
@@ -441,18 +549,40 @@ const latestPosts = posts.slice(0, 4);
 
     align-items: center;
 
-    justify-content: space-between;
+    justify-content:
+      space-between;
 
     gap: 24px;
 
+    border:
+      1px solid var(--border);
+
     border-radius: 12px;
 
-    background: var(--surface);
+    background:
+      var(--surface);
+
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .project-card:hover {
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--surface-hover);
+
+    transform:
+      translateY(-2px);
   }
 
   .project-card small,
   .project-card p {
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
   }
 
   .project-card h3 {
@@ -469,7 +599,9 @@ const latestPosts = posts.slice(0, 4);
     font-size: 26px;
   }
 
-  @media (max-width: 700px) {
+  @media (
+    max-width: 700px
+  ) {
     .hero {
       min-height: 440px;
     }
@@ -487,19 +619,23 @@ const latestPosts = posts.slice(0, 4);
     }
 
     .section-header {
-      align-items: flex-start;
+      align-items:
+        flex-start;
 
-      flex-direction: column;
+      flex-direction:
+        column;
 
       gap: 18px;
     }
 
     .post-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns:
+        1fr;
     }
 
     .cover-wrapper {
-      aspect-ratio: 16 / 9;
+      aspect-ratio:
+        16 / 9;
     }
   }
 </style>
