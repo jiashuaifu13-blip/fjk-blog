@@ -1,0 +1,17 @@
+---
+import { SITE } from "../config/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <p>
+      © {year} {SITE.author}. All rights reserved.
+    </p>
+
+    <p class="footer-note">
+      Built with Astro.
+    </p>
+  </div>
+</footer>
