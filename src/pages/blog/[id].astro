@@ -1,55 +1,89 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout
+  from "../../layouts/Layout.astro";
+
 import {
   getCollection,
   render,
 } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("posts"))
-    .filter((post) => !post.data.draft);
+  const posts =
+    (await getCollection("posts"))
+      .filter(
+        (post) =>
+          !post.data.draft
+      );
 
-  return posts.map((post) => ({
-    params: {
-      id: post.id,
-    },
+  return posts.map(
+    (post) => ({
+      params: {
+        id: post.id,
+      },
 
-    props: {
-      post,
-    },
-  }));
+      props: {
+        post,
+      },
+    })
+  );
 }
 
-const { post } = Astro.props;
+const {
+  post,
+} = Astro.props;
 
-const allPosts = (await getCollection("posts"))
-  .filter((item) => !item.data.draft)
-  .sort(
-    (a, b) =>
-      b.data.date.getTime() -
-      a.data.date.getTime()
+const allPosts =
+  (await getCollection("posts"))
+    .filter(
+      (item) =>
+        !item.data.draft
+    )
+    .sort(
+      (a, b) =>
+        b.data.date.getTime() -
+        a.data.date.getTime()
+    );
+
+const currentIndex =
+  allPosts.findIndex(
+    (item) =>
+      item.id === post.id
   );
 
-const currentIndex = allPosts.findIndex(
-  (item) => item.id === post.id
-);
-
 const olderPost =
-  currentIndex < allPosts.length - 1
-    ? allPosts[currentIndex + 1]
+  currentIndex <
+  allPosts.length - 1
+    ? allPosts[
+        currentIndex + 1
+      ]
     : undefined;
 
 const newerPost =
   currentIndex > 0
-    ? allPosts[currentIndex - 1]
+    ? allPosts[
+        currentIndex - 1
+      ]
     : undefined;
 
-const { Content } = await render(post);
+const {
+  Content,
+} = await render(post);
 ---
 
 <Layout
   title={post.data.title}
-  description={post.data.description}
+  description={
+    post.data.description
+  }
+  image={post.data.cover}
+  imageAlt={
+    post.data.coverAlt ??
+    post.data.title
+  }
+  type="article"
+  publishedTime={
+    post.data.date
+  }
 >
   <article class="article">
     <header class="article-header">
@@ -60,9 +94,10 @@ const { Content } = await render(post);
           }
         >
           {
-            post.data.date.toLocaleDateString(
-              "zh-CN"
-            )
+            post.data.date
+              .toLocaleDateString(
+                "zh-CN"
+              )
           }
         </time>
 
@@ -80,23 +115,30 @@ const { Content } = await render(post);
         {post.data.title}
       </h1>
 
-      <p class="article-description">
+      <p
+        class="article-description"
+      >
         {post.data.description}
       </p>
 
       {
-        post.data.tags.length > 0 && (
-          <div class="article-tags">
+        post.data.tags.length >
+          0 && (
+          <div
+            class="article-tags"
+          >
             {
-              post.data.tags.map((tag) => (
-                <a
-                  href={`/blog/tag/${encodeURIComponent(
-                    tag
-                  )}/`}
-                >
-                  #{tag}
-                </a>
-              ))
+              post.data.tags.map(
+                (tag) => (
+                  <a
+                    href={`/blog/tag/${encodeURIComponent(
+                      tag
+                    )}/`}
+                  >
+                    #{tag}
+                  </a>
+                )
+              )
             }
           </div>
         )
@@ -104,11 +146,16 @@ const { Content } = await render(post);
 
       {
         post.data.cover && (
-          <div class="article-cover">
+          <div
+            class="article-cover"
+          >
             <img
-              src={post.data.cover}
+              src={
+                post.data.cover
+              }
               alt={
-                post.data.coverAlt ??
+                post.data
+                  .coverAlt ??
                 post.data.title
               }
             />
@@ -117,7 +164,9 @@ const { Content } = await render(post);
       }
     </header>
 
-    <div class="article-content">
+    <div
+      class="article-content"
+    >
       <Content />
     </div>
 
@@ -125,16 +174,25 @@ const { Content } = await render(post);
       class="article-navigation"
       aria-label="文章导航"
     >
-      <div class="navigation-item">
+      <div
+        class="navigation-item"
+      >
         {
           olderPost ? (
-            <a href={`/blog/${olderPost.id}/`}>
-              <span class="navigation-label">
+            <a
+              href={`/blog/${olderPost.id}/`}
+            >
+              <span
+                class="navigation-label"
+              >
                 ← 较早文章
               </span>
 
               <strong>
-                {olderPost.data.title}
+                {
+                  olderPost
+                    .data.title
+                }
               </strong>
             </a>
           ) : (
@@ -148,13 +206,20 @@ const { Content } = await render(post);
       >
         {
           newerPost ? (
-            <a href={`/blog/${newerPost.id}/`}>
-              <span class="navigation-label">
+            <a
+              href={`/blog/${newerPost.id}/`}
+            >
+              <span
+                class="navigation-label"
+              >
                 较新文章 →
               </span>
 
               <strong>
-                {newerPost.data.title}
+                {
+                  newerPost
+                    .data.title
+                }
               </strong>
             </a>
           ) : (
@@ -192,17 +257,20 @@ const { Content } = await render(post);
 
     gap: 14px;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 13px;
   }
 
   .article-category {
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
   }
 
   .article-category:hover {
-    color: var(--text-primary);
+    color:
+      var(--text-primary);
   }
 
   .article-header h1 {
@@ -216,13 +284,15 @@ const { Content } = await render(post);
 
     line-height: 1.1;
 
-    letter-spacing: -0.045em;
+    letter-spacing:
+      -0.045em;
   }
 
   .article-description {
     margin: 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 18px;
 
@@ -244,9 +314,11 @@ const { Content } = await render(post);
 
     border-radius: 6px;
 
-    background: var(--surface);
+    background:
+      var(--surface);
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 13px;
   }
@@ -262,12 +334,12 @@ const { Content } = await render(post);
 
     border-radius: 12px;
 
-    background: var(--surface);
+    background:
+      var(--surface);
   }
 
   .article-cover img {
     width: 100%;
-
     height: 100%;
 
     display: block;
@@ -283,38 +355,46 @@ const { Content } = await render(post);
     line-height: 1.9;
   }
 
-  .article-content :global(h1) {
+  .article-content
+  :global(h1) {
     margin-top: 48px;
 
     font-size: 34px;
   }
 
-  .article-content :global(h2) {
+  .article-content
+  :global(h2) {
     margin-top: 48px;
 
     font-size: 28px;
   }
 
-  .article-content :global(h3) {
+  .article-content
+  :global(h3) {
     margin-top: 36px;
 
     font-size: 22px;
   }
 
-  .article-content :global(p) {
+  .article-content
+  :global(p) {
     margin: 18px 0;
   }
 
-  .article-content :global(ul),
-  .article-content :global(ol) {
+  .article-content
+  :global(ul),
+  .article-content
+  :global(ol) {
     padding-left: 24px;
   }
 
-  .article-content :global(li) {
+  .article-content
+  :global(li) {
     margin: 8px 0;
   }
 
-  .article-content :global(pre) {
+  .article-content
+  :global(pre) {
     overflow-x: auto;
 
     margin: 24px 0;
@@ -326,40 +406,50 @@ const { Content } = await render(post);
     background: #111111;
   }
 
-  .article-content :global(code) {
+  .article-content
+  :global(code) {
     font-family:
       "JetBrains Mono",
       Consolas,
       monospace;
   }
 
-  .article-content :global(:not(pre) > code) {
+  .article-content
+  :global(:not(pre) > code) {
     padding: 2px 6px;
 
     border-radius: 5px;
 
-    background: var(--surface);
+    background:
+      var(--surface);
 
     font-size: 0.9em;
   }
 
-  .article-content :global(blockquote) {
+  .article-content
+  :global(blockquote) {
     margin: 24px 0;
 
     padding-left: 18px;
 
     border-left:
-      3px solid var(--border);
+      3px solid
+      var(--border);
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
   }
 
-  .article-content :global(a) {
-    color: var(--accent);
+  .article-content
+  :global(a) {
+    color:
+      var(--accent);
 
-    text-decoration: underline;
+    text-decoration:
+      underline;
 
-    text-underline-offset: 3px;
+    text-underline-offset:
+      3px;
   }
 
   .article-navigation {
@@ -370,12 +460,16 @@ const { Content } = await render(post);
     display: grid;
 
     grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
 
     gap: 16px;
 
     border-top:
-      1px solid var(--border);
+      1px solid
+      var(--border);
   }
 
   .navigation-item {
@@ -394,13 +488,15 @@ const { Content } = await render(post);
     gap: 6px;
 
     border:
-      1px solid var(--border);
+      1px solid
+      var(--border);
 
     border-radius: 10px;
   }
 
   .navigation-label {
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 12px;
   }
@@ -415,7 +511,9 @@ const { Content } = await render(post);
     text-align: right;
   }
 
-  @media (max-width: 700px) {
+  @media (
+    max-width: 700px
+  ) {
     .article {
       padding: 52px 0;
     }
@@ -431,11 +529,13 @@ const { Content } = await render(post);
     .article-cover {
       margin-top: 28px;
 
-      aspect-ratio: 16 / 9;
+      aspect-ratio:
+        16 / 9;
     }
 
     .article-navigation {
-      grid-template-columns: 1fr;
+      grid-template-columns:
+        1fr;
     }
 
     .navigation-newer {

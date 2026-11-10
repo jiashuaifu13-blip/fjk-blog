@@ -1,15 +1,25 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
 
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
 
-import mdx from '@astrojs/mdx';
-
-// https://astro.build/config
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()]
-  },
+  site: "http://156.233.236.180",
 
-  integrations: [mdx()]
+  integrations: [
+    mdx(),
+
+    sitemap({
+      filter: (page) =>
+        !page.includes("/404"),
+    }),
+  ],
+
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+  },
 });

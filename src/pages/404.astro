@@ -1,10 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout
+  from "../layouts/Layout.astro";
 ---
 
 <Layout
   title="页面不存在"
   description="你访问的页面不存在。"
+  noindex={true}
 >
   <section class="error-page">
     <div class="error-content">
@@ -16,12 +18,16 @@ import Layout from "../layouts/Layout.astro";
         页面不存在
       </h1>
 
-      <p class="error-description">
+      <p
+        class="error-description"
+      >
         你访问的页面可能已经被移动、
         删除，或者地址输入有误。
       </p>
 
-      <div class="error-actions">
+      <div
+        class="error-actions"
+      >
         <a
           class="primary-button"
           href="/"
@@ -63,7 +69,8 @@ import Layout from "../layouts/Layout.astro";
   .error-code {
     margin: 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 14px;
 
@@ -83,15 +90,18 @@ import Layout from "../layouts/Layout.astro";
 
     line-height: 1;
 
-    letter-spacing: -0.055em;
+    letter-spacing:
+      -0.055em;
   }
 
   .error-description {
     max-width: 520px;
 
-    margin: 24px auto 0;
+    margin:
+      24px auto 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
     font-size: 17px;
 
@@ -130,12 +140,43 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .primary-button {
-    background: var(--text-primary);
+    border:
+      1px solid
+      var(--border-strong);
 
-    color: var(--background);
+    background:
+      color-mix(
+        in srgb,
+        var(--text-primary) 8%,
+        transparent
+      );
+
+    color:
+      var(--text-primary);
+  }
+
+  .primary-button:hover {
+    background:
+      var(--text-primary);
+
+    color:
+      var(--background);
   }
 
   .secondary-button {
-    border: 1px solid var(--border);
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      transparent;
+
+    color:
+      var(--text-primary);
+  }
+
+  .secondary-button:hover {
+    background:
+      var(--surface-hover);
   }
 </style>
