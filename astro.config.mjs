@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "http://156.233.236.180",
+  site: "https://fjksp.cn",
 
   integrations: [
     mdx(),
