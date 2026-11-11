@@ -1,6 +1,5 @@
 ---
-import Layout
-  from "../../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 
 import {
   getCollection,
@@ -68,373 +67,1206 @@ const newerPost =
 const {
   Content,
 } = await render(post);
+
+const publishedDate =
+  post.data.date.toLocaleDateString(
+    "zh-CN",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 ---
 
 <Layout
   title={post.data.title}
-  description={
-    post.data.description
-  }
+  description={post.data.description}
   image={post.data.cover}
   imageAlt={
     post.data.coverAlt ??
     post.data.title
   }
   type="article"
-  publishedTime={
-    post.data.date
-  }
+  publishedTime={post.data.date}
 >
   <article class="article">
     <header class="article-header">
-      <div class="article-meta">
-        <time
-          datetime={
-            post.data.date.toISOString()
-          }
-        >
-          {
-            post.data.date
-              .toLocaleDateString(
-                "zh-CN"
-              )
-          }
-        </time>
-
+      <div class="article-topbar">
         <a
-          class="article-category"
-          href={`/blog/category/${encodeURIComponent(
-            post.data.category
-          )}/`}
+          class="back-link"
+          href="/blog"
         >
-          {post.data.category}
+          <span
+            aria-hidden="true"
+          >
+            ←
+          </span>
+
+          <span>
+            返回文章
+          </span>
         </a>
+
+        <span class="article-type">
+          ARTICLE / FJK BLOG
+        </span>
       </div>
 
-      <h1>
-        {post.data.title}
-      </h1>
+      <div class="article-heading">
+        <div class="article-eyebrow">
+          <span
+            class="eyebrow-dot"
+            aria-hidden="true"
+          ></span>
 
-      <p
-        class="article-description"
-      >
-        {post.data.description}
-      </p>
+          <span>
+            STORIES & NOTES
+          </span>
+        </div>
 
-      {
-        post.data.tags.length >
-          0 && (
-          <div
-            class="article-tags"
-          >
-            {
-              post.data.tags.map(
-                (tag) => (
-                  <a
-                    href={`/blog/tag/${encodeURIComponent(
-                      tag
-                    )}/`}
-                  >
-                    #{tag}
-                  </a>
-                )
-              )
-            }
+        <h1>
+          {post.data.title}
+        </h1>
+
+        <p class="article-description">
+          {post.data.description}
+        </p>
+
+        <div class="article-meta">
+          <div class="meta-item">
+            <span class="meta-label">
+              PUBLISHED
+            </span>
+
+            <time
+              datetime={
+                post.data.date.toISOString()
+              }
+            >
+              {publishedDate}
+            </time>
           </div>
-        )
-      }
+
+          <div class="meta-divider"></div>
+
+          <div class="meta-item">
+            <span class="meta-label">
+              CATEGORY
+            </span>
+
+            <a
+              href={`/blog/category/${encodeURIComponent(
+                post.data.category
+              )}/`}
+            >
+              {post.data.category}
+            </a>
+          </div>
+
+          {
+            post.data.tags.length >
+              0 && (
+              <>
+                <div class="meta-divider"></div>
+
+                <div class="meta-item">
+                  <span class="meta-label">
+                    TAGS
+                  </span>
+
+                  <span>
+                    {
+                      post.data.tags.length
+                    }
+                    {" "}
+                    Topics
+                  </span>
+                </div>
+              </>
+            )
+          }
+        </div>
+
+        {
+          post.data.tags.length >
+            0 && (
+            <div class="article-tags">
+              {
+                post.data.tags.map(
+                  (tag) => (
+                    <a
+                      href={`/blog/tag/${encodeURIComponent(
+                        tag
+                      )}/`}
+                    >
+                      #{tag}
+                    </a>
+                  )
+                )
+              }
+            </div>
+          )
+        }
+      </div>
 
       {
         post.data.cover && (
-          <div
-            class="article-cover"
-          >
+          <figure class="article-cover">
             <img
-              src={
-                post.data.cover
-              }
+              src={post.data.cover}
               alt={
-                post.data
-                  .coverAlt ??
+                post.data.coverAlt ??
                 post.data.title
               }
             />
-          </div>
+
+            <div
+              class="cover-shine"
+              aria-hidden="true"
+            ></div>
+
+            <figcaption>
+              <span>
+                FJK BLOG
+              </span>
+
+              <span>
+                {
+                  post.data.coverAlt ??
+                  post.data.title
+                }
+              </span>
+            </figcaption>
+          </figure>
         )
       }
     </header>
 
-    <div
-      class="article-content"
-    >
-      <Content />
+    <div class="reading-layout">
+      <aside class="article-sidebar">
+        <div class="sidebar-card">
+          <span class="sidebar-label">
+            ARTICLE
+          </span>
+
+          <strong>
+            {String(
+              currentIndex + 1
+            ).padStart(
+              2,
+              "0"
+            )}
+          </strong>
+
+          <span class="sidebar-total">
+            / {String(
+              allPosts.length
+            ).padStart(
+              2,
+              "0"
+            )}
+          </span>
+
+          <div class="sidebar-line"></div>
+
+          <span class="sidebar-text">
+            Keep learning.
+            <br />
+            Keep building.
+          </span>
+        </div>
+      </aside>
+
+      <main class="article-body">
+        <div class="article-content">
+          <Content />
+        </div>
+
+        <div class="article-end">
+          <div
+            class="end-symbol"
+            aria-hidden="true"
+          >
+            ✦
+          </div>
+
+          <p>
+            Thanks for reading.
+          </p>
+
+          <span>
+            感谢阅读
+          </span>
+        </div>
+      </main>
     </div>
 
-    <nav
-      class="article-navigation"
-      aria-label="文章导航"
-    >
-      <div
-        class="navigation-item"
+    <footer class="article-footer">
+      <div class="article-footer-heading">
+        <div>
+          <p>
+            CONTINUE READING
+          </p>
+
+          <h2>
+            继续阅读
+          </h2>
+        </div>
+
+        <a href="/blog">
+          全部文章
+          <span aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+
+      <nav
+        class="article-navigation"
+        aria-label="文章导航"
       >
         {
           olderPost ? (
             <a
+              class="navigation-card"
               href={`/blog/${olderPost.id}/`}
             >
-              <span
-                class="navigation-label"
-              >
-                ← 较早文章
-              </span>
+              <div class="navigation-top">
+                <span>
+                  ← 较早文章
+                </span>
+
+                <span class="navigation-index">
+                  PREV
+                </span>
+              </div>
 
               <strong>
-                {
-                  olderPost
-                    .data.title
-                }
+                {olderPost.data.title}
               </strong>
+
+              <p>
+                {
+                  olderPost.data.description
+                }
+              </p>
+
+              <div class="navigation-bottom">
+                <span>
+                  {
+                    olderPost.data
+                      .category
+                  }
+                </span>
+
+                <span
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </div>
             </a>
           ) : (
-            <div></div>
+            <div class="navigation-card disabled">
+              <div class="navigation-top">
+                <span>
+                  ← 较早文章
+                </span>
+
+                <span class="navigation-index">
+                  PREV
+                </span>
+              </div>
+
+              <strong>
+                已经是最早的文章
+              </strong>
+
+              <p>
+                暂时没有更早的内容。
+              </p>
+            </div>
           )
         }
-      </div>
 
-      <div
-        class="navigation-item navigation-newer"
-      >
         {
           newerPost ? (
             <a
+              class="navigation-card navigation-newer"
               href={`/blog/${newerPost.id}/`}
             >
-              <span
-                class="navigation-label"
-              >
-                较新文章 →
-              </span>
+              <div class="navigation-top">
+                <span>
+                  较新文章 →
+                </span>
+
+                <span class="navigation-index">
+                  NEXT
+                </span>
+              </div>
 
               <strong>
-                {
-                  newerPost
-                    .data.title
-                }
+                {newerPost.data.title}
               </strong>
+
+              <p>
+                {
+                  newerPost.data.description
+                }
+              </p>
+
+              <div class="navigation-bottom">
+                <span>
+                  {
+                    newerPost.data
+                      .category
+                  }
+                </span>
+
+                <span
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </div>
             </a>
           ) : (
-            <div></div>
+            <div class="navigation-card disabled">
+              <div class="navigation-top">
+                <span>
+                  较新文章 →
+                </span>
+
+                <span class="navigation-index">
+                  NEXT
+                </span>
+              </div>
+
+              <strong>
+                已经是最新的文章
+              </strong>
+
+              <p>
+                新内容正在准备中。
+              </p>
+            </div>
           )
         }
-      </div>
-    </nav>
+      </nav>
+    </footer>
   </article>
 </Layout>
 
 <style>
   .article {
-    width: min(
-      100%,
-      var(--article-width)
-    );
-
-    margin: 0 auto;
-
-    padding: 72px 0;
+    padding:
+      66px 0 40px;
   }
 
   .article-header {
-    padding-bottom: 36px;
+    padding-bottom:
+      70px;
 
     border-bottom:
-      1px solid var(--border);
+      1px solid
+      var(--border);
   }
 
-  .article-meta {
+  .article-topbar {
     display: flex;
 
-    flex-wrap: wrap;
+    align-items:
+      center;
 
-    gap: 14px;
+    justify-content:
+      space-between;
+
+    gap:
+      24px;
+  }
+
+  .back-link {
+    min-height:
+      38px;
+
+    padding:
+      0 12px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      12px;
+
+    background:
+      var(--color-surface);
 
     color:
       var(--text-secondary);
 
-    font-size: 13px;
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      11px;
+
+    font-weight:
+      650;
+
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast),
+      color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast);
   }
 
-  .article-category {
+  .back-link:hover {
+    transform:
+      translateX(-2px);
+
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--color-surface-elevated);
+
     color:
-      var(--text-secondary);
+      var(--color-primary);
   }
 
-  .article-category:hover {
+  .article-type {
     color:
-      var(--text-primary);
-  }
+      var(--text-muted);
 
-  .article-header h1 {
-    margin: 18px 0;
+    font-size:
+      9px;
 
-    font-size: clamp(
-      36px,
-      6vw,
-      56px
-    );
-
-    line-height: 1.1;
+    font-weight:
+      750;
 
     letter-spacing:
-      -0.045em;
+      0.13em;
+  }
+
+  .article-heading {
+    width:
+      min(
+        100%,
+        880px
+      );
+
+    margin:
+      64px auto 0;
+
+    text-align:
+      center;
+  }
+
+  .article-eyebrow {
+    width:
+      fit-content;
+
+    margin:
+      0 auto;
+
+    padding:
+      7px 11px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      9px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.14em;
+  }
+
+  .eyebrow-dot {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-cyan)
+          15%,
+        transparent
+      );
+  }
+
+  .article-heading h1 {
+    margin:
+      24px auto 0;
+
+    font-size:
+      clamp(
+        44px,
+        6.5vw,
+        72px
+      );
+
+    line-height:
+      1.12;
+
+    letter-spacing:
+      -0.055em;
   }
 
   .article-description {
-    margin: 0;
+    width:
+      min(
+        100%,
+        680px
+      );
+
+    margin:
+      22px auto 0;
 
     color:
       var(--text-secondary);
 
-    font-size: 18px;
+    font-size:
+      16px;
 
-    line-height: 1.8;
+    line-height:
+      1.85;
+  }
+
+  .article-meta {
+    margin-top:
+      34px;
+
+    display:
+      flex;
+
+    align-items:
+      stretch;
+
+    justify-content:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      18px;
+  }
+
+  .meta-item {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      center;
+
+    gap:
+      5px;
+  }
+
+  .meta-label {
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.13em;
+  }
+
+  .meta-item time,
+  .meta-item a,
+  .meta-item > span:last-child {
+    color:
+      var(--text-secondary);
+
+    font-size:
+      11px;
+
+    font-weight:
+      550;
+  }
+
+  .meta-item a:hover {
+    color:
+      var(--color-primary);
+  }
+
+  .meta-divider {
+    width:
+      1px;
+
+    min-height:
+      34px;
+
+    background:
+      var(--border);
   }
 
   .article-tags {
-    margin-top: 20px;
+    margin-top:
+      24px;
 
-    display: flex;
+    display:
+      flex;
 
-    flex-wrap: wrap;
+    align-items:
+      center;
 
-    gap: 8px;
+    justify-content:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      7px;
   }
 
   .article-tags a {
-    padding: 3px 8px;
+    padding:
+      6px 9px;
 
-    border-radius: 6px;
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
 
     background:
-      var(--surface);
+      var(--color-primary-soft);
 
     color:
-      var(--text-secondary);
+      var(--color-primary);
 
-    font-size: 13px;
+    font-size:
+      10px;
+
+    font-weight:
+      650;
+
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast);
+  }
+
+  .article-tags a:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      var(--border-strong);
   }
 
   .article-cover {
-    margin-top: 36px;
+    position:
+      relative;
 
-    width: 100%;
+    margin:
+      54px 0 0;
 
-    aspect-ratio: 16 / 9;
+    overflow:
+      hidden;
 
-    overflow: hidden;
+    border:
+      1px solid
+      var(--border);
 
-    border-radius: 12px;
+    border-radius:
+      var(--radius-xl);
 
     background:
-      var(--surface);
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-card);
   }
 
   .article-cover img {
-    width: 100%;
-    height: 100%;
+    width:
+      100%;
 
-    display: block;
+    max-height:
+      620px;
 
-    object-fit: cover;
+    aspect-ratio:
+      16 / 9;
+
+    object-fit:
+      cover;
+  }
+
+  .cover-shine {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(
+          255,
+          255,
+          255,
+          0.08
+        ),
+        transparent 38%
+      );
+
+    pointer-events:
+      none;
+  }
+
+  .article-cover figcaption {
+    min-height:
+      42px;
+
+    padding:
+      0 16px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      20px;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      9px;
+  }
+
+  .article-cover figcaption
+  span:first-child {
+    flex-shrink:
+      0;
+
+    color:
+      var(--color-primary);
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.11em;
+  }
+
+  .article-cover figcaption
+  span:last-child {
+    overflow:
+      hidden;
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+  }
+
+  .reading-layout {
+    width:
+      min(
+        100%,
+        980px
+      );
+
+    margin:
+      0 auto;
+
+    padding:
+      74px 0 28px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      120px
+      minmax(
+        0,
+        var(--article-width)
+      );
+
+    justify-content:
+      center;
+
+    gap:
+      54px;
+  }
+
+  .article-sidebar {
+    position:
+      relative;
+  }
+
+  .sidebar-card {
+    position:
+      sticky;
+
+    top:
+      110px;
+
+    padding:
+      18px 14px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      18px;
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .sidebar-label {
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .sidebar-card strong {
+    margin-top:
+      14px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      28px;
+
+    line-height:
+      1;
+  }
+
+  .sidebar-total {
+    margin-top:
+      3px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+  }
+
+  .sidebar-line {
+    height:
+      1px;
+
+    margin:
+      18px 0;
+
+    background:
+      var(--border);
+  }
+
+  .sidebar-text {
+    color:
+      var(--text-secondary);
+
+    font-size:
+      9px;
+
+    line-height:
+      1.7;
+
+    letter-spacing:
+      0.02em;
+  }
+
+  .article-body {
+    min-width:
+      0;
   }
 
   .article-content {
-    padding-top: 40px;
+    font-size:
+      17px;
 
-    font-size: 17px;
+    line-height:
+      1.9;
+  }
 
-    line-height: 1.9;
+  /*
+   * Markdown 文件本身目前以 # 标题开头。
+   * 页面 Header 已经显示文章标题，
+   * 所以隐藏正文中的重复首个 H1。
+   */
+  .article-content
+  > :global(h1:first-child) {
+    display:
+      none;
   }
 
   .article-content
-  :global(h1) {
-    margin-top: 48px;
+  :global(h1),
+  .article-content
+  :global(h2),
+  .article-content
+  :global(h3),
+  .article-content
+  :global(h4) {
+    position:
+      relative;
 
-    font-size: 34px;
+    scroll-margin-top:
+      120px;
   }
 
   .article-content
   :global(h2) {
-    margin-top: 48px;
+    margin:
+      64px 0 20px;
 
-    font-size: 28px;
+    padding-top:
+      8px;
+
+    font-size:
+      30px;
+
+    line-height:
+      1.3;
+
+    letter-spacing:
+      -0.04em;
+  }
+
+  .article-content
+  :global(h2::before) {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      -11px;
+
+    left:
+      0;
+
+    width:
+      28px;
+
+    height:
+      3px;
+
+    border-radius:
+      999px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-primary),
+        var(--color-pink)
+      );
   }
 
   .article-content
   :global(h3) {
-    margin-top: 36px;
+    margin:
+      42px 0 16px;
 
-    font-size: 22px;
+    font-size:
+      22px;
+
+    line-height:
+      1.4;
+
+    letter-spacing:
+      -0.025em;
+  }
+
+  .article-content
+  :global(h4) {
+    margin:
+      32px 0 12px;
+
+    font-size:
+      18px;
   }
 
   .article-content
   :global(p) {
-    margin: 18px 0;
+    margin:
+      0 0 24px;
+
+    color:
+      var(--text-secondary);
+  }
+
+  .article-content
+  :global(strong) {
+    font-weight:
+      700;
   }
 
   .article-content
   :global(ul),
   .article-content
   :global(ol) {
-    padding-left: 24px;
+    margin:
+      22px 0 28px;
+
+    padding-left:
+      26px;
+
+    color:
+      var(--text-secondary);
   }
 
   .article-content
   :global(li) {
-    margin: 8px 0;
+    margin:
+      8px 0;
+
+    padding-left:
+      4px;
   }
 
   .article-content
-  :global(pre) {
-    overflow-x: auto;
-
-    margin: 24px 0;
-
-    padding: 18px;
-
-    border-radius: 10px;
-
-    background: #111111;
-  }
-
-  .article-content
-  :global(code) {
-    font-family:
-      "JetBrains Mono",
-      Consolas,
-      monospace;
-  }
-
-  .article-content
-  :global(:not(pre) > code) {
-    padding: 2px 6px;
-
-    border-radius: 5px;
-
-    background:
-      var(--surface);
-
-    font-size: 0.9em;
+  :global(li::marker) {
+    color:
+      var(--color-primary);
   }
 
   .article-content
   :global(blockquote) {
-    margin: 24px 0;
+    position:
+      relative;
 
-    padding-left: 18px;
+    margin:
+      36px 0;
+
+    padding:
+      22px 24px 22px 27px;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
 
     border-left:
       3px solid
-      var(--border);
+      var(--color-primary);
+
+    border-radius:
+      0
+      var(--radius-md)
+      var(--radius-md)
+      0;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        var(--color-surface)
+      );
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .article-content
+  :global(blockquote p) {
+    margin:
+      0;
 
     color:
       var(--text-secondary);
@@ -443,21 +1275,340 @@ const {
   .article-content
   :global(a) {
     color:
-      var(--accent);
+      var(--color-primary);
 
     text-decoration:
       underline;
 
+    text-decoration-color:
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          35%,
+        transparent
+      );
+
     text-underline-offset:
-      3px;
+      4px;
+  }
+
+  .article-content
+  :global(a:hover) {
+    text-decoration-color:
+      var(--color-primary);
+  }
+
+  .article-content
+  :global(img) {
+    width:
+      100%;
+
+    margin:
+      34px 0;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .article-content
+  :global(hr) {
+    margin:
+      52px 0;
+  }
+
+  .article-content
+  :global(pre) {
+    margin:
+      32px 0;
+
+    padding:
+      22px;
+
+    overflow-x:
+      auto;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      #111421;
+
+    box-shadow:
+      var(--shadow-card);
+
+    font-size:
+      13px;
+
+    line-height:
+      1.75;
+  }
+
+  .article-content
+  :global(pre code) {
+    padding:
+      0;
+
+    border:
+      0;
+
+    background:
+      transparent;
+
+    color:
+      inherit;
+  }
+
+  .article-content
+  :global(:not(pre) > code) {
+    padding:
+      0.18em
+      0.43em;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      7px;
+
+    background:
+      var(--color-primary-soft);
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      0.9em;
+  }
+
+  .article-content
+  :global(table) {
+    width:
+      100%;
+
+    margin:
+      32px 0;
+
+    border-collapse:
+      collapse;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-md);
+
+    font-size:
+      14px;
+  }
+
+  .article-content
+  :global(th),
+  .article-content
+  :global(td) {
+    padding:
+      12px 14px;
+
+    border:
+      1px solid
+      var(--border);
+
+    text-align:
+      left;
+  }
+
+  .article-content
+  :global(th) {
+    background:
+      var(--color-primary-soft);
+
+    color:
+      var(--text-primary);
+  }
+
+  .article-content
+  :global(td) {
+    color:
+      var(--text-secondary);
+  }
+
+  .article-end {
+    margin-top:
+      70px;
+
+    padding:
+      32px 20px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-direction:
+      column;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    text-align:
+      center;
+  }
+
+  .end-symbol {
+    color:
+      var(--color-primary);
+
+    font-size:
+      20px;
+
+    text-shadow:
+      0 0 20px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          55%,
+        transparent
+      );
+  }
+
+  .article-end p {
+    margin:
+      10px 0 0;
+
+    color:
+      var(--text-primary);
+
+    font-size:
+      13px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.04em;
+  }
+
+  .article-end span {
+    margin-top:
+      4px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+  }
+
+  .article-footer {
+    margin-top:
+      54px;
+
+    padding:
+      70px 0 24px;
+
+    border-top:
+      1px solid
+      var(--border);
+  }
+
+  .article-footer-heading {
+    display:
+      flex;
+
+    align-items:
+      flex-end;
+
+    justify-content:
+      space-between;
+
+    gap:
+      30px;
+  }
+
+  .article-footer-heading p {
+    margin:
+      0 0 8px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.15em;
+  }
+
+  .article-footer-heading h2 {
+    margin:
+      0;
+
+    font-size:
+      34px;
+
+    letter-spacing:
+      -0.04em;
+  }
+
+  .article-footer-heading > a {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+  }
+
+  .article-footer-heading
+  > a span {
+    transition:
+      transform
+        var(--transition-fast);
+  }
+
+  .article-footer-heading
+  > a:hover span {
+    transform:
+      translateX(3px);
   }
 
   .article-navigation {
-    margin-top: 64px;
+    margin-top:
+      30px;
 
-    padding-top: 28px;
-
-    display: grid;
+    display:
+      grid;
 
     grid-template-columns:
       repeat(
@@ -465,72 +1616,312 @@ const {
         minmax(0, 1fr)
       );
 
-    gap: 16px;
-
-    border-top:
-      1px solid
-      var(--border);
+    gap:
+      18px;
   }
 
-  .navigation-item {
-    min-width: 0;
-  }
+  .navigation-card {
+    min-height:
+      220px;
 
-  .navigation-item a {
-    height: 100%;
+    padding:
+      24px;
 
-    padding: 18px;
+    display:
+      flex;
 
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 6px;
+    flex-direction:
+      column;
 
     border:
       1px solid
       var(--border);
 
-    border-radius: 10px;
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal),
+      background-color
+        var(--transition-normal);
   }
 
-  .navigation-label {
+  a.navigation-card:hover {
+    transform:
+      translateY(-4px);
+
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--color-surface-elevated);
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .navigation-top,
+  .navigation-bottom {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      20px;
+  }
+
+  .navigation-top {
+    color:
+      var(--text-muted);
+
+    font-size:
+      9px;
+
+    font-weight:
+      650;
+  }
+
+  .navigation-index {
+    letter-spacing:
+      0.1em;
+  }
+
+  .navigation-card strong {
+    margin-top:
+      28px;
+
+    font-size:
+      19px;
+
+    line-height:
+      1.45;
+
+    letter-spacing:
+      -0.025em;
+  }
+
+  .navigation-card > p {
+    margin:
+      10px 0 24px;
+
     color:
       var(--text-secondary);
 
-    font-size: 12px;
+    font-size:
+      12px;
+
+    line-height:
+      1.7;
   }
 
-  .navigation-item strong {
-    font-size: 15px;
+  .navigation-bottom {
+    margin-top:
+      auto;
 
-    line-height: 1.5;
+    padding-top:
+      16px;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+  }
+
+  a.navigation-card
+  .navigation-bottom
+  span:last-child {
+    transition:
+      transform
+        var(--transition-fast),
+      color
+        var(--transition-fast);
+  }
+
+  a.navigation-card:hover
+  .navigation-bottom
+  span:last-child {
+    color:
+      var(--color-primary);
+
+    transform:
+      translate(
+        2px,
+        -2px
+      );
   }
 
   .navigation-newer {
-    text-align: right;
+    text-align:
+      right;
+  }
+
+  .disabled {
+    opacity:
+      0.52;
+  }
+
+  @media (
+    max-width: 900px
+  ) {
+    .reading-layout {
+      grid-template-columns:
+        1fr;
+
+      width:
+        min(
+          100%,
+          var(--article-width)
+        );
+
+      gap:
+        0;
+    }
+
+    .article-sidebar {
+      display:
+        none;
+    }
   }
 
   @media (
     max-width: 700px
   ) {
     .article {
-      padding: 52px 0;
+      padding:
+        42px 0 18px;
+    }
+
+    .article-header {
+      padding-bottom:
+        52px;
+    }
+
+    .article-type {
+      display:
+        none;
+    }
+
+    .article-heading {
+      margin-top:
+        46px;
+
+      text-align:
+        left;
+    }
+
+    .article-eyebrow {
+      margin:
+        0;
+    }
+
+    .article-heading h1 {
+      font-size:
+        clamp(
+          38px,
+          12vw,
+          54px
+        );
     }
 
     .article-description {
-      font-size: 16px;
+      margin-left:
+        0;
+
+      font-size:
+        15px;
     }
 
-    .article-content {
-      font-size: 16px;
+    .article-meta {
+      justify-content:
+        flex-start;
+    }
+
+    .meta-item {
+      align-items:
+        flex-start;
+    }
+
+    .article-tags {
+      justify-content:
+        flex-start;
     }
 
     .article-cover {
-      margin-top: 28px;
+      margin-top:
+        40px;
 
-      aspect-ratio:
-        16 / 9;
+      border-radius:
+        var(--radius-lg);
+    }
+
+    .article-cover figcaption {
+      display:
+        none;
+    }
+
+    .reading-layout {
+      padding-top:
+        52px;
+    }
+
+    .article-content {
+      font-size:
+        16px;
+
+      line-height:
+        1.86;
+    }
+
+    .article-content
+    :global(h2) {
+      margin-top:
+        52px;
+
+      font-size:
+        26px;
+    }
+
+    .article-content
+    :global(h3) {
+      font-size:
+        20px;
+    }
+
+    .article-footer {
+      padding-top:
+        54px;
+    }
+
+    .article-footer-heading {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        16px;
     }
 
     .article-navigation {
@@ -539,7 +1930,42 @@ const {
     }
 
     .navigation-newer {
-      text-align: left;
+      text-align:
+        left;
+    }
+  }
+
+  @media (
+    max-width: 420px
+  ) {
+    .article-meta {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        12px;
+    }
+
+    .meta-divider {
+      width:
+        100%;
+
+      min-height:
+        1px;
+
+      height:
+        1px;
+    }
+
+    .navigation-card {
+      min-height:
+        200px;
+
+      padding:
+        20px;
     }
   }
 </style>
