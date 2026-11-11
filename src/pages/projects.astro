@@ -3,421 +3,2325 @@ import Layout from "../layouts/Layout.astro";
 
 const projects = [
   {
-    title: "Personal Blog",
+    name: "FJK Blog",
     description:
-      "从零开始构建并持续维护的个人博客，用于记录技术学习、项目实践和个人内容。",
-    status: "持续开发",
+      "从零开始构建并持续维护的个人博客，用来记录技术学习、项目开发、工具使用与个人内容。",
+    status: "Active",
+    type: "Personal Project",
     year: "2026",
-    technologies: [
-      "Astro",
+    stack: [
+      "Astro 7",
       "TypeScript",
-      "Tailwind CSS",
+      "Tailwind CSS 4",
       "Markdown",
-      "Git",
+      "Nginx",
     ],
-    github: "https://github.com/jiashuaifu13-blip/fjk-blog",
-    demo: "https://fjksp.cn",
+    github:
+      "https://github.com/jiashuaifu13-blip/fjk-blog",
+    demo:
+      "https://fjksp.cn",
     featured: true,
   },
   {
-    title: "Future Project",
+    name: "Future Project",
     description:
-      "这里预留给后续开发的个人项目。完成新的项目后，可以直接在这里添加。",
-    status: "计划中",
-    year: "Future",
-    technologies: [
-      "Coming Soon",
+      "新的项目正在规划中。这里会继续记录后续完成的 Web 项目、工具和实验作品。",
+    status: "Planning",
+    type: "Coming Soon",
+    year: "—",
+    stack: [
+      "Ideas",
+      "Learning",
+      "Building",
     ],
     github: "",
     demo: "",
     featured: false,
   },
 ];
+
+const activeProjects =
+  projects.filter(
+    (project) =>
+      project.status === "Active"
+  ).length;
+
+const totalTechnologies =
+  new Set(
+    projects.flatMap(
+      (project) =>
+        project.stack
+    )
+  ).size;
 ---
 
 <Layout
   title="项目"
-  description="我的个人项目与开发实践。"
+  description="FJK 的个人项目与开发作品，记录从想法到实现的过程。"
 >
-  <section class="projects-page">
-    <header class="projects-header">
-      <p class="eyebrow">
-        PROJECTS
+  <section class="projects-hero">
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span
+          class="badge-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span>
+          PROJECTS
+        </span>
+      </div>
+
+      <p class="hero-kicker">
+        Build, learn, repeat.
       </p>
 
       <h1>
-        项目
+        把想法，
+        <span>
+          做成真正的东西。
+        </span>
       </h1>
 
-      <p class="projects-description">
-        这里记录一些我正在开发、已经完成，
-        或者计划中的个人项目。
+      <p class="hero-description">
+        这里记录我正在开发、已经完成，
+        或者准备继续探索的个人项目。
+        比起单纯展示结果，我更想保留从想法到实现的过程。
       </p>
-    </header>
 
-    <div class="projects-list">
-      {
-        projects.map((project) => (
-          <article
-            class:list={[
-              "project-card",
-              {
-                featured: project.featured,
-              },
-            ]}
+      <div class="hero-actions">
+        <a
+          class="primary-action"
+          href="#project-list"
+        >
+          <span>
+            查看项目
+          </span>
+
+          <span
+            aria-hidden="true"
           >
-            <div class="project-main">
-              <div class="project-top">
-                <div class="project-meta">
-                  <span>
-                    {project.year}
-                  </span>
+            ↓
+          </span>
+        </a>
 
-                  <span>
-                    {project.status}
+        <a
+          class="secondary-action"
+          href="https://github.com/jiashuaifu13-blip"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="hero-panel"
+      aria-hidden="true"
+    >
+      <div class="panel-orbit orbit-one"></div>
+      <div class="panel-orbit orbit-two"></div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <span>
+            PROJECT INDEX
+          </span>
+
+          <span>
+            2026
+          </span>
+        </div>
+
+        <div class="panel-main">
+          <strong>
+            {String(
+              projects.length
+            ).padStart(
+              2,
+              "0"
+            )}
+          </strong>
+
+          <span>
+            PROJECTS
+          </span>
+        </div>
+
+        <div class="panel-grid">
+          <div>
+            <span>
+              ACTIVE
+            </span>
+
+            <strong>
+              {activeProjects}
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              STACK
+            </span>
+
+            <strong>
+              {totalTechnologies}
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              FOCUS
+            </span>
+
+            <strong>
+              WEB
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              MODE
+            </span>
+
+            <strong>
+              BUILD
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <span class="panel-label label-left">
+        DEV / LAB
+      </span>
+
+      <span class="panel-label label-right">
+        ✦ KEEP BUILDING
+      </span>
+    </div>
+  </section>
+
+  <section
+    id="project-list"
+    class="projects-section"
+  >
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          SELECTED WORK
+        </p>
+
+        <h2>
+          项目列表
+        </h2>
+
+        <p class="section-description">
+          从个人博客开始，持续积累真正完成的项目。
+        </p>
+      </div>
+
+      <span class="project-total">
+        {projects.length} Projects
+      </span>
+    </div>
+
+    <div class="project-list">
+      {
+        projects.map(
+          (
+            project,
+            index
+          ) => (
+            <article
+              class:list={[
+                "project-card",
+                {
+                  featured:
+                    project.featured,
+                },
+              ]}
+            >
+              <div class="project-number">
+                <span>
+                  PROJECT
+                </span>
+
+                <strong>
+                  {String(
+                    index + 1
+                  ).padStart(
+                    2,
+                    "0"
+                  )}
+                </strong>
+              </div>
+
+              <div class="project-content">
+                <div class="project-topline">
+                  <div class="project-status">
+                    <span
+                      class:list={[
+                        "status-dot",
+                        {
+                          active:
+                            project.status ===
+                            "Active",
+                        },
+                      ]}
+                    ></span>
+
+                    <span>
+                      {project.status}
+                    </span>
+                  </div>
+
+                  <span class="project-type">
+                    {project.type}
                   </span>
                 </div>
 
-                {
-                  project.featured && (
-                    <span class="featured-label">
-                      FEATURED
+                <h3>
+                  {project.name}
+                </h3>
+
+                <p class="project-description">
+                  {project.description}
+                </p>
+
+                <div class="project-stack">
+                  {
+                    project.stack.map(
+                      (item) => (
+                        <span>
+                          {item}
+                        </span>
+                      )
+                    )
+                  }
+                </div>
+
+                <div class="project-meta">
+                  <div>
+                    <span>
+                      YEAR
                     </span>
+
+                    <strong>
+                      {project.year}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>
+                      STATUS
+                    </span>
+
+                    <strong>
+                      {project.status}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>
+                      TYPE
+                    </span>
+
+                    <strong>
+                      {project.type}
+                    </strong>
+                  </div>
+                </div>
+
+                {
+                  (
+                    project.demo ||
+                    project.github
+                  ) && (
+                    <div class="project-actions">
+                      {
+                        project.demo && (
+                          <a
+                            class="project-primary"
+                            href={
+                              project.demo
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            在线访问
+
+                            <span
+                              aria-hidden="true"
+                            >
+                              ↗
+                            </span>
+                          </a>
+                        )
+                      }
+
+                      {
+                        project.github && (
+                          <a
+                            class="project-secondary"
+                            href={
+                              project.github
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            GitHub
+
+                            <span
+                              aria-hidden="true"
+                            >
+                              ↗
+                            </span>
+                          </a>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
 
-              <h2>
-                {project.title}
-              </h2>
-
-              <p class="project-description">
-                {project.description}
-              </p>
-
-              <div class="technology-list">
+              <div
+                class="project-preview"
+                aria-hidden="true"
+              >
                 {
-                  project.technologies.map((technology) => (
-                    <span class="technology">
-                      {technology}
-                    </span>
-                  ))
+                  project.featured ? (
+                    <div class="browser-window">
+                      <div class="browser-bar">
+                        <div class="window-dots">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+
+                        <span class="window-url">
+                          fjksp.cn
+                        </span>
+                      </div>
+
+                      <div class="browser-body">
+                        <div class="browser-nav">
+                          <div class="mini-logo">
+                            F
+                          </div>
+
+                          <div class="mini-links">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                        </div>
+
+                        <div class="browser-hero">
+                          <span class="mini-badge">
+                            PERSONAL BLOG
+                          </span>
+
+                          <strong>
+                            FJK
+                          </strong>
+
+                          <p>
+                            Anime Soft Tech
+                          </p>
+
+                          <div class="mini-button"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div class="future-window">
+                      <span class="future-symbol">
+                        ✦
+                      </span>
+
+                      <strong>
+                        NEXT
+                      </strong>
+
+                      <p>
+                        Something new
+                        <br />
+                        is coming.
+                      </p>
+
+                      <span class="future-code">
+                        02 / TBD
+                      </span>
+                    </div>
+                  )
                 }
               </div>
-            </div>
-
-            {
-              (project.github || project.demo) && (
-                <div class="project-links">
-                  {
-                    project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        在线访问 ↗
-                      </a>
-                    )
-                  }
-
-                  {
-                    project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        GitHub ↗
-                      </a>
-                    )
-                  }
-                </div>
-              )
-            }
-          </article>
-        ))
+            </article>
+          )
+        )
       }
     </div>
+  </section>
 
-    <section class="projects-note">
-      <p class="eyebrow">
-        MORE
-      </p>
+  <section class="process-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          WORKFLOW
+        </p>
 
-      <h2>
-        更多项目正在路上。
-      </h2>
+        <h2>
+          我的项目流程
+        </h2>
 
-      <p>
-        随着新的学习和实践，
-        我会持续把值得记录的项目添加到这里。
-      </p>
-    </section>
+        <p class="section-description">
+          不追求一次完成，而是不断规划、实现、测试和改进。
+        </p>
+      </div>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-card">
+        <span class="process-index">
+          01
+        </span>
+
+        <h3>
+          规划
+        </h3>
+
+        <p>
+          明确要解决的问题、功能范围和实现方向。
+        </p>
+      </div>
+
+      <div class="process-card">
+        <span class="process-index">
+          02
+        </span>
+
+        <h3>
+          落地
+        </h3>
+
+        <p>
+          从最小可用版本开始，把想法真正写成代码。
+        </p>
+      </div>
+
+      <div class="process-card">
+        <span class="process-index">
+          03
+        </span>
+
+        <h3>
+          测试
+        </h3>
+
+        <p>
+          检查功能、响应式、构建和部署是否稳定。
+        </p>
+      </div>
+
+      <div class="process-card">
+        <span class="process-index">
+          04
+        </span>
+
+        <h3>
+          迭代
+        </h3>
+
+        <p>
+          根据实际使用持续优化，而不是停在第一版。
+        </p>
+      </div>
+    </div>
   </section>
 </Layout>
 
 <style>
-  .projects-page {
-    width: min(
-      100%,
-      920px
-    );
+  .projects-hero {
+    min-height:
+      660px;
 
-    margin: 0 auto;
+    padding:
+      76px 0 82px;
 
-    padding: 72px 0;
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(360px, 0.78fr);
+
+    align-items:
+      center;
+
+    gap:
+      74px;
+
+    border-bottom:
+      1px solid
+      var(--border);
   }
 
-  .projects-header {
-    max-width: 720px;
+  .hero-badge {
+    width:
+      fit-content;
 
-    padding-bottom: 56px;
+    padding:
+      7px 11px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.14em;
   }
 
-  .eyebrow {
-    margin: 0 0 14px;
+  .badge-dot {
+    width:
+      6px;
 
-    color: var(--text-secondary);
+    height:
+      6px;
 
-    font-size: 12px;
+    border-radius:
+      50%;
 
-    font-weight: 700;
+    background:
+      var(--color-cyan);
 
-    letter-spacing: 0.14em;
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-cyan)
+          15%,
+        transparent
+      );
   }
 
-  .projects-header h1 {
-    margin: 0;
+  .hero-kicker {
+    margin:
+      24px 0 0;
 
-    font-size: clamp(
-      44px,
-      7vw,
-      64px
-    );
+    color:
+      var(--color-primary);
 
-    line-height: 1;
+    font-size:
+      14px;
 
-    letter-spacing: -0.05em;
+    font-weight:
+      700;
   }
 
-  .projects-description {
-    max-width: 620px;
+  .hero-copy h1 {
+    max-width:
+      720px;
 
-    margin: 22px 0 0;
+    margin:
+      12px 0 0;
 
-    color: var(--text-secondary);
+    font-size:
+      clamp(
+        48px,
+        6.5vw,
+        78px
+      );
 
-    font-size: 18px;
+    line-height:
+      1.07;
 
-    line-height: 1.8;
+    letter-spacing:
+      -0.055em;
   }
 
-  .projects-list {
-    display: flex;
+  .hero-copy h1 span {
+    display:
+      block;
 
-    flex-direction: column;
+    background:
+      linear-gradient(
+        100deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
 
-    gap: 20px;
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color:
+      transparent;
+  }
+
+  .hero-description {
+    max-width:
+      640px;
+
+    margin:
+      26px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      15px;
+
+    line-height:
+      1.9;
+  }
+
+  .hero-actions {
+    margin-top:
+      32px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .primary-action,
+  .secondary-action {
+    min-height:
+      46px;
+
+    padding:
+      0 17px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      9px;
+
+    border-radius:
+      13px;
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .primary-action {
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          55%,
+        transparent
+      );
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary)
+      );
+
+    color:
+      #ffffff;
+
+    box-shadow:
+      0 12px 28px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+  }
+
+  .primary-action:hover {
+    color:
+      #ffffff;
+
+    transform:
+      translateY(-3px);
+  }
+
+  .secondary-action {
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-primary);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .secondary-action:hover {
+    transform:
+      translateY(-3px);
+
+    border-color:
+      var(--border-strong);
+
+    color:
+      var(--color-primary);
+  }
+
+  .hero-panel {
+    position:
+      relative;
+
+    min-height:
+      420px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+  }
+
+  .panel-orbit {
+    position:
+      absolute;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+  }
+
+  .orbit-one {
+    width:
+      370px;
+
+    height:
+      370px;
+
+    transform:
+      rotate(18deg);
+  }
+
+  .orbit-two {
+    width:
+      290px;
+
+    height:
+      290px;
+
+    border-color:
+      color-mix(
+        in srgb,
+        var(--color-pink)
+          22%,
+        transparent
+      );
+
+    transform:
+      rotate(-22deg);
+  }
+
+  .panel-card {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    width:
+      min(
+        100%,
+        360px
+      );
+
+    padding:
+      24px;
+
+    border:
+      1px solid
+      var(--glass-border);
+
+    border-radius:
+      28px;
+
+    background:
+      var(--glass-background);
+
+    box-shadow:
+      var(--shadow-card);
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    transform:
+      rotate(-2deg);
+  }
+
+  .panel-header {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .panel-main {
+    min-height:
+      165px;
+
+    display:
+      flex;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+  }
+
+  .panel-main strong {
+    color:
+      var(--color-primary);
+
+    font-size:
+      68px;
+
+    line-height:
+      0.9;
+
+    letter-spacing:
+      -0.06em;
+  }
+
+  .panel-main span {
+    margin-top:
+      9px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.11em;
+  }
+
+  .panel-grid {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      8px;
+  }
+
+  .panel-grid div {
+    padding:
+      12px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      6px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      13px;
+
+    background:
+      color-mix(
+        in srgb,
+        var(--color-surface)
+          78%,
+        transparent
+      );
+  }
+
+  .panel-grid span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      7px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.11em;
+  }
+
+  .panel-grid strong {
+    font-size:
+      11px;
+  }
+
+  .panel-label {
+    position:
+      absolute;
+
+    z-index:
+      4;
+
+    padding:
+      8px 10px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      10px;
+
+    background:
+      var(--color-surface-elevated);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .label-left {
+    left:
+      0;
+
+    top:
+      110px;
+
+    transform:
+      rotate(-7deg);
+  }
+
+  .label-right {
+    right:
+      0;
+
+    bottom:
+      92px;
+
+    transform:
+      rotate(6deg);
+  }
+
+  .projects-section,
+  .process-section {
+    padding:
+      80px 0;
+
+    border-bottom:
+      1px solid
+      var(--border);
+  }
+
+  .process-section {
+    border-bottom:
+      0;
+  }
+
+  .section-heading {
+    display:
+      flex;
+
+    align-items:
+      flex-end;
+
+    justify-content:
+      space-between;
+
+    gap:
+      30px;
+  }
+
+  .section-eyebrow {
+    margin:
+      0 0 9px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.15em;
+  }
+
+  .section-heading h2 {
+    margin:
+      0;
+
+    font-size:
+      clamp(
+        30px,
+        4vw,
+        42px
+      );
+
+    letter-spacing:
+      -0.045em;
+  }
+
+  .section-description {
+    margin:
+      10px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+  }
+
+  .project-total {
+    padding:
+      7px 10px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+
+    font-weight:
+      700;
+  }
+
+  .project-list {
+    margin-top:
+      36px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      24px;
   }
 
   .project-card {
-    padding: 32px;
+    min-height:
+      410px;
 
-    border: 1px solid var(--border);
+    padding:
+      30px;
 
-    border-radius: 14px;
+    display:
+      grid;
 
-    background: var(--background);
+    grid-template-columns:
+      90px
+      minmax(0, 1fr)
+      minmax(300px, 0.8fr);
+
+    align-items:
+      stretch;
+
+    gap:
+      34px;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-card);
 
     transition:
-      transform 0.2s ease,
-      border-color 0.2s ease;
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
   }
 
   .project-card:hover {
-    transform: translateY(-2px);
+    transform:
+      translateY(-4px);
 
-    border-color: #c9c9c9;
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      var(--shadow-hover);
   }
 
   .project-card.featured {
-    background: var(--surface);
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-surface),
+        color-mix(
+          in srgb,
+          var(--color-primary-soft)
+            48%,
+          var(--color-surface)
+        )
+      );
   }
 
-  .project-top {
-    display: flex;
+  .project-number {
+    display:
+      flex;
 
-    align-items: center;
+    flex-direction:
+      column;
 
-    justify-content: space-between;
+    justify-content:
+      space-between;
 
-    gap: 20px;
+    border-right:
+      1px solid
+      var(--border);
   }
 
-  .project-meta {
-    display: flex;
+  .project-number span {
+    color:
+      var(--text-muted);
 
-    flex-wrap: wrap;
+    font-size:
+      8px;
 
-    gap: 12px;
+    font-weight:
+      750;
 
-    color: var(--text-secondary);
-
-    font-size: 12px;
+    letter-spacing:
+      0.12em;
   }
 
-  .featured-label {
-    padding: 4px 8px;
+  .project-number strong {
+    margin-bottom:
+      4px;
 
-    border: 1px solid var(--border);
+    color:
+      var(--color-primary);
 
-    border-radius: 999px;
+    font-size:
+      36px;
 
-    color: var(--text-secondary);
+    line-height:
+      1;
 
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.08em;
+    letter-spacing:
+      -0.05em;
   }
 
-  .project-card h2 {
-    margin: 18px 0 10px;
+  .project-content {
+    min-width:
+      0;
 
-    font-size: 28px;
+    display:
+      flex;
 
-    line-height: 1.25;
+    flex-direction:
+      column;
+  }
 
-    letter-spacing: -0.035em;
+  .project-topline {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      12px;
+  }
+
+  .project-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      650;
+  }
+
+  .status-dot {
+    width:
+      7px;
+
+    height:
+      7px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--text-muted);
+  }
+
+  .status-dot.active {
+    background:
+      #77d7b0;
+
+    box-shadow:
+      0 0 0 4px
+      rgba(
+        119,
+        215,
+        176,
+        0.12
+      );
+  }
+
+  .project-type {
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.1em;
+  }
+
+  .project-content h3 {
+    margin:
+      26px 0 0;
+
+    font-size:
+      clamp(
+        30px,
+        4vw,
+        44px
+      );
+
+    line-height:
+      1.1;
+
+    letter-spacing:
+      -0.045em;
   }
 
   .project-description {
-    max-width: 720px;
+    max-width:
+      600px;
 
-    margin: 0;
+    margin:
+      17px 0 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
-    line-height: 1.8;
+    font-size:
+      13px;
+
+    line-height:
+      1.8;
   }
 
-  .technology-list {
-    margin-top: 24px;
+  .project-stack {
+    margin-top:
+      22px;
 
-    display: flex;
+    display:
+      flex;
 
-    flex-wrap: wrap;
+    flex-wrap:
+      wrap;
 
-    gap: 8px;
+    gap:
+      7px;
   }
 
-  .technology {
-    padding: 5px 9px;
+  .project-stack span {
+    padding:
+      5px 8px;
 
-    border-radius: 6px;
+    border:
+      1px solid
+      var(--border);
 
-    background: var(--surface);
+    border-radius:
+      999px;
 
-    color: var(--text-secondary);
+    background:
+      var(--color-primary-soft);
 
-    font-size: 12px;
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      600;
   }
 
-  .featured .technology {
-    background: var(--background);
+  .project-meta {
+    margin-top:
+      28px;
+
+    padding-top:
+      20px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      16px;
+
+    border-top:
+      1px solid
+      var(--border);
   }
 
-  .project-links {
-    margin-top: 28px;
+  .project-meta div {
+    display:
+      flex;
 
-    padding-top: 22px;
+    flex-direction:
+      column;
 
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 18px;
-
-    border-top: 1px solid var(--border);
+    gap:
+      5px;
   }
 
-  .project-links a {
-    font-size: 14px;
+  .project-meta span {
+    color:
+      var(--text-muted);
 
-    font-weight: 600;
+    font-size:
+      7px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.11em;
   }
 
-  .project-links a:hover {
-    text-decoration: underline;
+  .project-meta strong {
+    font-size:
+      10px;
 
-    text-underline-offset: 4px;
+    line-height:
+      1.4;
   }
 
-  .projects-note {
-    margin-top: 72px;
+  .project-actions {
+    margin-top:
+      auto;
 
-    padding-top: 56px;
+    padding-top:
+      26px;
 
-    border-top: 1px solid var(--border);
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      9px;
   }
 
-  .projects-note h2 {
-    margin: 0;
+  .project-primary,
+  .project-secondary {
+    min-height:
+      42px;
 
-    font-size: clamp(
-      30px,
-      5vw,
-      42px
-    );
+    padding:
+      0 14px;
 
-    letter-spacing: -0.04em;
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      7px;
+
+    border-radius:
+      12px;
+
+    font-size:
+      11px;
+
+    font-weight:
+      650;
   }
 
-  .projects-note > p:last-child {
-    max-width: 620px;
+  .project-primary {
+    background:
+      var(--text-primary);
 
-    margin: 18px 0 0;
-
-    color: var(--text-secondary);
-
-    line-height: 1.8;
+    color:
+      var(--background);
   }
 
-  @media (max-width: 700px) {
-    .projects-page {
-      padding: 52px 0;
+  .project-primary:hover {
+    color:
+      var(--background);
+
+    opacity:
+      0.86;
+  }
+
+  .project-secondary {
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-primary);
+  }
+
+  .project-secondary:hover {
+    color:
+      var(--color-primary);
+
+    border-color:
+      var(--border-strong);
+  }
+
+  .project-preview {
+    min-width:
+      0;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+  }
+
+  .browser-window {
+    width:
+      100%;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      18px;
+
+    background:
+      #111421;
+
+    box-shadow:
+      0 26px 60px
+      rgba(
+        0,
+        0,
+        0,
+        0.26
+      );
+
+    transform:
+      rotate(2deg);
+  }
+
+  .browser-bar {
+    min-height:
+      40px;
+
+    padding:
+      0 12px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      12px;
+
+    border-bottom:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.08
+      );
+  }
+
+  .window-dots {
+    display:
+      flex;
+
+    gap:
+      5px;
+  }
+
+  .window-dots span {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border-radius:
+      50%;
+
+    background:
+      #66708d;
+  }
+
+  .window-dots span:first-child {
+    background:
+      #ff8fab;
+  }
+
+  .window-dots span:nth-child(2) {
+    background:
+      #f6c177;
+  }
+
+  .window-dots span:last-child {
+    background:
+      #7fd8be;
+  }
+
+  .window-url {
+    color:
+      #737b98;
+
+    font-size:
+      7px;
+  }
+
+  .browser-body {
+    min-height:
+      250px;
+
+    padding:
+      16px;
+
+    background:
+      radial-gradient(
+        circle at 80% 10%,
+        rgba(
+          255,
+          159,
+          207,
+          0.12
+        ),
+        transparent 34%
+      ),
+      radial-gradient(
+        circle at 10% 0%,
+        rgba(
+          125,
+          227,
+          255,
+          0.1
+        ),
+        transparent 35%
+      ),
+      #111421;
+  }
+
+  .browser-nav {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+  }
+
+  .mini-logo {
+    width:
+      25px;
+
+    height:
+      25px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.08
+      );
+
+    border-radius:
+      8px;
+
+    color:
+      #aab4ff;
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+  }
+
+  .mini-links {
+    display:
+      flex;
+
+    gap:
+      6px;
+  }
+
+  .mini-links span {
+    width:
+      24px;
+
+    height:
+      4px;
+
+    border-radius:
+      999px;
+
+    background:
+      #34394f;
+  }
+
+  .browser-hero {
+    min-height:
+      190px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+
+    text-align:
+      center;
+  }
+
+  .mini-badge {
+    padding:
+      4px 7px;
+
+    border:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.08
+      );
+
+    border-radius:
+      999px;
+
+    color:
+      #9098b6;
+
+    font-size:
+      6px;
+
+    letter-spacing:
+      0.1em;
+  }
+
+  .browser-hero strong {
+    margin-top:
+      16px;
+
+    color:
+      #f0f2ff;
+
+    font-size:
+      40px;
+
+    line-height:
+      1;
+  }
+
+  .browser-hero p {
+    margin:
+      6px 0 0;
+
+    color:
+      #929ab8;
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .mini-button {
+    width:
+      64px;
+
+    height:
+      18px;
+
+    margin-top:
+      18px;
+
+    border-radius:
+      6px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #8996ff,
+        #c78cff
+      );
+  }
+
+  .future-window {
+    width:
+      100%;
+
+    min-height:
+      250px;
+
+    padding:
+      28px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      flex-end;
+
+    border:
+      1px dashed
+      var(--border-strong);
+
+    border-radius:
+      20px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink)
+            10%,
+          transparent
+        )
+      );
+  }
+
+  .future-symbol {
+    margin-bottom:
+      auto;
+
+    color:
+      var(--color-pink);
+
+    font-size:
+      22px;
+  }
+
+  .future-window strong {
+    color:
+      var(--color-primary);
+
+    font-size:
+      36px;
+
+    line-height:
+      1;
+  }
+
+  .future-window p {
+    margin:
+      12px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+
+    line-height:
+      1.6;
+  }
+
+  .future-code {
+    margin-top:
+      28px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .process-grid {
+    margin-top:
+      34px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      14px;
+  }
+
+  .process-card {
+    min-height:
+      190px;
+
+    padding:
+      20px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .process-card:hover {
+    transform:
+      translateY(-3px);
+
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .process-index {
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .process-card h3 {
+    margin:
+      auto 0 8px;
+
+    font-size:
+      20px;
+
+    letter-spacing:
+      -0.03em;
+  }
+
+  .process-card p {
+    margin:
+      0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      11px;
+
+    line-height:
+      1.7;
+  }
+
+  @media (
+    max-width: 1000px
+  ) {
+    .projects-hero {
+      grid-template-columns:
+        1fr;
+
+      gap:
+        38px;
     }
 
-    .projects-header {
-      padding-bottom: 40px;
-    }
-
-    .projects-description {
-      font-size: 16px;
+    .hero-panel {
+      min-height:
+        380px;
     }
 
     .project-card {
-      padding: 24px;
+      grid-template-columns:
+        70px
+        minmax(0, 1fr);
     }
 
-    .project-top {
-      align-items: flex-start;
-
-      flex-direction: column;
-
-      gap: 12px;
+    .project-preview {
+      grid-column:
+        1 / -1;
     }
 
-    .project-card h2 {
-      font-size: 24px;
+    .browser-window,
+    .future-window {
+      width:
+        min(
+          100%,
+          600px
+        );
     }
 
-    .projects-note {
-      margin-top: 52px;
+    .process-grid {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+    }
+  }
 
-      padding-top: 40px;
+  @media (
+    max-width: 700px
+  ) {
+    .projects-hero {
+      min-height:
+        auto;
+
+      padding:
+        56px 0 60px;
+    }
+
+    .hero-copy h1 {
+      font-size:
+        clamp(
+          44px,
+          14vw,
+          62px
+        );
+    }
+
+    .hero-panel {
+      min-height:
+        350px;
+    }
+
+    .panel-card {
+      width:
+        min(
+          calc(
+            100% - 24px
+          ),
+          360px
+        );
+    }
+
+    .panel-label {
+      display:
+        none;
+    }
+
+    .projects-section,
+    .process-section {
+      padding:
+        60px 0;
+    }
+
+    .section-heading {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        15px;
+    }
+
+    .project-card {
+      padding:
+        22px;
+
+      grid-template-columns:
+        1fr;
+
+      gap:
+        24px;
+    }
+
+    .project-number {
+      padding-bottom:
+        15px;
+
+      flex-direction:
+        row;
+
+      align-items:
+        center;
+
+      border-right:
+        0;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .project-number strong {
+      margin:
+        0;
+
+      font-size:
+        28px;
+    }
+
+    .project-preview {
+      grid-column:
+        auto;
+    }
+
+    .browser-window {
+      transform:
+        none;
+    }
+  }
+
+  @media (
+    max-width: 500px
+  ) {
+    .hero-actions {
+      flex-direction:
+        column;
+    }
+
+    .primary-action,
+    .secondary-action {
+      width:
+        100%;
+    }
+
+    .project-meta {
+      grid-template-columns:
+        1fr 1fr;
+    }
+
+    .process-grid {
+      grid-template-columns:
+        1fr;
     }
   }
 </style>
