@@ -30,5 +30,6 @@ draft: false
 
 ```js
 console.log("Hello, Blog!");
+```
 
 后续我会继续完善文章系统、项目展示和其他功能。
