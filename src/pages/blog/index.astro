@@ -8,313 +8,1564 @@ const posts = (await getCollection("posts"))
     (a, b) =>
       b.data.date.getTime() - a.data.date.getTime()
   );
+
+const categoryMap =
+  new Map<string, number>();
+
+const tagMap =
+  new Map<string, number>();
+
+for (const post of posts) {
+  categoryMap.set(
+    post.data.category,
+    (categoryMap.get(
+      post.data.category
+    ) ?? 0) + 1
+  );
+
+  for (const tag of post.data.tags) {
+    tagMap.set(
+      tag,
+      (tagMap.get(tag) ?? 0) + 1
+    );
+  }
+}
+
+const categories =
+  Array.from(categoryMap.entries())
+    .map(
+      ([name, count]) => ({
+        name,
+        count,
+      })
+    )
+    .sort(
+      (a, b) =>
+        b.count - a.count
+    );
+
+const tags =
+  Array.from(tagMap.entries())
+    .map(
+      ([name, count]) => ({
+        name,
+        count,
+      })
+    )
+    .sort(
+      (a, b) =>
+        b.count - a.count
+    );
 ---
 
 <Layout
   title="文章"
-  description="所有博客文章"
+  description="FJK Blog 的全部文章，记录技术、项目、学习与生活。"
 >
-  <section class="blog-page">
-    <header class="blog-header">
-      <p class="section-label">
-        BLOG
+  <section class="blog-hero">
+    <div class="blog-hero-copy">
+      <div class="hero-badge">
+        <span
+          class="badge-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span>
+          BLOG ARCHIVE
+        </span>
+      </div>
+
+      <p class="hero-kicker">
+        Stories & Notes
       </p>
 
       <h1>
         文章
       </h1>
 
-      <p>
-        技术笔记、项目记录和学习过程。
+      <p class="hero-description">
+        这里整理我的技术学习、项目开发、
+        工具使用与一些值得记录的想法。
       </p>
-    </header>
+    </div>
 
-    <div class="post-list">
-      {
-        posts.map((post) => (
-          <article class="post-item">
-            {
-              post.data.cover && (
-                <a
-                  class="cover-link"
-                  href={`/blog/${post.id}/`}
-                  aria-label={post.data.title}
-                >
-                  <img
-                    class="post-cover"
-                    src={post.data.cover}
-                    alt={
-                      post.data.coverAlt ??
-                      post.data.title
-                    }
-                    loading="lazy"
-                  />
-                </a>
-              )
-            }
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-label">
+          POSTS
+        </span>
 
-            <div class="post-body">
-              <div class="post-meta">
-                <time
-                  datetime={
-                    post.data.date.toISOString()
-                  }
-                >
-                  {
-                    post.data.date.toLocaleDateString(
-                      "zh-CN"
-                    )
-                  }
-                </time>
+        <strong>
+          {posts.length}
+        </strong>
 
-                <a
-                  class="category-link"
-                  href={`/blog/category/${encodeURIComponent(
-                    post.data.category
-                  )}/`}
-                >
-                  {post.data.category}
-                </a>
-              </div>
+        <p>
+          已发布文章
+        </p>
+      </div>
 
-              <h2>
-                <a
-                  class="post-title-link"
-                  href={`/blog/${post.id}/`}
-                >
-                  {post.data.title}
-                </a>
-              </h2>
+      <div class="stat-card">
+        <span class="stat-label">
+          CATEGORIES
+        </span>
 
-              <p class="post-description">
-                {post.data.description}
-              </p>
+        <strong>
+          {categories.length}
+        </strong>
 
-              {
-                post.data.tags.length > 0 && (
-                  <div class="tags">
-                    {
-                      post.data.tags.map((tag) => (
-                        <a
-                          class="tag"
-                          href={`/blog/tag/${encodeURIComponent(
-                            tag
-                          )}/`}
-                        >
-                          #{tag}
-                        </a>
-                      ))
-                    }
-                  </div>
-                )
-              }
-            </div>
-          </article>
-        ))
-      }
+        <p>
+          内容分类
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">
+          TAGS
+        </span>
+
+        <strong>
+          {tags.length}
+        </strong>
+
+        <p>
+          文章标签
+        </p>
+      </div>
     </div>
   </section>
+
+  {
+    categories.length > 0 && (
+      <section class="filter-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-eyebrow">
+              CATEGORIES
+            </p>
+
+            <h2>
+              分类
+            </h2>
+          </div>
+
+          <a
+            class="archive-link"
+            href="/archive"
+          >
+            查看归档
+
+            <span
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </a>
+        </div>
+
+        <div class="category-list">
+          {
+            categories.map(
+              (category, index) => (
+                <a
+                  class="category-chip"
+                  href={`/blog/category/${encodeURIComponent(
+                    category.name
+                  )}/`}
+                >
+                  <span class="category-number">
+                    {String(
+                      index + 1
+                    ).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
+
+                  <span class="category-name">
+                    {category.name}
+                  </span>
+
+                  <span class="category-count">
+                    {category.count}
+                  </span>
+                </a>
+              )
+            )
+          }
+        </div>
+      </section>
+    )
+  }
+
+  <section class="posts-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          ALL POSTS
+        </p>
+
+        <h2>
+          全部文章
+        </h2>
+
+        <p class="section-description">
+          按发布时间从新到旧排列。
+        </p>
+      </div>
+
+      <span class="post-total">
+        {posts.length} Posts
+      </span>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <div class="posts-grid">
+          {
+            posts.map(
+              (post, index) => (
+                <article class="post-card">
+                  <a
+                    class="post-card-link"
+                    href={`/blog/${post.id}/`}
+                  >
+                    <div class="post-cover">
+                      {
+                        post.data.cover ? (
+                          <img
+                            src={post.data.cover}
+                            alt={
+                              post.data.coverAlt ??
+                              post.data.title
+                            }
+                            loading={
+                              index < 2
+                                ? "eager"
+                                : "lazy"
+                            }
+                          />
+                        ) : (
+                          <div class="cover-placeholder">
+                            <span>
+                              FJK
+                            </span>
+                          </div>
+                        )
+                      }
+
+                      <div class="cover-overlay"></div>
+
+                      <div class="post-index">
+                        {String(
+                          index + 1
+                        ).padStart(
+                          2,
+                          "0"
+                        )}
+                      </div>
+                    </div>
+
+                    <div class="post-content">
+                      <div class="post-meta">
+                        <time
+                          datetime={
+                            post.data.date.toISOString()
+                          }
+                        >
+                          {
+                            post.data.date.toLocaleDateString(
+                              "zh-CN",
+                              {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              }
+                            )
+                          }
+                        </time>
+
+                        <span
+                          class="meta-dot"
+                          aria-hidden="true"
+                        >
+                          ·
+                        </span>
+
+                        <span>
+                          {post.data.category}
+                        </span>
+                      </div>
+
+                      <h3>
+                        {post.data.title}
+                      </h3>
+
+                      <p class="post-description">
+                        {post.data.description}
+                      </p>
+
+                      {
+                        post.data.tags.length >
+                          0 && (
+                          <div class="tag-list">
+                            {
+                              post.data.tags
+                                .slice(0, 4)
+                                .map(
+                                  (tag) => (
+                                    <span>
+                                      #{tag}
+                                    </span>
+                                  )
+                                )
+                            }
+                          </div>
+                        )
+                      }
+
+                      <div class="post-footer">
+                        <span>
+                          阅读文章
+                        </span>
+
+                        <span
+                          class="post-arrow"
+                          aria-hidden="true"
+                        >
+                          ↗
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+              )
+            )
+          }
+        </div>
+      ) : (
+        <div class="empty-state">
+          <div
+            class="empty-icon"
+            aria-hidden="true"
+          >
+            ✦
+          </div>
+
+          <h2>
+            暂时还没有文章
+          </h2>
+
+          <p>
+            新内容正在准备中。
+          </p>
+        </div>
+      )
+    }
+  </section>
+
+  {
+    tags.length > 0 && (
+      <section class="tags-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-eyebrow">
+              TOPICS
+            </p>
+
+            <h2>
+              标签
+            </h2>
+
+            <p class="section-description">
+              从关键词快速找到感兴趣的内容。
+            </p>
+          </div>
+        </div>
+
+        <div class="tag-cloud">
+          {
+            tags.map(
+              (tag) => (
+                <a
+                  href={`/blog/tag/${encodeURIComponent(
+                    tag.name
+                  )}/`}
+                >
+                  <span>
+                    #{tag.name}
+                  </span>
+
+                  <small>
+                    {tag.count}
+                  </small>
+                </a>
+              )
+            )
+          }
+        </div>
+      </section>
+    )
+  }
 </Layout>
 
 <style>
-  .blog-page {
-    width: min(
-      100%,
-      900px
-    );
+  .blog-hero {
+    padding:
+      84px 0 72px;
 
-    margin: 0 auto;
-
-    padding: 72px 0;
-  }
-
-  .blog-header {
-    padding-bottom: 48px;
-  }
-
-  .section-label {
-    margin: 0 0 14px;
-
-    color: var(--text-secondary);
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.14em;
-  }
-
-  .blog-header h1 {
-    margin: 0;
-
-    font-size: clamp(
-      40px,
-      6vw,
-      56px
-    );
-
-    line-height: 1.1;
-
-    letter-spacing: -0.045em;
-  }
-
-  .blog-header > p:last-child {
-    margin: 16px 0 0;
-
-    color: var(--text-secondary);
-
-    font-size: 17px;
-  }
-
-  .post-list {
-    border-top: 1px solid var(--border);
-  }
-
-  .post-item {
-    padding: 32px 0;
-
-    display: grid;
+    display:
+      grid;
 
     grid-template-columns:
-      260px minmax(0, 1fr);
+      minmax(0, 1fr)
+      minmax(380px, 0.8fr);
 
-    gap: 28px;
+    align-items:
+      end;
 
-    align-items: center;
+    gap:
+      70px;
 
     border-bottom:
-      1px solid var(--border);
+      1px solid
+      var(--border);
   }
 
-  .post-item:not(:has(.post-cover)) {
-    grid-template-columns: 1fr;
+  .hero-badge {
+    width:
+      fit-content;
+
+    padding:
+      7px 11px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      10px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.14em;
   }
 
-  .cover-link {
-    display: block;
+  .badge-dot {
+    width:
+      6px;
 
-    aspect-ratio: 16 / 9;
+    height:
+      6px;
 
-    overflow: hidden;
+    border-radius:
+      50%;
 
-    border-radius: 10px;
+    background:
+      var(--color-cyan);
 
-    background: var(--surface);
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-cyan)
+          15%,
+        transparent
+      );
+  }
+
+  .hero-kicker {
+    margin:
+      24px 0 0;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      14px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.04em;
+  }
+
+  .blog-hero h1 {
+    margin:
+      10px 0 0;
+
+    font-size:
+      clamp(
+        58px,
+        8vw,
+        92px
+      );
+
+    line-height:
+      1;
+
+    letter-spacing:
+      -0.065em;
+  }
+
+  .hero-description {
+    max-width:
+      650px;
+
+    margin:
+      24px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      16px;
+
+    line-height:
+      1.9;
+  }
+
+  .hero-stats {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      10px;
+  }
+
+  .stat-card {
+    min-height:
+      146px;
+
+    padding:
+      18px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      flex-end;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .stat-card:hover {
+    transform:
+      translateY(-3px);
+
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .stat-label {
+    margin-bottom:
+      auto;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .stat-card strong {
+    font-size:
+      28px;
+
+    line-height:
+      1;
+
+    letter-spacing:
+      -0.04em;
+  }
+
+  .stat-card p {
+    margin:
+      7px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      10px;
+  }
+
+  .filter-section,
+  .posts-section,
+  .tags-section {
+    padding:
+      76px 0;
+
+    border-bottom:
+      1px solid
+      var(--border);
+  }
+
+  .tags-section {
+    border-bottom:
+      0;
+  }
+
+  .section-heading {
+    display:
+      flex;
+
+    align-items:
+      flex-end;
+
+    justify-content:
+      space-between;
+
+    gap:
+      32px;
+  }
+
+  .section-eyebrow {
+    margin:
+      0 0 9px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.15em;
+  }
+
+  .section-heading h2 {
+    margin:
+      0;
+
+    font-size:
+      clamp(
+        30px,
+        4vw,
+        42px
+      );
+
+    letter-spacing:
+      -0.045em;
+  }
+
+  .section-description {
+    margin:
+      10px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+  }
+
+  .archive-link {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    flex-shrink:
+      0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+
+    font-weight:
+      600;
+  }
+
+  .archive-link span {
+    transition:
+      transform
+        var(--transition-fast);
+  }
+
+  .archive-link:hover span {
+    transform:
+      translateX(3px);
+  }
+
+  .category-list {
+    margin-top:
+      30px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .category-chip {
+    min-height:
+      46px;
+
+    padding:
+      5px 13px 5px 6px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      9px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast);
+  }
+
+  .category-chip:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--color-surface-elevated);
+  }
+
+  .category-number {
+    width:
+      34px;
+
+    height:
+      34px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-primary-soft);
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+  }
+
+  .category-name {
+    color:
+      var(--text-primary);
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+  }
+
+  .category-count {
+    min-width:
+      20px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+
+    text-align:
+      right;
+  }
+
+  .post-total {
+    padding:
+      7px 10px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.06em;
+  }
+
+  .posts-grid {
+    margin-top:
+      34px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      22px;
+  }
+
+  .post-card {
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-card);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .post-card:hover {
+    transform:
+      translateY(-5px);
+
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      var(--shadow-hover);
+  }
+
+  .post-card-link {
+    height:
+      100%;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
   }
 
   .post-cover {
-    width: 100%;
+    position:
+      relative;
 
-    height: 100%;
+    aspect-ratio:
+      16 / 9;
 
-    display: block;
+    overflow:
+      hidden;
 
-    object-fit: cover;
+    background:
+      var(--color-primary-soft);
+  }
+
+  .post-cover img {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    object-fit:
+      cover;
 
     transition:
-      transform 0.3s ease;
+      transform
+        var(--transition-slow);
   }
 
-  .cover-link:hover .post-cover {
-    transform: scale(1.025);
+  .post-card:hover
+  .post-cover img {
+    transform:
+      scale(1.035);
   }
 
-  .post-body {
-    min-width: 0;
+  .cover-placeholder {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink)
+            18%,
+          transparent
+        )
+      );
+  }
+
+  .cover-placeholder span {
+    color:
+      var(--color-primary);
+
+    font-size:
+      42px;
+
+    font-weight:
+      800;
+  }
+
+  .cover-overlay {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background:
+      linear-gradient(
+        180deg,
+        transparent 54%,
+        rgba(
+          10,
+          12,
+          24,
+          0.18
+        )
+      );
+
+    pointer-events:
+      none;
+  }
+
+  .post-index {
+    position:
+      absolute;
+
+    right:
+      14px;
+
+    bottom:
+      14px;
+
+    z-index:
+      2;
+
+    width:
+      38px;
+
+    height:
+      38px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.22
+      );
+
+    border-radius:
+      12px;
+
+    background:
+      rgba(
+        14,
+        16,
+        30,
+        0.56
+      );
+
+    color:
+      #ffffff;
+
+    backdrop-filter:
+      blur(10px);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .post-content {
+    flex:
+      1;
+
+    padding:
+      26px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
   }
 
   .post-meta {
-    display: flex;
+    display:
+      flex;
 
-    flex-wrap: wrap;
+    align-items:
+      center;
 
-    gap: 16px;
+    flex-wrap:
+      wrap;
 
-    color: var(--text-secondary);
+    gap:
+      7px;
 
-    font-size: 12px;
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
   }
 
-  .category-link {
-    color: var(--text-secondary);
+  .meta-dot {
+    color:
+      var(--border-strong);
   }
 
-  .category-link:hover {
-    color: var(--text-primary);
-  }
+  .post-card h3 {
+    margin:
+      14px 0 10px;
 
-  .post-item h2 {
-    margin: 10px 0;
+    font-size:
+      22px;
 
-    font-size: 24px;
+    line-height:
+      1.38;
 
-    letter-spacing: -0.025em;
-  }
-
-  .post-title-link:hover {
-    text-decoration: underline;
-
-    text-underline-offset: 4px;
+    letter-spacing:
+      -0.035em;
   }
 
   .post-description {
-    max-width: 720px;
+    margin:
+      0;
 
-    margin: 0;
+    color:
+      var(--text-secondary);
 
-    color: var(--text-secondary);
+    font-size:
+      13px;
 
-    line-height: 1.7;
+    line-height:
+      1.8;
   }
 
-  .tags {
-    margin-top: 16px;
+  .tag-list {
+    margin-top:
+      20px;
 
-    display: flex;
+    display:
+      flex;
 
-    flex-wrap: wrap;
+    flex-wrap:
+      wrap;
 
-    gap: 8px;
+    gap:
+      6px;
   }
 
-  .tag {
-    padding: 3px 8px;
+  .tag-list span {
+    padding:
+      5px 8px;
 
-    border-radius: 6px;
+    border:
+      1px solid
+      var(--border);
 
-    background: var(--surface);
+    border-radius:
+      999px;
 
-    color: var(--text-secondary);
+    background:
+      var(--color-primary-soft);
 
-    font-size: 12px;
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      600;
   }
 
-  .tag:hover {
-    color: var(--text-primary);
+  .post-footer {
+    margin-top:
+      auto;
 
-    background: var(--border);
+    padding-top:
+      23px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      11px;
+
+    font-weight:
+      650;
   }
 
-  @media (max-width: 700px) {
-    .blog-page {
-      padding: 52px 0;
+  .post-arrow {
+    width:
+      32px;
+
+    height:
+      32px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      10px;
+
+    background:
+      var(--color-surface-elevated);
+
+    color:
+      var(--text-muted);
+
+    transition:
+      color
+        var(--transition-fast),
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast);
+  }
+
+  .post-card:hover
+  .post-arrow {
+    color:
+      var(--color-primary);
+
+    border-color:
+      var(--border-strong);
+
+    transform:
+      translate(
+        2px,
+        -2px
+      );
+  }
+
+  .tag-cloud {
+    margin-top:
+      30px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .tag-cloud a {
+    min-height:
+      38px;
+
+    padding:
+      0 12px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      12px;
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast);
+  }
+
+  .tag-cloud a:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--color-primary-soft);
+  }
+
+  .tag-cloud span {
+    color:
+      var(--text-primary);
+
+    font-size:
+      11px;
+
+    font-weight:
+      600;
+  }
+
+  .tag-cloud small {
+    color:
+      var(--text-muted);
+
+    font-size:
+      9px;
+  }
+
+  .empty-state {
+    margin-top:
+      34px;
+
+    padding:
+      70px 24px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-direction:
+      column;
+
+    border:
+      1px dashed
+      var(--border-strong);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      var(--color-surface);
+
+    text-align:
+      center;
+  }
+
+  .empty-icon {
+    color:
+      var(--color-primary);
+
+    font-size:
+      30px;
+  }
+
+  .empty-state h2 {
+    margin:
+      16px 0 0;
+  }
+
+  .empty-state p {
+    margin:
+      8px 0 0;
+
+    color:
+      var(--text-secondary);
+  }
+
+  @media (
+    max-width: 900px
+  ) {
+    .blog-hero {
+      grid-template-columns:
+        1fr;
+
+      gap:
+        40px;
     }
 
-    .post-item,
-    .post-item:not(:has(.post-cover)) {
-      grid-template-columns: 1fr;
+    .hero-stats {
+      max-width:
+        620px;
+    }
+  }
 
-      gap: 20px;
+  @media (
+    max-width: 700px
+  ) {
+    .blog-hero {
+      padding:
+        58px 0 54px;
     }
 
-    .cover-link {
-      width: 100%;
-
-      aspect-ratio: 16 / 9;
+    .blog-hero h1 {
+      font-size:
+        clamp(
+          52px,
+          17vw,
+          72px
+        );
     }
 
-    .post-item h2 {
-      font-size: 21px;
+    .hero-stats {
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(0, 1fr)
+        );
+    }
+
+    .stat-card {
+      min-height:
+        118px;
+
+      padding:
+        14px;
+    }
+
+    .stat-card strong {
+      font-size:
+        24px;
+    }
+
+    .filter-section,
+    .posts-section,
+    .tags-section {
+      padding:
+        58px 0;
+    }
+
+    .section-heading {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        16px;
+    }
+
+    .posts-grid {
+      grid-template-columns:
+        1fr;
+    }
+  }
+
+  @media (
+    max-width: 480px
+  ) {
+    .hero-stats {
+      gap:
+        7px;
+    }
+
+    .stat-card {
+      min-height:
+        108px;
+
+      padding:
+        12px;
+    }
+
+    .stat-label {
+      font-size:
+        7px;
+    }
+
+    .stat-card strong {
+      font-size:
+        22px;
+    }
+
+    .stat-card p {
+      font-size:
+        9px;
+    }
+
+    .post-content {
+      padding:
+        21px;
+    }
+
+    .post-card h3 {
+      font-size:
+        20px;
     }
   }
 </style>
