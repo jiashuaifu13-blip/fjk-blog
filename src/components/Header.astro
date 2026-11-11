@@ -1,5 +1,7 @@
 ---
-import ThemeToggle from "./ThemeToggle.astro";
+import ThemeToggle
+  from "./ThemeToggle.astro";
+
 import {
   NAV_ITEMS,
   SITE,
@@ -8,54 +10,241 @@ import {
 const pathname =
   Astro.url.pathname;
 
-function isActive(href: string) {
+function isActive(
+  href: string
+) {
   if (href === "/") {
     return pathname === "/";
   }
 
-  return pathname.startsWith(href);
+  return pathname.startsWith(
+    href
+  );
 }
 ---
 
 <header class="site-header">
-  <div class="header-inner">
-    <a
-      class="site-logo"
-      href="/"
-      aria-label={`${SITE.title} 首页`}
-    >
-      {SITE.title}
-    </a>
+  <div class="header-shell">
+    <div class="header-inner">
+      <a
+        class="site-logo"
+        href="/"
+        aria-label={`${SITE.title} 首页`}
+      >
+        <span
+          class="logo-mark"
+          aria-hidden="true"
+        >
+          F
+        </span>
 
-    <div class="header-right">
+        <span class="logo-text">
+          {SITE.title}
+        </span>
+      </a>
+
       <nav
-        class="navigation"
+        class="desktop-navigation"
         aria-label="主导航"
       >
         {
-          NAV_ITEMS.map((item) => (
-            <a
-              href={item.href}
-              class:list={[
-                "nav-link",
-                {
-                  active:
-                    isActive(
-                      item.href
-                    ),
-                },
-              ]}
-            >
-              {item.label}
-            </a>
-          ))
+          NAV_ITEMS.map(
+            (item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  "nav-link",
+                  {
+                    active:
+                      isActive(
+                        item.href
+                      ),
+                  },
+                ]}
+              >
+                {item.label}
+              </a>
+            )
+          )
         }
       </nav>
 
-      <ThemeToggle />
+      <div class="header-actions">
+        <ThemeToggle />
+
+        <button
+          id="mobile-menu-toggle"
+          class="mobile-menu-toggle"
+          type="button"
+          aria-label="打开导航菜单"
+          aria-expanded="false"
+          aria-controls="mobile-navigation"
+        >
+          <span
+            class="menu-line"
+          ></span>
+
+          <span
+            class="menu-line"
+          ></span>
+
+          <span
+            class="menu-line"
+          ></span>
+        </button>
+      </div>
     </div>
+
+    <nav
+      id="mobile-navigation"
+      class="mobile-navigation"
+      aria-label="移动端导航"
+      aria-hidden="true"
+    >
+      <div class="mobile-navigation-inner">
+        {
+          NAV_ITEMS.map(
+            (item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  "mobile-nav-link",
+                  {
+                    active:
+                      isActive(
+                        item.href
+                      ),
+                  },
+                ]}
+              >
+                <span>
+                  {item.label}
+                </span>
+
+                <span
+                  class="mobile-nav-arrow"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </a>
+            )
+          )
+        }
+
+        <div class="mobile-navigation-footer">
+          <span>
+            FJK Blog
+          </span>
+
+          <span>
+            Anime Soft Tech
+          </span>
+        </div>
+      </div>
+    </nav>
   </div>
 </header>
+
+<script>
+  const menuButton =
+    document.querySelector<HTMLButtonElement>(
+      "#mobile-menu-toggle"
+    );
+
+  const mobileNavigation =
+    document.querySelector<HTMLElement>(
+      "#mobile-navigation"
+    );
+
+  function setMenuState(
+    open: boolean
+  ) {
+    if (
+      !menuButton ||
+      !mobileNavigation
+    ) {
+      return;
+    }
+
+    menuButton.classList.toggle(
+      "active",
+      open
+    );
+
+    mobileNavigation.classList.toggle(
+      "open",
+      open
+    );
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(open)
+    );
+
+    menuButton.setAttribute(
+      "aria-label",
+      open
+        ? "关闭导航菜单"
+        : "打开导航菜单"
+    );
+
+    mobileNavigation.setAttribute(
+      "aria-hidden",
+      String(!open)
+    );
+  }
+
+  menuButton?.addEventListener(
+    "click",
+    () => {
+      const isOpen =
+        menuButton.classList.contains(
+          "active"
+        );
+
+      setMenuState(
+        !isOpen
+      );
+    }
+  );
+
+  mobileNavigation
+    ?.querySelectorAll("a")
+    .forEach(
+      (link) => {
+        link.addEventListener(
+          "click",
+          () => {
+            setMenuState(false);
+          }
+        );
+      }
+    );
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (
+        event.key === "Escape"
+      ) {
+        setMenuState(false);
+      }
+    }
+  );
+
+  window.addEventListener(
+    "resize",
+    () => {
+      if (
+        window.innerWidth >
+        760
+      ) {
+        setMenuState(false);
+      }
+    }
+  );
+</script>
 
 <style>
   .site-header {
@@ -65,167 +254,640 @@ function isActive(href: string) {
 
     z-index: 100;
 
-    border-bottom:
-      1px solid var(--border);
+    padding:
+      12px 0 0;
 
-    background:
-      color-mix(
-        in srgb,
-        var(--background) 88%,
-        transparent
+    pointer-events:
+      none;
+  }
+
+  .header-shell {
+    width:
+      min(
+        calc(100% - 32px),
+        calc(
+          var(--content-width)
+          + 40px
+        )
       );
 
-    backdrop-filter:
-      blur(16px);
+    margin:
+      0 auto;
 
-    -webkit-backdrop-filter:
-      blur(16px);
+    pointer-events:
+      auto;
   }
 
   .header-inner {
-    width: min(
-      calc(100% - 40px),
-      var(--content-width)
-    );
+    min-height:
+      64px;
 
-    min-height: 68px;
-
-    margin: 0 auto;
+    padding:
+      0 12px 0 16px;
 
     display: flex;
 
-    align-items: center;
+    align-items:
+      center;
 
-    justify-content:
-      space-between;
+    gap:
+      24px;
 
-    gap: 28px;
+    border:
+      1px solid
+      var(--glass-border);
+
+    border-radius:
+      20px;
+
+    background:
+      var(--glass-background);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    transition:
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal),
+      background-color
+        var(--transition-normal);
   }
 
   .site-logo {
-    flex-shrink: 0;
+    display: inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      10px;
+
+    flex-shrink:
+      0;
 
     color:
       var(--text-primary);
 
-    font-size: 17px;
+    font-size:
+      16px;
 
-    font-weight: 700;
+    font-weight:
+      750;
 
     letter-spacing:
       -0.025em;
   }
 
-  .header-right {
-    display: flex;
+  .logo-mark {
+    width: 34px;
+    height: 34px;
 
-    align-items: center;
+    display: inline-flex;
 
-    gap: 18px;
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      11px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        rgba(
+          255,
+          159,
+          207,
+          0.12
+        )
+      );
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      14px;
+
+    font-weight:
+      800;
+
+    box-shadow:
+      inset
+      0 1px 0
+      rgba(
+        255,
+        255,
+        255,
+        0.3
+      );
   }
 
-  .navigation {
+  .desktop-navigation {
+    margin-left:
+      auto;
+
     display: flex;
 
-    align-items: center;
+    align-items:
+      center;
 
-    gap: 24px;
+    gap:
+      4px;
   }
 
   .nav-link {
-    position: relative;
+    position:
+      relative;
 
-    padding: 22px 0;
+    padding:
+      9px 13px;
+
+    border-radius:
+      11px;
 
     color:
       var(--text-secondary);
 
-    font-size: 14px;
+    font-size:
+      14px;
+
+    font-weight:
+      500;
+
+    white-space:
+      nowrap;
 
     transition:
-      color 0.2s ease;
+      color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast),
+      transform
+        var(--transition-fast);
   }
 
   .nav-link:hover {
     color:
       var(--text-primary);
+
+    background:
+      var(--color-primary-soft);
   }
 
   .nav-link.active {
     color:
-      var(--text-primary);
+      var(--color-primary);
 
-    font-weight: 600;
+    background:
+      var(--color-primary-soft);
+
+    font-weight:
+      650;
   }
 
   .nav-link.active::after {
     content: "";
 
-    position: absolute;
+    position:
+      absolute;
 
-    right: 0;
-    bottom: -1px;
-    left: 0;
+    right:
+      13px;
 
-    height: 2px;
+    bottom:
+      5px;
 
-    border-radius: 999px;
+    left:
+      13px;
+
+    height:
+      2px;
+
+    border-radius:
+      999px;
 
     background:
+      linear-gradient(
+        90deg,
+        var(--color-primary),
+        var(--color-pink)
+      );
+
+    opacity:
+      0.8;
+  }
+
+  .header-actions {
+    display: flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+  }
+
+  .mobile-menu-toggle {
+    width:
+      40px;
+
+    height:
+      40px;
+
+    padding:
+      0;
+
+    display:
+      none;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+
+    gap:
+      4px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      13px;
+
+    background:
+      var(--color-surface);
+
+    color:
       var(--text-primary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    cursor:
+      pointer;
+
+    transition:
+      border-color
+        var(--transition-normal),
+      background-color
+        var(--transition-normal),
+      transform
+        var(--transition-normal);
+  }
+
+  .mobile-menu-toggle:hover {
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(
+        --color-surface-elevated
+      );
+  }
+
+  .menu-line {
+    width:
+      16px;
+
+    height:
+      1.5px;
+
+    border-radius:
+      999px;
+
+    background:
+      currentColor;
+
+    transform-origin:
+      center;
+
+    transition:
+      transform
+        var(--transition-normal),
+      opacity
+        var(--transition-normal);
+  }
+
+  .mobile-menu-toggle.active
+  .menu-line:nth-child(1) {
+    transform:
+      translateY(5.5px)
+      rotate(45deg);
+  }
+
+  .mobile-menu-toggle.active
+  .menu-line:nth-child(2) {
+    opacity:
+      0;
+  }
+
+  .mobile-menu-toggle.active
+  .menu-line:nth-child(3) {
+    transform:
+      translateY(-5.5px)
+      rotate(-45deg);
+  }
+
+  .mobile-navigation {
+    max-height:
+      0;
+
+    margin-top:
+      8px;
+
+    overflow:
+      hidden;
+
+    visibility:
+      hidden;
+
+    opacity:
+      0;
+
+    transform:
+      translateY(-8px);
+
+    border:
+      1px solid
+      transparent;
+
+    border-radius:
+      20px;
+
+    background:
+      var(--glass-background);
+
+    box-shadow:
+      var(--shadow-card);
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    transition:
+      max-height
+        var(--transition-slow),
+      opacity
+        var(--transition-normal),
+      transform
+        var(--transition-normal),
+      visibility
+        var(--transition-normal),
+      border-color
+        var(--transition-normal);
+  }
+
+  .mobile-navigation.open {
+    max-height:
+      520px;
+
+    visibility:
+      visible;
+
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+
+    border-color:
+      var(--glass-border);
+  }
+
+  .mobile-navigation-inner {
+    padding:
+      10px;
+  }
+
+  .mobile-nav-link {
+    min-height:
+      48px;
+
+    padding:
+      0 14px;
+
+    display: flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      16px;
+
+    border-radius:
+      12px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      15px;
+
+    font-weight:
+      550;
+
+    transition:
+      color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast),
+      transform
+        var(--transition-fast);
+  }
+
+  .mobile-nav-link:hover {
+    color:
+      var(--text-primary);
+
+    background:
+      var(--color-primary-soft);
+  }
+
+  .mobile-nav-link.active {
+    color:
+      var(--color-primary);
+
+    background:
+      var(--color-primary-soft);
+
+    font-weight:
+      650;
+  }
+
+  .mobile-nav-arrow {
+    color:
+      var(--text-muted);
+
+    font-size:
+      12px;
+
+    transition:
+      transform
+        var(--transition-fast);
+  }
+
+  .mobile-nav-link:hover
+  .mobile-nav-arrow {
+    transform:
+      translate(
+        2px,
+        -2px
+      );
+  }
+
+  .mobile-navigation-footer {
+    margin:
+      10px 4px 2px;
+
+    padding:
+      14px 10px 4px;
+
+    display: flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      16px;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      11px;
+
+    letter-spacing:
+      0.04em;
+  }
+
+  :global(.dark)
+  .header-inner,
+  :global(.dark)
+  .mobile-navigation {
+    box-shadow:
+      0 12px 40px
+      rgba(
+        0,
+        0,
+        0,
+        0.22
+      );
   }
 
   @media (
     max-width: 760px
   ) {
+    .site-header {
+      padding-top:
+        8px;
+    }
+
+    .header-shell {
+      width:
+        calc(
+          100% - 20px
+        );
+    }
+
     .header-inner {
-      width: min(
-        calc(100% - 28px),
-        var(--content-width)
-      );
+      min-height:
+        58px;
 
-      min-height: 60px;
+      padding:
+        0 9px
+        0 12px;
 
-      gap: 14px;
+      border-radius:
+        17px;
     }
 
-    .header-right {
-      gap: 10px;
+    .desktop-navigation {
+      display:
+        none;
     }
 
-    .navigation {
-      max-width:
-        calc(100vw - 150px);
-
-      gap: 16px;
-
-      overflow-x: auto;
-
-      scrollbar-width: none;
+    .header-actions {
+      margin-left:
+        auto;
     }
 
-    .navigation::-webkit-scrollbar {
-      display: none;
+    .mobile-menu-toggle {
+      display:
+        inline-flex;
     }
 
-    .nav-link {
-      padding: 19px 0;
+    .logo-mark {
+      width:
+        32px;
 
-      white-space: nowrap;
+      height:
+        32px;
 
-      font-size: 13px;
+      border-radius:
+        10px;
+    }
+
+    .logo-text {
+      font-size:
+        15px;
     }
   }
 
   @media (
-    max-width: 480px
+    min-width: 761px
   ) {
-    .site-logo {
-      font-size: 15px;
+    .mobile-navigation {
+      display:
+        none;
     }
+  }
 
-    .navigation {
-      gap: 13px;
+  @media (
+    max-width: 420px
+  ) {
+    .logo-text {
+      display:
+        none;
     }
   }
 </style>

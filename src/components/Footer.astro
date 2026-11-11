@@ -1,17 +1,383 @@
 ---
-import { SITE } from "../config/site";
+import {
+  SITE,
+} from "../config/site";
 
-const year = new Date().getFullYear();
+const year =
+  new Date().getFullYear();
+
+const footerLinks = [
+  {
+    label: "GitHub",
+    href:
+      "https://github.com/jiashuaifu13-blip/fjk-blog",
+    external: true,
+  },
+  {
+    label: "RSS",
+    href: "/rss.xml",
+    external: false,
+  },
+  {
+    label: "关于",
+    href: "/about",
+    external: false,
+  },
+];
 ---
 
 <footer class="site-footer">
-  <div class="footer-container">
-    <p>
-      © {year} {SITE.author}. All rights reserved.
-    </p>
+  <div class="footer-shell">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div
+          class="footer-logo"
+          aria-hidden="true"
+        >
+          F
+        </div>
 
-    <p class="footer-note">
-      Built with Astro.
-    </p>
+        <div>
+          <p class="footer-title">
+            {SITE.title}
+          </p>
+
+          <p class="footer-description">
+            记录技术、项目、学习与生活。
+          </p>
+        </div>
+      </div>
+
+      <nav
+        class="footer-links"
+        aria-label="页脚导航"
+      >
+        {
+          footerLinks.map(
+            (link) => (
+              <a
+                href={link.href}
+                target={
+                  link.external
+                    ? "_blank"
+                    : undefined
+                }
+                rel={
+                  link.external
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+              >
+                {link.label}
+
+                {
+                  link.external && (
+                    <span
+                      aria-hidden="true"
+                    >
+                      ↗
+                    </span>
+                  )
+                }
+              </a>
+            )
+          )
+        }
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © {year} {SITE.author}.
+      </p>
+
+      <p>
+        Built with Astro · Anime Soft Tech
+      </p>
+    </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    width:
+      min(
+        calc(100% - 32px),
+        var(--content-width)
+      );
+
+    margin:
+      96px auto 0;
+
+    padding-bottom:
+      28px;
+  }
+
+  .footer-shell {
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .footer-main {
+    padding:
+      28px;
+
+    display: flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      32px;
+  }
+
+  .footer-brand {
+    display: flex;
+
+    align-items:
+      center;
+
+    gap:
+      14px;
+  }
+
+  .footer-logo {
+    width:
+      42px;
+
+    height:
+      42px;
+
+    display: flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-shrink:
+      0;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      14px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        rgba(
+          255,
+          159,
+          207,
+          0.14
+        )
+      );
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      17px;
+
+    font-weight:
+      800;
+  }
+
+  .footer-title {
+    margin:
+      0;
+
+    color:
+      var(--text-primary);
+
+    font-size:
+      15px;
+
+    font-weight:
+      700;
+  }
+
+  .footer-description {
+    margin:
+      4px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+  }
+
+  .footer-links {
+    display: flex;
+
+    align-items:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    justify-content:
+      flex-end;
+
+    gap:
+      8px;
+  }
+
+  .footer-links a {
+    padding:
+      8px 11px;
+
+    display: inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      5px;
+
+    border-radius:
+      10px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+
+    font-weight:
+      550;
+
+    transition:
+      color
+        var(--transition-fast),
+      background-color
+        var(--transition-fast);
+  }
+
+  .footer-links a:hover {
+    color:
+      var(--color-primary);
+
+    background:
+      var(--color-primary-soft);
+  }
+
+  .footer-links span {
+    font-size:
+      10px;
+  }
+
+  .footer-bottom {
+    padding:
+      15px 28px;
+
+    display: flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      24px;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    background:
+      color-mix(
+        in srgb,
+        var(--color-surface)
+          72%,
+        transparent
+      );
+  }
+
+  .footer-bottom p {
+    margin:
+      0;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      11px;
+
+    letter-spacing:
+      0.02em;
+  }
+
+  @media (
+    max-width: 700px
+  ) {
+    .site-footer {
+      width:
+        calc(
+          100% - 28px
+        );
+
+      margin-top:
+        68px;
+
+      padding-bottom:
+        18px;
+    }
+
+    .footer-main {
+      padding:
+        22px;
+
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+    }
+
+    .footer-links {
+      width:
+        100%;
+
+      justify-content:
+        flex-start;
+    }
+
+    .footer-bottom {
+      padding:
+        15px 22px;
+
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        5px;
+    }
+  }
+</style>
