@@ -10,389 +10,1342 @@ const posts = (await getCollection("posts"))
   );
 
 const latestPosts = posts.slice(0, 4);
+
+const featuredPost =
+  latestPosts[0];
+
+const secondaryPosts =
+  latestPosts.slice(1);
+
+const categoryMap =
+  new Map<string, number>();
+
+for (const post of posts) {
+  categoryMap.set(
+    post.data.category,
+    (categoryMap.get(
+      post.data.category
+    ) ?? 0) + 1
+  );
+}
+
+const categories =
+  Array.from(
+    categoryMap.entries()
+  ).map(
+    ([name, count]) => ({
+      name,
+      count,
+    })
+  );
 ---
 
-<Layout>
+<Layout
+  title="首页"
+  description="FJK 的个人博客，记录技术、项目、学习与生活。"
+>
   <section class="hero">
-    <p class="eyebrow">
-      PERSONAL BLOG
-    </p>
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span
+          class="badge-dot"
+          aria-hidden="true"
+        ></span>
 
-    <h1>
-      你好，我是 FJK。
-    </h1>
+        <span>
+          PERSONAL BLOG
+        </span>
+      </div>
 
-    <p class="description">
-      这里记录我的技术学习、项目实践、工具使用，
-      以及一些值得留下来的想法。
-    </p>
+      <p class="hero-kicker">
+        Hello, I'm FJK
+      </p>
 
-    <div class="actions">
-      <a
-        class="primary"
-        href="/blog"
-      >
-        阅读文章
-      </a>
+      <h1>
+        记录代码，
+        <span>
+          也记录生活。
+        </span>
+      </h1>
 
-      <a
-        class="secondary"
-        href="/about"
-      >
-        关于我
-      </a>
+      <p class="hero-description">
+        这里记录我的技术学习、项目实践、
+        工具使用，以及一些值得长期留下来的想法。
+      </p>
+
+      <div class="hero-actions">
+        <a
+          class="hero-primary"
+          href="/blog"
+        >
+          <span>
+            阅读文章
+          </span>
+
+          <span
+            class="button-arrow"
+            aria-hidden="true"
+          >
+            →
+          </span>
+        </a>
+
+        <a
+          class="hero-secondary"
+          href="/about"
+        >
+          关于我
+        </a>
+      </div>
+
+      <div class="hero-meta">
+        <div>
+          <strong>
+            {posts.length}
+          </strong>
+
+          <span>
+            篇文章
+          </span>
+        </div>
+
+        <div>
+          <strong>
+            {categories.length}
+          </strong>
+
+          <span>
+            个分类
+          </span>
+        </div>
+
+        <div>
+          <strong>
+            Astro
+          </strong>
+
+          <span>
+            Powered
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="hero-visual"
+      aria-hidden="true"
+    >
+      <div class="visual-orbit orbit-one"></div>
+      <div class="visual-orbit orbit-two"></div>
+
+      <div class="visual-star star-one">
+        ✦
+      </div>
+
+      <div class="visual-star star-two">
+        ✧
+      </div>
+
+      <div class="visual-card">
+        <div class="visual-card-top">
+          <span class="visual-status">
+            ONLINE
+          </span>
+
+          <span class="visual-code">
+            2026
+          </span>
+        </div>
+
+        <div class="visual-center">
+          <div class="visual-avatar">
+            <span>
+              F
+            </span>
+          </div>
+
+          <div class="visual-title">
+            <span>
+              FJK
+            </span>
+
+            <small>
+              Anime Soft Tech
+            </small>
+          </div>
+        </div>
+
+        <div class="visual-grid">
+          <div>
+            <span>
+              MODE
+            </span>
+
+            <strong>
+              CREATIVE
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              STACK
+            </span>
+
+            <strong>
+              ASTRO
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              STATUS
+            </span>
+
+            <strong>
+              BUILDING
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              SPACE
+            </span>
+
+            <strong>
+              FJKSP.CN
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="visual-label visual-label-left">
+        BLOG / DEV
+      </div>
+
+      <div class="visual-label visual-label-right">
+        ✦ KEEP CREATING
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-header">
+  <section class="home-section">
+    <div class="section-heading">
       <div>
-        <p class="eyebrow">
-          BLOG
+        <p class="section-eyebrow">
+          LATEST STORIES
         </p>
 
         <h2>
-          最新文章
+          最近更新
         </h2>
 
-        <p class="description">
-          技术笔记、项目记录和学习过程都会整理在这里。
+        <p class="section-description">
+          技术笔记、项目记录和学习过程，
+          都会慢慢整理在这里。
         </p>
       </div>
 
       <a
-        class="view-all"
+        class="section-link"
         href="/blog"
       >
-        查看全部 →
+        全部文章
+
+        <span
+          aria-hidden="true"
+        >
+          →
+        </span>
       </a>
     </div>
 
-    <div class="post-grid">
-      {
-        latestPosts.map((post) => (
-          <article class="post-card">
-            <a href={`/blog/${post.id}/`}>
+    {
+      featuredPost && (
+        <article class="featured-post">
+          <a
+            class="featured-post-link"
+            href={`/blog/${featuredPost.id}/`}
+          >
+            <div class="featured-cover">
               {
-                post.data.cover && (
-                  <div class="cover-wrapper">
-                    <img
-                      class="post-cover"
-                      src={post.data.cover}
-                      alt={
-                        post.data.coverAlt ??
-                        post.data.title
-                      }
-                      loading="lazy"
-                    />
+                featuredPost.data.cover ? (
+                  <img
+                    src={featuredPost.data.cover}
+                    alt={
+                      featuredPost.data.coverAlt ??
+                      featuredPost.data.title
+                    }
+                  />
+                ) : (
+                  <div class="cover-placeholder">
+                    <span>
+                      FJK
+                    </span>
                   </div>
                 )
               }
 
-              <div class="post-content">
-                <div class="post-meta">
-                  <time
-                    datetime={
-                      post.data.date.toISOString()
-                    }
-                  >
+              <div class="featured-cover-badge">
+                FEATURED
+              </div>
+            </div>
+
+            <div class="featured-content">
+              <div class="post-meta">
+                <time
+                  datetime={
+                    featuredPost.data.date.toISOString()
+                  }
+                >
+                  {
+                    featuredPost.data.date.toLocaleDateString(
+                      "zh-CN"
+                    )
+                  }
+                </time>
+
+                <span class="meta-dot">
+                  ·
+                </span>
+
+                <span>
+                  {featuredPost.data.category}
+                </span>
+              </div>
+
+              <h3>
+                {featuredPost.data.title}
+              </h3>
+
+              <p>
+                {featuredPost.data.description}
+              </p>
+
+              {
+                featuredPost.data.tags.length >
+                  0 && (
+                  <div class="tag-list">
                     {
-                      post.data.date.toLocaleDateString(
-                        "zh-CN"
-                      )
-                    }
-                  </time>
-
-                  <span>
-                    {post.data.category}
-                  </span>
-                </div>
-
-                <h3>
-                  {post.data.title}
-                </h3>
-
-                <p>
-                  {post.data.description}
-                </p>
-
-                {
-                  post.data.tags.length > 0 && (
-                    <div class="post-tags">
-                      {
-                        post.data.tags
-                          .slice(0, 3)
-                          .map((tag) => (
+                      featuredPost.data.tags
+                        .slice(0, 4)
+                        .map(
+                          (tag) => (
                             <span>
                               #{tag}
                             </span>
-                          ))
+                          )
+                        )
+                    }
+                  </div>
+                )
+              }
+
+              <div class="featured-read">
+                <span>
+                  阅读文章
+                </span>
+
+                <span
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </div>
+            </div>
+          </a>
+        </article>
+      )
+    }
+
+    {
+      secondaryPosts.length > 0 && (
+        <div class="post-grid">
+          {
+            secondaryPosts.map(
+              (post) => (
+                <article class="post-card">
+                  <a
+                    href={`/blog/${post.id}/`}
+                  >
+                    {
+                      post.data.cover && (
+                        <div class="post-cover-wrapper">
+                          <img
+                            class="post-cover"
+                            src={post.data.cover}
+                            alt={
+                              post.data.coverAlt ??
+                              post.data.title
+                            }
+                            loading="lazy"
+                          />
+                        </div>
+                      )
+                    }
+
+                    <div class="post-card-content">
+                      <div class="post-meta">
+                        <time
+                          datetime={
+                            post.data.date.toISOString()
+                          }
+                        >
+                          {
+                            post.data.date.toLocaleDateString(
+                              "zh-CN"
+                            )
+                          }
+                        </time>
+
+                        <span class="meta-dot">
+                          ·
+                        </span>
+
+                        <span>
+                          {post.data.category}
+                        </span>
+                      </div>
+
+                      <h3>
+                        {post.data.title}
+                      </h3>
+
+                      <p>
+                        {post.data.description}
+                      </p>
+
+                      {
+                        post.data.tags.length >
+                          0 && (
+                          <div class="tag-list">
+                            {
+                              post.data.tags
+                                .slice(0, 3)
+                                .map(
+                                  (tag) => (
+                                    <span>
+                                      #{tag}
+                                    </span>
+                                  )
+                                )
+                            }
+                          </div>
+                        )
                       }
                     </div>
-                  )
-                }
+                  </a>
+                </article>
+              )
+            )
+          }
+        </div>
+      )
+    }
+  </section>
+
+  <section class="home-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          EXPLORE
+        </p>
+
+        <h2>
+          分类探索
+        </h2>
+
+        <p class="section-description">
+          从不同方向找到感兴趣的内容。
+        </p>
+      </div>
+    </div>
+
+    <div class="category-grid">
+      {
+        categories.map(
+          (category, index) => (
+            <a
+              class="category-card"
+              href={`/blog/category/${encodeURIComponent(
+                category.name
+              )}/`}
+            >
+              <div class="category-index">
+                {String(
+                  index + 1
+                ).padStart(
+                  2,
+                  "0"
+                )}
               </div>
+
+              <div>
+                <h3>
+                  {category.name}
+                </h3>
+
+                <p>
+                  {category.count}
+                  {" "}
+                  篇文章
+                </p>
+              </div>
+
+              <span
+                class="category-arrow"
+                aria-hidden="true"
+              >
+                ↗
+              </span>
             </a>
-          </article>
-        ))
+          )
+        )
       }
     </div>
   </section>
 
-  <section class="section projects">
-    <p class="eyebrow">
-      PROJECTS
-    </p>
+  <section class="home-section">
+    <div class="project-showcase">
+      <div class="project-copy">
+        <p class="section-eyebrow">
+          FEATURED PROJECT
+        </p>
 
-    <h2>
-      项目
-    </h2>
-
-    <p class="description">
-      一些我正在开发或者已经完成的项目。
-    </p>
-
-    <a
-      class="project-card"
-      href="/projects"
-    >
-      <div>
-        <small>
-          Featured Project
-        </small>
-
-        <h3>
-          Personal Blog
-        </h3>
+        <h2>
+          FJK Blog
+        </h2>
 
         <p>
-          使用 Astro、TypeScript 和 Tailwind CSS
-          构建的个人博客。
+          从零开始构建并持续维护的个人博客。
+          使用 Astro、TypeScript 和 Tailwind CSS，
+          记录技术、项目、学习与生活。
         </p>
+
+        <div class="project-stack">
+          <span>
+            Astro 7
+          </span>
+
+          <span>
+            TypeScript
+          </span>
+
+          <span>
+            Tailwind CSS 4
+          </span>
+
+          <span>
+            Nginx
+          </span>
+        </div>
+
+        <div class="project-actions">
+          <a
+            class="project-primary"
+            href="/projects"
+          >
+            查看项目
+          </a>
+
+          <a
+            class="project-secondary"
+            href="https://github.com/jiashuaifu13-blip/fjk-blog"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub ↗
+          </a>
+        </div>
       </div>
 
-      <span>
-        →
-      </span>
-    </a>
+      <div
+        class="project-panel"
+        aria-hidden="true"
+      >
+        <div class="project-window">
+          <div class="project-window-bar">
+            <div class="window-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <span>
+              fjk-blog
+            </span>
+          </div>
+
+          <div class="project-code">
+            <p>
+              <span class="code-muted">
+                $
+              </span>
+              npm run build
+            </p>
+
+            <p class="code-success">
+              ✓ Astro static build
+            </p>
+
+            <p class="code-success">
+              ✓ RSS / Sitemap
+            </p>
+
+            <p class="code-success">
+              ✓ Anime Soft Tech
+            </p>
+
+            <p>
+              <span class="code-accent">
+                https://
+              </span>
+              fjksp.cn
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </Layout>
 
 <style>
   .hero {
-    min-height: 520px;
+    min-height: 690px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding:
+      72px 0 88px;
 
-    border-bottom: 1px solid var(--border);
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1.05fr)
+      minmax(360px, 0.95fr);
+
+    align-items:
+      center;
+
+    gap:
+      72px;
+
+    border-bottom:
+      1px solid
+      var(--border);
   }
 
-  .eyebrow {
-    margin: 0 0 14px;
+  .hero-copy {
+    position:
+      relative;
 
-    color: var(--text-secondary);
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 0.14em;
+    z-index:
+      2;
   }
 
-  .hero h1 {
-    margin: 0;
+  .hero-badge {
+    width:
+      fit-content;
 
-    font-size: clamp(
-      48px,
-      8vw,
-      82px
-    );
+    padding:
+      7px 11px;
 
-    line-height: 1;
+    display:
+      inline-flex;
 
-    letter-spacing: -0.055em;
-  }
+    align-items:
+      center;
 
-  .description {
-    max-width: 620px;
+    gap:
+      8px;
 
-    margin: 20px 0 0;
-
-    color: var(--text-secondary);
-
-    line-height: 1.8;
-  }
-
-  .hero .description {
-    margin-top: 28px;
-
-    font-size: 18px;
-  }
-
-  .actions {
-    margin-top: 34px;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 12px;
-  }
-
-  .primary,
-  .secondary {
-    min-height: 46px;
-
-    padding: 0 20px;
-
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  /*
-   * 主按钮
-   *
-   * 不再使用固定黑底/白字。
-   * 使用当前主题文字颜色生成透明背景，
-   * 所以浅色和暗色模式都会自动适配。
-   */
-  .primary {
-    border: 1px solid
-      var(--border-strong);
-
-    background:
-      color-mix(
-        in srgb,
-        var(--text-primary) 8%,
-        transparent
-      );
-
-    color:
-      var(--text-primary);
-
-    box-shadow:
-      0 1px 2px
-      color-mix(
-        in srgb,
-        var(--text-primary) 8%,
-        transparent
-      );
-  }
-
-  .primary:hover {
-    border-color:
-      var(--text-primary);
-
-    background:
-      var(--text-primary);
-
-    color:
-      var(--background);
-
-    transform:
-      translateY(-2px);
-
-    box-shadow:
-      0 8px 24px
-      color-mix(
-        in srgb,
-        var(--text-primary) 14%,
-        transparent
-      );
-  }
-
-  /*
-   * 次级按钮保持更轻，
-   * 与主按钮形成层级区别。
-   */
-  .secondary {
     border:
-      1px solid var(--border);
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
 
     background:
-      transparent;
-
-    color:
-      var(--text-primary);
-  }
-
-  .secondary:hover {
-    border-color:
-      var(--border-strong);
-
-    background:
-      var(--surface-hover);
-
-    transform:
-      translateY(-2px);
-  }
-
-  .primary:active,
-  .secondary:active {
-    transform:
-      translateY(0)
-      scale(0.97);
-  }
-
-  .section {
-    padding: 72px 0;
-  }
-
-  .section-header {
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content:
-      space-between;
-
-    gap: 32px;
-  }
-
-  .section h2 {
-    margin: 0;
-
-    font-size: 28px;
-
-    letter-spacing:
-      -0.03em;
-  }
-
-  .view-all {
-    flex-shrink: 0;
+      var(--color-surface);
 
     color:
       var(--text-secondary);
 
-    font-size: 14px;
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      10px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.14em;
+  }
+
+  .badge-dot {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-cyan)
+          15%,
+        transparent
+      );
+  }
+
+  .hero-kicker {
+    margin:
+      24px 0 0;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      14px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.04em;
+  }
+
+  .hero h1 {
+    max-width:
+      700px;
+
+    margin:
+      14px 0 0;
+
+    font-size:
+      clamp(
+        52px,
+        7vw,
+        84px
+      );
+
+    line-height:
+      1.03;
+
+    letter-spacing:
+      -0.06em;
+  }
+
+  .hero h1 span {
+    display:
+      block;
+
+    background:
+      linear-gradient(
+        100deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color:
+      transparent;
+  }
+
+  .hero-description {
+    max-width:
+      620px;
+
+    margin:
+      26px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      17px;
+
+    line-height:
+      1.9;
+  }
+
+  .hero-actions {
+    margin-top:
+      34px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      12px;
+  }
+
+  .hero-primary,
+  .hero-secondary {
+    min-height:
+      48px;
+
+    padding:
+      0 20px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      12px;
+
+    border-radius:
+      14px;
+
+    font-size:
+      14px;
+
+    font-weight:
+      650;
 
     transition:
-      color 0.2s ease;
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      background-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
   }
 
-  .view-all:hover {
+  .hero-primary {
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          55%,
+        transparent
+      );
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary)
+      );
+
+    color:
+      #ffffff;
+
+    box-shadow:
+      0 12px 28px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+  }
+
+  .hero-primary:hover {
+    color:
+      #ffffff;
+
+    transform:
+      translateY(-3px);
+
+    box-shadow:
+      0 18px 36px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          32%,
+        transparent
+      );
+  }
+
+  .button-arrow {
+    transition:
+      transform
+        var(--transition-fast);
+  }
+
+  .hero-primary:hover
+  .button-arrow {
+    transform:
+      translateX(3px);
+  }
+
+  .hero-secondary {
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      var(--color-surface);
+
     color:
       var(--text-primary);
+
+    box-shadow:
+      var(--shadow-sm);
   }
 
-  .post-grid {
-    margin-top: 36px;
+  .hero-secondary:hover {
+    color:
+      var(--color-primary);
 
-    display: grid;
+    border-color:
+      var(--border-strong);
+
+    background:
+      var(--color-surface-elevated);
+
+    transform:
+      translateY(-3px);
+  }
+
+  .hero-meta {
+    margin-top:
+      42px;
+
+    padding-top:
+      26px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      34px;
+
+    border-top:
+      1px solid
+      var(--border);
+  }
+
+  .hero-meta div {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      3px;
+  }
+
+  .hero-meta strong {
+    font-size:
+      15px;
+
+    font-weight:
+      700;
+  }
+
+  .hero-meta span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      11px;
+
+    text-transform:
+      uppercase;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .hero-visual {
+    position:
+      relative;
+
+    min-height:
+      470px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+  }
+
+  .visual-card {
+    position:
+      relative;
+
+    z-index:
+      3;
+
+    width:
+      min(
+        100%,
+        420px
+      );
+
+    padding:
+      24px;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--glass-border);
+
+    border-radius:
+      28px;
+
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(
+          in srgb,
+          var(--glass-background)
+            92%,
+          var(--color-primary)
+            8%
+        ),
+        var(--glass-background)
+      );
+
+    box-shadow:
+      0 30px 80px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          16%,
+        transparent
+      );
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    transform:
+      rotate(-2deg);
+  }
+
+  .visual-card::before {
+    content: "";
+
+    position:
+      absolute;
+
+    width:
+      230px;
+
+    height:
+      230px;
+
+    top:
+      -110px;
+
+    right:
+      -80px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        color-mix(
+          in srgb,
+          var(--color-pink)
+            32%,
+          transparent
+        ),
+        transparent 68%
+      );
+  }
+
+  .visual-card::after {
+    content: "";
+
+    position:
+      absolute;
+
+    width:
+      240px;
+
+    height:
+      240px;
+
+    bottom:
+      -130px;
+
+    left:
+      -100px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        color-mix(
+          in srgb,
+          var(--color-cyan)
+            28%,
+          transparent
+        ),
+        transparent 68%
+      );
+  }
+
+  .visual-card-top {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+  }
+
+  .visual-status {
+    padding:
+      5px 8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .visual-code {
+    color:
+      var(--text-muted);
+
+    font-size:
+      10px;
+
+    letter-spacing:
+      0.1em;
+  }
+
+  .visual-center {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    min-height:
+      210px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+
+    gap:
+      18px;
+  }
+
+  .visual-avatar {
+    width:
+      96px;
+
+    height:
+      96px;
+
+    padding:
+      5px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      30px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink)
+            18%,
+          transparent
+        )
+      );
+
+    box-shadow:
+      inset
+      0 1px 0
+      rgba(
+        255,
+        255,
+        255,
+        0.3
+      );
+  }
+
+  .visual-avatar span {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border-radius:
+      24px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    color:
+      #ffffff;
+
+    font-size:
+      38px;
+
+    font-weight:
+      800;
+
+    box-shadow:
+      0 14px 30px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          28%,
+        transparent
+      );
+  }
+
+  .visual-title {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-direction:
+      column;
+
+    gap:
+      4px;
+  }
+
+  .visual-title span {
+    font-size:
+      26px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      -0.04em;
+  }
+
+  .visual-title small {
+    color:
+      var(--text-secondary);
+
+    font-size:
+      10px;
+
+    letter-spacing:
+      0.12em;
+
+    text-transform:
+      uppercase;
+  }
+
+  .visual-grid {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      grid;
 
     grid-template-columns:
       repeat(
@@ -400,242 +1353,1535 @@ const latestPosts = posts.slice(0, 4);
         minmax(0, 1fr)
       );
 
-    gap: 20px;
+    gap:
+      8px;
   }
 
-  .post-card {
-    overflow: hidden;
+  .visual-grid div {
+    padding:
+      12px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      5px;
 
     border:
-      1px solid var(--border);
+      1px solid
+      var(--border);
 
-    border-radius: 14px;
+    border-radius:
+      13px;
 
     background:
-      var(--background);
-
-    transition:
-      transform 0.2s ease,
-      border-color 0.2s ease,
-      background-color 0.2s ease,
-      box-shadow 0.2s ease;
+      color-mix(
+        in srgb,
+        var(--color-surface)
+          72%,
+        transparent
+      );
   }
 
-  .post-card:hover {
+  .visual-grid span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .visual-grid strong {
+    color:
+      var(--text-primary);
+
+    font-size:
+      10px;
+
+    letter-spacing:
+      0.04em;
+  }
+
+  .visual-orbit {
+    position:
+      absolute;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+  }
+
+  .orbit-one {
+    width:
+      420px;
+
+    height:
+      420px;
+
     transform:
-      translateY(-3px);
+      rotate(18deg);
+  }
+
+  .orbit-two {
+    width:
+      330px;
+
+    height:
+      330px;
+
+    transform:
+      rotate(-28deg);
+  }
+
+  .visual-star {
+    position:
+      absolute;
+
+    z-index:
+      4;
+
+    color:
+      var(--color-primary);
+
+    text-shadow:
+      0 0 20px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          60%,
+        transparent
+      );
+  }
+
+  .star-one {
+    top:
+      46px;
+
+    right:
+      20px;
+
+    font-size:
+      26px;
+  }
+
+  .star-two {
+    bottom:
+      50px;
+
+    left:
+      22px;
+
+    color:
+      var(--color-pink);
+
+    font-size:
+      20px;
+  }
+
+  .visual-label {
+    position:
+      absolute;
+
+    z-index:
+      5;
+
+    padding:
+      8px 10px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      10px;
+
+    background:
+      var(--color-surface-elevated);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      9px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .visual-label-left {
+    left:
+      6px;
+
+    top:
+      110px;
+
+    transform:
+      rotate(-7deg);
+  }
+
+  .visual-label-right {
+    right:
+      0;
+
+    bottom:
+      100px;
+
+    transform:
+      rotate(6deg);
+  }
+
+  .home-section {
+    padding:
+      88px 0;
+
+    border-bottom:
+      1px solid
+      var(--border);
+  }
+
+  .home-section:last-child {
+    border-bottom:
+      0;
+  }
+
+  .section-heading {
+    display:
+      flex;
+
+    align-items:
+      flex-end;
+
+    justify-content:
+      space-between;
+
+    gap:
+      32px;
+  }
+
+  .section-eyebrow {
+    margin:
+      0 0 10px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.16em;
+  }
+
+  .section-heading h2,
+  .project-copy h2 {
+    margin:
+      0;
+
+    font-size:
+      clamp(
+        30px,
+        4vw,
+        42px
+      );
+
+    letter-spacing:
+      -0.045em;
+  }
+
+  .section-description {
+    max-width:
+      580px;
+
+    margin:
+      12px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    line-height:
+      1.8;
+  }
+
+  .section-link {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    flex-shrink:
+      0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      13px;
+
+    font-weight:
+      600;
+  }
+
+  .section-link span {
+    transition:
+      transform
+        var(--transition-fast);
+  }
+
+  .section-link:hover span {
+    transform:
+      translateX(3px);
+  }
+
+  .featured-post {
+    margin-top:
+      38px;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-card);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .featured-post:hover {
+    transform:
+      translateY(-4px);
 
     border-color:
       var(--border-strong);
 
     box-shadow:
-      0 10px 30px
-      color-mix(
-        in srgb,
-        var(--text-primary) 7%,
-        transparent
+      var(--shadow-hover);
+  }
+
+  .featured-post-link {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1.1fr)
+      minmax(320px, 0.9fr);
+
+    min-height:
+      390px;
+  }
+
+  .featured-cover {
+    position:
+      relative;
+
+    min-height:
+      100%;
+
+    overflow:
+      hidden;
+
+    background:
+      var(--color-primary-soft);
+  }
+
+  .featured-cover img {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    min-height:
+      390px;
+
+    object-fit:
+      cover;
+
+    transition:
+      transform
+        var(--transition-slow);
+  }
+
+  .featured-post:hover
+  .featured-cover img {
+    transform:
+      scale(1.025);
+  }
+
+  .featured-cover::after {
+    content: "";
+
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background:
+      linear-gradient(
+        180deg,
+        transparent 55%,
+        rgba(
+          8,
+          10,
+          20,
+          0.18
+        )
+      );
+
+    pointer-events:
+      none;
+  }
+
+  .featured-cover-badge {
+    position:
+      absolute;
+
+    z-index:
+      2;
+
+    top:
+      18px;
+
+    left:
+      18px;
+
+    padding:
+      7px 9px;
+
+    border:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.28
+      );
+
+    border-radius:
+      999px;
+
+    background:
+      rgba(
+        17,
+        20,
+        34,
+        0.62
+      );
+
+    color:
+      #ffffff;
+
+    backdrop-filter:
+      blur(10px);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .cover-placeholder {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    min-height:
+      390px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink)
+            18%,
+          transparent
+        )
       );
   }
 
-  .post-card > a {
-    height: 100%;
+  .cover-placeholder span {
+    color:
+      var(--color-primary);
 
-    display: flex;
+    font-size:
+      52px;
 
-    flex-direction: column;
+    font-weight:
+      800;
   }
 
-  .cover-wrapper {
-    width: 100%;
+  .featured-content {
+    padding:
+      42px;
 
-    aspect-ratio: 16 / 9;
+    display:
+      flex;
 
-    overflow: hidden;
+    flex-direction:
+      column;
+
+    justify-content:
+      center;
+  }
+
+  .post-meta {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      7px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      11px;
+  }
+
+  .meta-dot {
+    color:
+      var(--border-strong);
+  }
+
+  .featured-content h3 {
+    margin:
+      16px 0 12px;
+
+    font-size:
+      clamp(
+        28px,
+        3vw,
+        38px
+      );
+
+    line-height:
+      1.25;
+
+    letter-spacing:
+      -0.04em;
+  }
+
+  .featured-content > p {
+    margin:
+      0;
+
+    color:
+      var(--text-secondary);
+
+    line-height:
+      1.8;
+  }
+
+  .tag-list {
+    margin-top:
+      22px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      7px;
+  }
+
+  .tag-list span {
+    padding:
+      5px 8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
 
     background:
-      var(--surface);
+      var(--color-primary-soft);
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      600;
+  }
+
+  .featured-read {
+    margin-top:
+      30px;
+
+    padding-top:
+      20px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    border-top:
+      1px solid
+      var(--border);
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+  }
+
+  .post-grid {
+    margin-top:
+      20px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      18px;
+  }
+
+  .post-card {
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
+  }
+
+  .post-card:hover {
+    transform:
+      translateY(-4px);
+
+    border-color:
+      var(--border-strong);
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .post-card > a {
+    height:
+      100%;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+  }
+
+  .post-cover-wrapper {
+    width:
+      100%;
+
+    aspect-ratio:
+      16 / 9;
+
+    overflow:
+      hidden;
+
+    background:
+      var(--color-primary-soft);
   }
 
   .post-cover {
-    width: 100%;
-    height: 100%;
+    width:
+      100%;
 
-    display: block;
+    height:
+      100%;
 
-    object-fit: cover;
+    object-fit:
+      cover;
 
     transition:
-      transform 0.35s ease;
+      transform
+        var(--transition-slow);
   }
 
   .post-card:hover
   .post-cover {
     transform:
-      scale(1.025);
+      scale(1.035);
   }
 
-  .post-content {
-    flex: 1;
+  .post-card-content {
+    flex:
+      1;
 
-    padding: 24px;
+    padding:
+      20px;
 
-    display: flex;
+    display:
+      flex;
 
-    flex-direction: column;
-  }
-
-  .post-meta {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-
-    color:
-      var(--text-secondary);
-
-    font-size: 12px;
+    flex-direction:
+      column;
   }
 
   .post-card h3 {
     margin:
-      12px 0 8px;
+      11px 0 8px;
 
-    font-size: 21px;
+    font-size:
+      18px;
 
-    line-height: 1.4;
+    line-height:
+      1.4;
 
     letter-spacing:
       -0.025em;
   }
 
   .post-card p {
-    margin: 0;
+    margin:
+      0;
 
     color:
       var(--text-secondary);
 
-    line-height: 1.7;
+    font-size:
+      13px;
+
+    line-height:
+      1.75;
   }
 
-  .post-tags {
-    margin-top: auto;
+  .post-card .tag-list {
+    margin-top:
+      auto;
 
-    padding-top: 20px;
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    color:
-      var(--text-secondary);
-
-    font-size: 12px;
+    padding-top:
+      18px;
   }
 
-  .projects {
-    border-top:
-      1px solid var(--border);
+  .category-grid {
+    margin-top:
+      34px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      14px;
   }
 
-  .project-card {
-    margin-top: 36px;
+  .category-card {
+    min-height:
+      100px;
 
-    padding: 28px;
+    padding:
+      20px;
 
-    display: flex;
+    display:
+      grid;
 
-    align-items: center;
+    grid-template-columns:
+      auto 1fr auto;
 
-    justify-content:
-      space-between;
+    align-items:
+      center;
 
-    gap: 24px;
+    gap:
+      18px;
 
     border:
-      1px solid var(--border);
+      1px solid
+      var(--border);
 
-    border-radius: 12px;
+    border-radius:
+      var(--radius-lg);
 
     background:
-      var(--surface);
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
 
     transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      transform 0.2s ease;
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      background-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
   }
 
-  .project-card:hover {
+  .category-card:hover {
+    transform:
+      translateY(-3px);
+
     border-color:
       var(--border-strong);
 
     background:
-      var(--surface-hover);
+      var(--color-surface-elevated);
 
-    transform:
-      translateY(-2px);
+    box-shadow:
+      var(--shadow-card);
   }
 
-  .project-card small,
-  .project-card p {
+  .category-index {
+    width:
+      40px;
+
+    height:
+      40px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      12px;
+
+    background:
+      var(--color-primary-soft);
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.08em;
+  }
+
+  .category-card h3 {
+    margin:
+      0;
+
+    font-size:
+      16px;
+
+    letter-spacing:
+      -0.02em;
+  }
+
+  .category-card p {
+    margin:
+      4px 0 0;
+
     color:
       var(--text-secondary);
+
+    font-size:
+      11px;
   }
 
-  .project-card h3 {
-    margin: 8px 0;
+  .category-arrow {
+    color:
+      var(--text-muted);
 
-    font-size: 24px;
+    transition:
+      transform
+        var(--transition-fast),
+      color
+        var(--transition-fast);
   }
 
-  .project-card p {
-    margin: 0;
+  .category-card:hover
+  .category-arrow {
+    color:
+      var(--color-primary);
+
+    transform:
+      translate(
+        2px,
+        -2px
+      );
   }
 
-  .project-card > span {
-    font-size: 26px;
+  .project-showcase {
+    padding:
+      42px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(360px, 0.9fr);
+
+    align-items:
+      center;
+
+    gap:
+      56px;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-surface),
+        color-mix(
+          in srgb,
+          var(--color-primary-soft)
+            50%,
+          var(--color-surface)
+        )
+      );
+
+    box-shadow:
+      var(--shadow-card);
+  }
+
+  .project-copy > p {
+    max-width:
+      620px;
+
+    margin:
+      18px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    line-height:
+      1.85;
+  }
+
+  .project-stack {
+    margin-top:
+      24px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      8px;
+  }
+
+  .project-stack span {
+    padding:
+      6px 9px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      10px;
+
+    font-weight:
+      600;
+  }
+
+  .project-actions {
+    margin-top:
+      28px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .project-primary,
+  .project-secondary {
+    min-height:
+      43px;
+
+    padding:
+      0 16px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border-radius:
+      12px;
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+  }
+
+  .project-primary {
+    background:
+      var(--text-primary);
+
+    color:
+      var(--background);
+  }
+
+  .project-primary:hover {
+    color:
+      var(--background);
+
+    opacity:
+      0.86;
+  }
+
+  .project-secondary {
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-primary);
+  }
+
+  .project-secondary:hover {
+    color:
+      var(--color-primary);
+  }
+
+  .project-panel {
+    position:
+      relative;
+  }
+
+  .project-panel::before {
+    content: "";
+
+    position:
+      absolute;
+
+    inset:
+      -30px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        color-mix(
+          in srgb,
+          var(--color-primary)
+            22%,
+          transparent
+        ),
+        transparent 68%
+      );
+
+    filter:
+      blur(20px);
+  }
+
+  .project-window {
+    position:
+      relative;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      18px;
+
+    background:
+      #10131f;
+
+    color:
+      #e9ecff;
+
+    box-shadow:
+      0 26px 60px
+      rgba(
+        0,
+        0,
+        0,
+        0.28
+      );
+
+    transform:
+      rotate(2deg);
+  }
+
+  .project-window-bar {
+    min-height:
+      44px;
+
+    padding:
+      0 14px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    border-bottom:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.08
+      );
+
+    color:
+      #777f9c;
+
+    font-size:
+      9px;
+  }
+
+  .window-dots {
+    display:
+      flex;
+
+    gap:
+      5px;
+  }
+
+  .window-dots span {
+    width:
+      7px;
+
+    height:
+      7px;
+
+    border-radius:
+      50%;
+
+    background:
+      #5d647d;
+  }
+
+  .window-dots span:first-child {
+    background:
+      #ff8fab;
+  }
+
+  .window-dots span:nth-child(2) {
+    background:
+      #f6c177;
+  }
+
+  .window-dots span:last-child {
+    background:
+      #7fd8be;
+  }
+
+  .project-code {
+    padding:
+      28px;
+
+    font-family:
+      "SFMono-Regular",
+      Consolas,
+      "Liberation Mono",
+      monospace;
+
+    font-size:
+      12px;
+
+    line-height:
+      1.8;
+  }
+
+  .project-code p {
+    margin:
+      0 0 7px;
+  }
+
+  .code-muted {
+    color:
+      #68708b;
+  }
+
+  .code-success {
+    color:
+      #8bd5b5;
+  }
+
+  .code-accent {
+    color:
+      #a9b4ff;
+  }
+
+  @media (
+    max-width: 980px
+  ) {
+    .hero {
+      grid-template-columns:
+        1fr;
+
+      gap:
+        30px;
+    }
+
+    .hero-copy {
+      max-width:
+        760px;
+    }
+
+    .hero-visual {
+      min-height:
+        420px;
+    }
+
+    .featured-post-link {
+      grid-template-columns:
+        1fr;
+    }
+
+    .featured-cover img,
+    .cover-placeholder {
+      min-height:
+        auto;
+    }
+
+    .featured-cover {
+      aspect-ratio:
+        16 / 9;
+    }
+
+    .post-grid {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+    }
+
+    .project-showcase {
+      grid-template-columns:
+        1fr;
+
+      gap:
+        40px;
+    }
   }
 
   @media (
     max-width: 700px
   ) {
     .hero {
-      min-height: 440px;
+      min-height:
+        auto;
+
+      padding:
+        58px 0 62px;
+
+      gap:
+        24px;
     }
 
     .hero h1 {
-      font-size: clamp(
-        44px,
-        14vw,
-        64px
-      );
+      font-size:
+        clamp(
+          46px,
+          14vw,
+          64px
+        );
     }
 
-    .section {
-      padding: 52px 0;
+    .hero-description {
+      font-size:
+        15px;
     }
 
-    .section-header {
+    .hero-meta {
+      gap:
+        24px;
+    }
+
+    .hero-visual {
+      min-height:
+        390px;
+    }
+
+    .visual-card {
+      width:
+        min(
+          calc(
+            100% - 28px
+          ),
+          390px
+        );
+
+      padding:
+        20px;
+
+      border-radius:
+        24px;
+    }
+
+    .orbit-one {
+      width:
+        350px;
+
+      height:
+        350px;
+    }
+
+    .orbit-two {
+      width:
+        285px;
+
+      height:
+        285px;
+    }
+
+    .visual-label-left {
+      left:
+        0;
+    }
+
+    .visual-label-right {
+      right:
+        0;
+    }
+
+    .home-section {
+      padding:
+        62px 0;
+    }
+
+    .section-heading {
       align-items:
         flex-start;
 
       flex-direction:
         column;
 
-      gap: 18px;
+      gap:
+        18px;
     }
 
-    .post-grid {
+    .featured-content {
+      padding:
+        26px;
+    }
+
+    .post-grid,
+    .category-grid {
       grid-template-columns:
         1fr;
     }
 
-    .cover-wrapper {
-      aspect-ratio:
-        16 / 9;
+    .project-showcase {
+      padding:
+        26px;
+
+      border-radius:
+        22px;
+    }
+
+    .project-window {
+      transform:
+        none;
+    }
+  }
+
+  @media (
+    max-width: 420px
+  ) {
+    .hero-actions {
+      align-items:
+        stretch;
+
+      flex-direction:
+        column;
+    }
+
+    .hero-primary,
+    .hero-secondary {
+      width:
+        100%;
+    }
+
+    .hero-meta {
+      justify-content:
+        space-between;
+
+      gap:
+        12px;
+    }
+
+    .visual-grid {
+      gap:
+        6px;
+    }
+
+    .visual-grid div {
+      padding:
+        10px;
+    }
+
+    .visual-label {
+      display:
+        none;
+    }
+
+    .featured-content {
+      padding:
+        22px;
+    }
+
+    .category-card {
+      padding:
+        16px;
+    }
+
+    .project-showcase {
+      padding:
+        22px;
     }
   }
 </style>
