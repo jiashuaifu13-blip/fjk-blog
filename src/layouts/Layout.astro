@@ -88,7 +88,7 @@ const rssURL =
 
     <meta
       name="viewport"
-      content="width=device-width"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
     <meta
@@ -242,6 +242,66 @@ const rssURL =
     <title>
       {pageTitle}
     </title>
+
+    <!--
+      Cross-platform mobile fallback.
+
+      Standard browsers should enter the mobile layout
+      through CSS media queries.
+
+      Some embedded / system browsers expose an
+      unexpectedly wide layout viewport. In that case
+      we additionally detect a touch-oriented device
+      using the physical screen's short side.
+    -->
+    <script is:inline>
+      (() => {
+        try {
+          const screenWidth =
+            window.screen?.width ?? 0;
+
+          const screenHeight =
+            window.screen?.height ?? 0;
+
+          const shortSide =
+            screenWidth > 0 &&
+            screenHeight > 0
+              ? Math.min(
+                  screenWidth,
+                  screenHeight
+                )
+              : 9999;
+
+          const hasTouch =
+            navigator.maxTouchPoints > 0 ||
+            "ontouchstart" in window;
+
+          const normalMobileViewport =
+            window.matchMedia(
+              "(max-width: 760px)"
+            ).matches;
+
+          const touchMobileDevice =
+            hasTouch &&
+            shortSide <= 900;
+
+          const useMobileLayout =
+            normalMobileViewport ||
+            touchMobileDevice;
+
+          document.documentElement
+            .classList.toggle(
+              "mobile-device",
+              useMobileLayout
+            );
+        } catch {
+          /*
+           * CSS responsive rules remain
+           * the normal fallback.
+           */
+        }
+      })();
+    </script>
 
     <script is:inline>
       (() => {

@@ -1,46 +1,183 @@
 ---
-import Layout
-  from "../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
-  title="页面不存在"
+  title="页面未找到"
   description="你访问的页面不存在。"
   noindex={true}
 >
   <section class="error-page">
-    <div class="error-content">
-      <p class="error-code">
-        404
+    <div class="error-copy">
+      <div class="error-badge">
+        <span
+          class="badge-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span>
+          PAGE NOT FOUND
+        </span>
+      </div>
+
+      <p class="error-kicker">
+        Lost in the blog
       </p>
 
       <h1>
-        页面不存在
+        404
       </h1>
 
-      <p
-        class="error-description"
-      >
-        你访问的页面可能已经被移动、
-        删除，或者地址输入有误。
+      <h2>
+        好像走错地方了。
+      </h2>
+
+      <p class="error-description">
+        这个页面不存在，可能已经被移动、删除，
+        或者地址输入有误。
+        你可以返回首页，或者继续浏览文章。
       </p>
 
-      <div
-        class="error-actions"
-      >
+      <div class="error-actions">
         <a
-          class="primary-button"
+          class="primary-action"
           href="/"
         >
           返回首页
+
+          <span
+            aria-hidden="true"
+          >
+            →
+          </span>
         </a>
 
         <a
-          class="secondary-button"
+          class="secondary-action"
           href="/blog"
         >
           浏览文章
         </a>
+      </div>
+
+      <div class="error-hints">
+        <div>
+          <span>
+            HOME
+          </span>
+
+          <strong>
+            /
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            BLOG
+          </span>
+
+          <strong>
+            /blog
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            STATUS
+          </span>
+
+          <strong>
+            LOST
+          </strong>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="error-visual"
+      aria-hidden="true"
+    >
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+
+      <div class="visual-card">
+        <div class="visual-top">
+          <span>
+            ERROR
+          </span>
+
+          <span>
+            404
+          </span>
+        </div>
+
+        <div class="visual-main">
+          <div class="visual-symbol">
+            ?
+          </div>
+
+          <strong>
+            LOST
+          </strong>
+
+          <span>
+            PAGE NOT FOUND
+          </span>
+        </div>
+
+        <div class="visual-grid">
+          <div>
+            <span>
+              CODE
+            </span>
+
+            <strong>
+              404
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              MODE
+            </span>
+
+            <strong>
+              SEARCH
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              NEXT
+            </span>
+
+            <strong>
+              HOME
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              SITE
+            </span>
+
+            <strong>
+              FJKSP.CN
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="visual-star star-one">
+        ✦
+      </div>
+
+      <div class="visual-star star-two">
+        ✧
+      </div>
+
+      <div class="visual-label">
+        FIND YOUR WAY
       </div>
     </div>
   </section>
@@ -49,134 +186,943 @@ import Layout
 <style>
   .error-page {
     min-height:
-      calc(100vh - 200px);
+      calc(100vh - 160px);
 
-    display: flex;
+    min-height:
+      calc(100dvh - 160px);
 
-    align-items: center;
+    padding:
+      76px 0 84px;
 
-    justify-content: center;
+    display:
+      grid;
 
-    padding: 72px 0;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(360px, 0.82fr);
+
+    align-items:
+      center;
+
+    gap:
+      76px;
   }
 
-  .error-content {
-    max-width: 680px;
-
-    text-align: center;
+  .error-page > * {
+    min-width:
+      0;
   }
 
-  .error-code {
-    margin: 0;
+  .error-copy {
+    min-width:
+      0;
+  }
+
+  .error-badge {
+    width:
+      fit-content;
+
+    padding:
+      7px 11px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
 
     color:
       var(--text-secondary);
 
-    font-size: 14px;
+    box-shadow:
+      var(--shadow-sm);
 
-    font-weight: 700;
+    font-size:
+      9px;
 
-    letter-spacing: 0.2em;
-  }
-
-  .error-content h1 {
-    margin: 18px 0 0;
-
-    font-size: clamp(
-      44px,
-      8vw,
-      72px
-    );
-
-    line-height: 1;
+    font-weight:
+      800;
 
     letter-spacing:
-      -0.055em;
+      0.14em;
+  }
+
+  .badge-dot {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    flex-shrink:
+      0;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-pink);
+  }
+
+  .error-kicker {
+    margin:
+      24px 0 0;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      14px;
+
+    font-weight:
+      700;
+
+    word-break:
+      keep-all;
+  }
+
+  .error-copy h1 {
+    margin:
+      10px 0 0;
+
+    font-size:
+      clamp(
+        88px,
+        12vw,
+        150px
+      );
+
+    line-height:
+      0.9;
+
+    letter-spacing:
+      -0.07em;
+
+    background:
+      linear-gradient(
+        100deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color:
+      transparent;
+  }
+
+  .error-copy h2 {
+    margin:
+      24px 0 0;
+
+    font-size:
+      clamp(
+        32px,
+        4vw,
+        46px
+      );
+
+    line-height:
+      1.2;
+
+    letter-spacing:
+      -0.045em;
+
+    word-break:
+      normal;
   }
 
   .error-description {
-    max-width: 520px;
+    max-width:
+      620px;
 
     margin:
-      24px auto 0;
+      22px 0 0;
 
     color:
       var(--text-secondary);
 
-    font-size: 17px;
+    font-size:
+      15px;
 
-    line-height: 1.8;
+    line-height:
+      1.9;
   }
 
   .error-actions {
-    margin-top: 32px;
+    margin-top:
+      32px;
 
-    display: flex;
+    display:
+      flex;
 
-    justify-content: center;
+    flex-wrap:
+      wrap;
 
-    flex-wrap: wrap;
-
-    gap: 12px;
+    gap:
+      10px;
   }
 
-  .primary-button,
-  .secondary-button {
-    min-height: 44px;
+  .primary-action,
+  .secondary-action {
+    min-height:
+      46px;
 
-    padding: 0 18px;
+    padding:
+      0 18px;
 
-    display: inline-flex;
+    display:
+      inline-flex;
 
-    align-items: center;
+    align-items:
+      center;
 
-    justify-content: center;
+    justify-content:
+      center;
 
-    border-radius: 8px;
+    gap:
+      9px;
 
-    font-size: 14px;
+    border-radius:
+      13px;
 
-    font-weight: 600;
+    font-size:
+      12px;
+
+    font-weight:
+      650;
   }
 
-  .primary-button {
-    border:
-      1px solid
-      var(--border-strong);
-
+  .primary-action {
     background:
-      color-mix(
-        in srgb,
-        var(--text-primary) 8%,
-        transparent
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary)
       );
 
     color:
-      var(--text-primary);
+      #ffffff;
+
+    box-shadow:
+      0 12px 28px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
   }
 
-  .primary-button:hover {
-    background:
-      var(--text-primary);
-
+  .primary-action:hover {
     color:
-      var(--background);
+      #ffffff;
   }
 
-  .secondary-button {
+  .secondary-action {
     border:
       1px solid
       var(--border);
 
     background:
-      transparent;
+      var(--color-surface);
 
     color:
       var(--text-primary);
   }
 
-  .secondary-button:hover {
+  .error-hints {
+    margin-top:
+      42px;
+
+    padding-top:
+      24px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      16px;
+
+    border-top:
+      1px solid
+      var(--border);
+  }
+
+  .error-hints div {
+    min-width:
+      0;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      5px;
+  }
+
+  .error-hints span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      0.1em;
+  }
+
+  .error-hints strong {
+    font-size:
+      13px;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .error-visual {
+    position:
+      relative;
+
+    min-width:
+      0;
+
+    min-height:
+      470px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+  }
+
+  .visual-card {
+    position:
+      relative;
+
+    z-index:
+      3;
+
+    width:
+      min(
+        100%,
+        380px
+      );
+
+    min-width:
+      0;
+
+    padding:
+      24px;
+
+    border:
+      1px solid
+      var(--glass-border);
+
+    border-radius:
+      28px;
+
     background:
-      var(--surface-hover);
+      linear-gradient(
+        145deg,
+        color-mix(
+          in srgb,
+          var(--glass-background)
+            92%,
+          var(--color-primary)
+            8%
+        ),
+        var(--glass-background)
+      );
+
+    box-shadow:
+      0 30px 80px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          16%,
+        transparent
+      );
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    transform:
+      rotate(2deg);
+  }
+
+  .visual-top {
+    display:
+      flex;
+
+    justify-content:
+      space-between;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.1em;
+  }
+
+  .visual-main {
+    min-height:
+      220px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+
+    gap:
+      10px;
+  }
+
+  .visual-symbol {
+    width:
+      96px;
+
+    height:
+      96px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      5px solid
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          16%,
+        transparent
+      );
+
+    border-radius:
+      30px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    color:
+      #ffffff;
+
+    font-size:
+      44px;
+
+    font-weight:
+      800;
+
+    box-shadow:
+      0 16px 34px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          28%,
+        transparent
+      );
+  }
+
+  .visual-main strong {
+    font-size:
+      26px;
+
+    letter-spacing:
+      -0.03em;
+  }
+
+  .visual-main > span {
+    color:
+      var(--text-secondary);
+
+    font-size:
+      9px;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .visual-grid {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      8px;
+  }
+
+  .visual-grid div {
+    min-width:
+      0;
+
+    padding:
+      12px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      5px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      13px;
+
+    background:
+      color-mix(
+        in srgb,
+        var(--color-surface)
+          72%,
+        transparent
+      );
+  }
+
+  .visual-grid span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      7px;
+  }
+
+  .visual-grid strong {
+    font-size:
+      10px;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .orbit {
+    position:
+      absolute;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          22%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+  }
+
+  .orbit-one {
+    width:
+      400px;
+
+    height:
+      400px;
+  }
+
+  .orbit-two {
+    width:
+      320px;
+
+    height:
+      320px;
+
+    transform:
+      rotate(25deg);
+  }
+
+  .visual-star {
+    position:
+      absolute;
+
+    z-index:
+      4;
+
+    color:
+      var(--color-primary);
+  }
+
+  .star-one {
+    top:
+      52px;
+
+    right:
+      18px;
+
+    font-size:
+      26px;
+  }
+
+  .star-two {
+    bottom:
+      62px;
+
+    left:
+      18px;
+
+    color:
+      var(--color-pink);
+
+    font-size:
+      20px;
+  }
+
+  .visual-label {
+    position:
+      absolute;
+
+    z-index:
+      5;
+
+    right:
+      4px;
+
+    bottom:
+      88px;
+
+    padding:
+      8px 10px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      10px;
+
+    background:
+      var(--color-surface-elevated);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      9px;
+
+    font-weight:
+      700;
+
+    letter-spacing:
+      0.08em;
+
+    transform:
+      rotate(5deg);
+  }
+
+  /* =========================
+     Runtime mobile fallback
+     ========================= */
+
+  :global(html.mobile-device)
+  .error-page {
+    min-height:
+      auto;
+
+    padding:
+      54px 0 62px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    align-items:
+      stretch;
+
+    gap:
+      38px;
+  }
+
+  :global(html.mobile-device)
+  .error-copy {
+    width:
+      100%;
+
+    max-width:
+      100%;
+  }
+
+  :global(html.mobile-device)
+  .error-copy h1 {
+    font-size:
+      clamp(
+        82px,
+        25vw,
+        118px
+      );
+  }
+
+  :global(html.mobile-device)
+  .error-copy h2 {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      clamp(
+        30px,
+        9vw,
+        42px
+      );
+
+    word-break:
+      normal;
+  }
+
+  :global(html.mobile-device)
+  .error-description {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      14px;
+  }
+
+  :global(html.mobile-device)
+  .error-actions {
+    width:
+      100%;
+
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .primary-action,
+  :global(html.mobile-device)
+  .secondary-action {
+    width:
+      100%;
+
+    min-height:
+      50px;
+  }
+
+  :global(html.mobile-device)
+  .error-hints {
+    width:
+      100%;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      10px;
+  }
+
+  :global(html.mobile-device)
+  .error-visual {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    min-height:
+      400px;
+
+    overflow:
+      hidden;
+  }
+
+  :global(html.mobile-device)
+  .visual-card {
+    width:
+      min(
+        calc(100% - 20px),
+        360px
+      );
+
+    max-width:
+      100%;
+
+    padding:
+      20px;
+
+    border-radius:
+      24px;
+
+    transform:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .orbit-one {
+    width:
+      min(
+        340px,
+        84vw
+      );
+
+    height:
+      min(
+        340px,
+        84vw
+      );
+  }
+
+  :global(html.mobile-device)
+  .orbit-two {
+    width:
+      min(
+        280px,
+        70vw
+      );
+
+    height:
+      min(
+        280px,
+        70vw
+      );
+  }
+
+  :global(html.mobile-device)
+  .visual-label {
+    display:
+      none;
+  }
+
+  /* =========================
+     Standard responsive
+     ========================= */
+
+  @media (
+    max-width: 900px
+  ) {
+    .error-page {
+      grid-template-columns:
+        1fr;
+
+      gap:
+        40px;
+    }
+  }
+
+  @media (
+    max-width: 700px
+  ) {
+    .error-page {
+      min-height:
+        auto;
+
+      padding:
+        54px 0 62px;
+    }
+
+    .error-actions {
+      flex-direction:
+        column;
+    }
+
+    .primary-action,
+    .secondary-action {
+      width:
+        100%;
+    }
+
+    .visual-card {
+      transform:
+        none;
+    }
+
+    .visual-label {
+      display:
+        none;
+    }
+  }
+
+  @media (
+    max-width: 360px
+  ) {
+    .error-hints {
+      grid-template-columns:
+        1fr;
+    }
+
+    .visual-grid {
+      grid-template-columns:
+        1fr;
+    }
   }
 </style>

@@ -37,7 +37,7 @@ const footerLinks = [
           F
         </div>
 
-        <div>
+        <div class="footer-brand-copy">
           <p class="footer-title">
             {SITE.title}
           </p>
@@ -106,14 +106,26 @@ const footerLinks = [
         var(--content-width)
       );
 
+    min-width:
+      0;
+
     margin:
       96px auto 0;
 
     padding-bottom:
       28px;
+
+    padding-bottom:
+      max(
+        28px,
+        var(--safe-bottom)
+      );
   }
 
   .footer-shell {
+    min-width:
+      0;
+
     overflow:
       hidden;
 
@@ -132,10 +144,14 @@ const footerLinks = [
   }
 
   .footer-main {
+    min-width:
+      0;
+
     padding:
       28px;
 
-    display: flex;
+    display:
+      flex;
 
     align-items:
       center;
@@ -148,13 +164,22 @@ const footerLinks = [
   }
 
   .footer-brand {
-    display: flex;
+    min-width:
+      0;
+
+    display:
+      flex;
 
     align-items:
       center;
 
     gap:
       14px;
+  }
+
+  .footer-brand-copy {
+    min-width:
+      0;
   }
 
   .footer-logo {
@@ -164,7 +189,8 @@ const footerLinks = [
     height:
       42px;
 
-    display: flex;
+    display:
+      flex;
 
     align-items:
       center;
@@ -227,10 +253,17 @@ const footerLinks = [
 
     font-size:
       13px;
+
+    overflow-wrap:
+      break-word;
   }
 
   .footer-links {
-    display: flex;
+    min-width:
+      0;
+
+    display:
+      flex;
 
     align-items:
       center;
@@ -246,10 +279,14 @@ const footerLinks = [
   }
 
   .footer-links a {
+    min-height:
+      40px;
+
     padding:
       8px 11px;
 
-    display: inline-flex;
+    display:
+      inline-flex;
 
     align-items:
       center;
@@ -290,10 +327,14 @@ const footerLinks = [
   }
 
   .footer-bottom {
+    min-width:
+      0;
+
     padding:
       15px 28px;
 
-    display: flex;
+    display:
+      flex;
 
     align-items:
       center;
@@ -329,11 +370,18 @@ const footerLinks = [
 
     letter-spacing:
       0.02em;
+
+    overflow-wrap:
+      break-word;
   }
 
-  @media (
-    max-width: 700px
-  ) {
+  @media
+    (max-width: 700px),
+    (max-device-width: 700px),
+    (hover: none) and
+      (pointer: coarse) and
+      (max-width: 1100px) {
+
     .site-footer {
       width:
         calc(
@@ -345,6 +393,12 @@ const footerLinks = [
 
       padding-bottom:
         18px;
+
+      padding-bottom:
+        max(
+          18px,
+          var(--safe-bottom)
+        );
     }
 
     .footer-main {
@@ -356,6 +410,9 @@ const footerLinks = [
 
       flex-direction:
         column;
+
+      gap:
+        22px;
     }
 
     .footer-links {
@@ -364,6 +421,11 @@ const footerLinks = [
 
       justify-content:
         flex-start;
+    }
+
+    .footer-links a {
+      min-height:
+        44px;
     }
 
     .footer-bottom {
@@ -378,6 +440,26 @@ const footerLinks = [
 
       gap:
         5px;
+    }
+  }
+
+  @media (
+    max-width: 360px
+  ) {
+    .site-footer {
+      width:
+        calc(
+          100% - 20px
+        );
+    }
+
+    .footer-main,
+    .footer-bottom {
+      padding-left:
+        18px;
+
+      padding-right:
+        18px;
     }
   }
 </style>

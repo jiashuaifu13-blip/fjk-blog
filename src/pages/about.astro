@@ -16,396 +16,1862 @@ const interests = [
   "Web 开发",
   "个人项目",
   "技术学习",
-  "工具研究",
+  "工具使用",
   "服务器",
   "开源技术",
+];
+
+const milestones = [
+  {
+    index: "01",
+    title: "这个博客",
+    description:
+      "从零开始构建，主要目标是拥有一个真正属于自己的内容空间。与依赖第三方内容平台不同，文章、代码和网站本身都会由我自己维护，并部署到个人服务器。",
+  },
+  {
+    index: "02",
+    title: "现在在做什么",
+    description:
+      "持续完善 FJK Blog V2，优化视觉设计、文章阅读体验、移动端兼容、搜索、评论以及整个项目的工程质量。",
+  },
+  {
+    index: "03",
+    title: "学习方式",
+    description:
+      "比起只看教程，我更喜欢通过实际项目学习。规划、实现、测试、部署，再从真实问题中继续改进。",
+  },
+];
+
+const completedFeatures = [
+  "文章系统",
+  "分类与标签",
+  "文章归档",
+  "亮色 / 暗色主题",
+  "SEO",
+  "RSS",
+  "Sitemap",
+  "HTTPS",
+  "Nginx 部署",
+  "GitHub 仓库",
 ];
 ---
 
 <Layout
   title="关于"
-  description="关于我、我的技术栈以及这个博客。"
+  description="关于 FJK，以及这个个人博客。"
 >
-  <section class="about-page">
-    <header class="about-hero">
-      <p class="eyebrow">
-        ABOUT
+  <section class="about-hero">
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span
+          class="badge-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span>
+          ABOUT FJK
+        </span>
+      </div>
+
+      <p class="hero-kicker">
+        Hello, I'm FJK
       </p>
 
       <h1>
-        关于我
+        关于我，
+        <span>
+          也关于这个博客。
+        </span>
       </h1>
 
-      <p class="intro">
-        你好，我是 FJK。
+      <p class="hero-description">
+        我正在学习 Web 开发，并通过实际项目持续积累经验。
+        FJK Blog 是其中一个长期维护的个人项目，
+        用来记录技术、项目、工具和一些值得留下来的想法。
       </p>
 
-      <p class="description">
-        这里是我的个人博客。
-        我会在这里记录技术学习、项目开发、
-        工具使用和一些值得长期保存的内容。
-      </p>
-    </header>
+      <div class="hero-actions">
+        <a
+          class="primary-action"
+          href="https://github.com/jiashuaifu13-blip"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+          <span aria-hidden="true">
+            ↗
+          </span>
+        </a>
 
-    <section class="about-section">
-      <div class="section-heading">
-        <p class="section-number">
-          01
-        </p>
-
-        <h2>
-          关于这个博客
-        </h2>
+        <a
+          class="secondary-action"
+          href="/projects"
+        >
+          查看项目
+        </a>
       </div>
+    </div>
 
-      <div class="section-content">
-        <p>
-          这个博客从零开始构建，
-          主要目标是拥有一个真正属于自己的内容空间。
-        </p>
+    <div class="profile-panel">
+      <div class="profile-orbit"></div>
 
-        <p>
-          与依赖第三方内容平台不同，
-          文章、代码和网站本身都会由我自己维护，
-          并部署到个人服务器。
-        </p>
+      <div class="profile-card">
+        <div class="profile-top">
+          <span>
+            PROFILE
+          </span>
 
-        <p>
-          当前博客基于 Astro、TypeScript、
-          Tailwind CSS、Markdown / MDX 和 Git 构建，
-          已经完成文章系统、分类与标签、归档、
-          暗色模式、SEO、RSS、Sitemap 和 HTTPS 部署。
-        </p>
+          <span>
+            2026
+          </span>
+        </div>
 
-        <p>
-          下一阶段将继续围绕阅读体验、搜索、
-          评论系统以及 Anime Soft Tech 视觉风格进行改造。
-        </p>
-      </div>
-    </section>
+        <div class="profile-main">
+          <div class="profile-avatar">
+            F
+          </div>
 
-    <section class="about-section">
-      <div class="section-heading">
-        <p class="section-number">
-          02
-        </p>
+          <strong>
+            FJK
+          </strong>
 
-        <h2>
-          技术栈
-        </h2>
-      </div>
+          <span>
+            LEARNING / BUILDING
+          </span>
+        </div>
 
-      <div class="section-content">
-        <p>
-          目前正在学习和使用的技术：
-        </p>
+        <div class="profile-grid">
+          <div>
+            <span>
+              ROLE
+            </span>
 
-        <div class="skill-list">
-          {
-            skills.map((skill) => (
-              <span class="skill">
-                {skill}
-              </span>
-            ))
-          }
+            <strong>
+              LEARNER
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              FOCUS
+            </span>
+
+            <strong>
+              WEB
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              STACK
+            </span>
+
+            <strong>
+              ASTRO
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              STATUS
+            </span>
+
+            <strong>
+              BUILDING
+            </strong>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="about-section">
-      <div class="section-heading">
-        <p class="section-number">
-          03
+  <section class="story-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          MY STORY
         </p>
 
         <h2>
-          兴趣方向
+          一点关于我的记录
         </h2>
-      </div>
 
-      <div class="section-content">
-        <div class="interest-grid">
-          {
-            interests.map((interest) => (
-              <div class="interest-item">
-                {interest}
+        <p class="section-description">
+          这个页面也会随着学习和项目经历不断更新。
+        </p>
+      </div>
+    </div>
+
+    <div class="story-list">
+      {
+        milestones.map(
+          (item) => (
+            <article class="story-card">
+              <div class="story-index">
+                {item.index}
               </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
 
-    <section class="about-section">
-      <div class="section-heading">
-        <p class="section-number">
-          04
+              <div class="story-content">
+                <h3>
+                  {item.title}
+                </h3>
+
+                <p>
+                  {item.description}
+                </p>
+              </div>
+            </article>
+          )
+        )
+      }
+    </div>
+  </section>
+
+  <section class="skills-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          SKILLS
         </p>
 
         <h2>
-          联系方式
+          正在使用和学习
         </h2>
       </div>
+    </div>
 
-      <div class="section-content">
-        <p>
-          可以通过 GitHub 查看这个博客以及后续公开的项目。
+    <div class="skills-grid">
+      {
+        skills.map(
+          (skill, index) => (
+            <div class="skill-card">
+              <span>
+                {String(
+                  index + 1
+                ).padStart(
+                  2,
+                  "0"
+                )}
+              </span>
+
+              <strong>
+                {skill}
+              </strong>
+            </div>
+          )
+        )
+      }
+    </div>
+  </section>
+
+  <section class="interests-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          INTERESTS
         </p>
 
-        <div class="contact-placeholder">
-          <span>
-            GitHub
-          </span>
+        <h2>
+          感兴趣的方向
+        </h2>
+      </div>
+    </div>
 
-          <strong>
-            <a
-              href="https://github.com/jiashuaifu13-blip"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              jiashuaifu13-blip ↗
-            </a>
-          </strong>
-        </div>
+    <div class="interest-list">
+      {
+        interests.map(
+          (interest) => (
+            <span>
+              {interest}
+            </span>
+          )
+        )
+      }
+    </div>
+  </section>
 
-        <div class="contact-placeholder">
-          <span>
-            Email
-          </span>
+  <section class="blog-section">
+    <div class="blog-panel">
+      <div class="blog-copy">
+        <p class="section-eyebrow">
+          FJK BLOG
+        </p>
 
-          <strong>
-            暂未公开
-          </strong>
+        <h2>
+          这个博客已经完成什么？
+        </h2>
+
+        <p>
+          最初只是一个简单的 Astro 静态博客，
+          现在已经逐渐拥有完整的内容组织、主题系统、
+          SEO、部署和 V2 视觉设计。
+        </p>
+
+        <div class="feature-list">
+          {
+            completedFeatures.map(
+              (feature) => (
+                <span>
+                  <span
+                    class="feature-dot"
+                    aria-hidden="true"
+                  ></span>
+
+                  {feature}
+                </span>
+              )
+            )
+          }
         </div>
       </div>
-    </section>
+
+      <div class="blog-status">
+        <div class="status-header">
+          <span>
+            CURRENT STATUS
+          </span>
+
+          <span>
+            ONLINE
+          </span>
+        </div>
+
+        <strong>
+          V2
+        </strong>
+
+        <p>
+          Anime Soft Tech
+        </p>
+
+        <div class="status-line"></div>
+
+        <div class="status-meta">
+          <div>
+            <span>
+              SITE
+            </span>
+
+            <strong>
+              FJKSP.CN
+            </strong>
+          </div>
+
+          <div>
+            <span>
+              FRAMEWORK
+            </span>
+
+            <strong>
+              ASTRO
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div>
+      <p class="section-eyebrow">
+        CONTACT
+      </p>
+
+      <h2>
+        找到我
+      </h2>
+
+      <p>
+        目前主要通过 GitHub 公开项目和代码，
+        邮箱暂未公开。
+      </p>
+    </div>
+
+    <div class="contact-actions">
+      <a
+        href="https://github.com/jiashuaifu13-blip"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+        <span aria-hidden="true">
+          ↗
+        </span>
+      </a>
+
+      <span class="email-status">
+        Email · 暂未公开
+      </span>
+    </div>
   </section>
 </Layout>
 
 <style>
-  .about-page {
-    width: min(
-      100%,
-      860px
-    );
-
-    margin: 0 auto;
-
-    padding: 72px 0;
-  }
-
   .about-hero {
-    max-width: 740px;
+    min-height:
+      650px;
 
-    padding-bottom: 72px;
+    padding:
+      78px 0 82px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(340px, 0.72fr);
+
+    align-items:
+      center;
+
+    gap:
+      78px;
+
+    border-bottom:
+      1px solid
+      var(--border);
   }
 
-  .eyebrow {
-    margin: 0 0 14px;
-
-    color: var(--text-secondary);
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.14em;
+  .about-hero > * {
+    min-width:
+      0;
   }
 
-  .about-hero h1 {
-    margin: 0;
+  .hero-badge {
+    width:
+      fit-content;
 
-    font-size: clamp(
-      44px,
-      7vw,
-      64px
-    );
+    padding:
+      7px 11px;
 
-    line-height: 1;
+    display:
+      inline-flex;
 
-    letter-spacing: -0.05em;
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.14em;
   }
 
-  .intro {
-    margin: 30px 0 0;
+  .badge-dot {
+    width:
+      6px;
 
-    font-size: 24px;
+    height:
+      6px;
 
-    font-weight: 600;
+    flex-shrink:
+      0;
 
-    letter-spacing: -0.025em;
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
   }
 
-  .description {
-    max-width: 660px;
+  .hero-kicker {
+    margin:
+      24px 0 0;
 
-    margin: 14px 0 0;
+    color:
+      var(--color-primary);
 
-    color: var(--text-secondary);
+    font-size:
+      14px;
 
-    font-size: 18px;
+    font-weight:
+      700;
 
-    line-height: 1.9;
+    word-break:
+      keep-all;
   }
 
-  .about-section {
-    padding: 56px 0;
+  .hero-copy h1 {
+    max-width:
+      720px;
 
-    display: grid;
+    margin:
+      12px 0 0;
 
-    grid-template-columns: 220px 1fr;
+    font-size:
+      clamp(
+        48px,
+        6.5vw,
+        78px
+      );
 
-    gap: 48px;
+    line-height:
+      1.07;
 
-    border-top: 1px solid var(--border);
+    letter-spacing:
+      -0.055em;
+
+    word-break:
+      normal;
+  }
+
+  .hero-copy h1 span {
+    display:
+      block;
+
+    background:
+      linear-gradient(
+        100deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color:
+      transparent;
+  }
+
+  .hero-description {
+    max-width:
+      640px;
+
+    margin:
+      26px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      15px;
+
+    line-height:
+      1.9;
+  }
+
+  .hero-actions {
+    margin-top:
+      32px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .primary-action,
+  .secondary-action {
+    min-height:
+      46px;
+
+    padding:
+      0 17px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      8px;
+
+    border-radius:
+      13px;
+
+    font-size:
+      12px;
+
+    font-weight:
+      650;
+  }
+
+  .primary-action {
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary)
+      );
+
+    color:
+      #ffffff;
+
+    box-shadow:
+      0 12px 28px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+  }
+
+  .primary-action:hover {
+    color:
+      #ffffff;
+  }
+
+  .secondary-action {
+    border:
+      1px solid
+      var(--border);
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-primary);
+  }
+
+  .profile-panel {
+    position:
+      relative;
+
+    min-width:
+      0;
+
+    min-height:
+      430px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+  }
+
+  .profile-orbit {
+    position:
+      absolute;
+
+    width:
+      350px;
+
+    height:
+      350px;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+  }
+
+  .profile-card {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    width:
+      min(
+        100%,
+        350px
+      );
+
+    min-width:
+      0;
+
+    padding:
+      24px;
+
+    border:
+      1px solid
+      var(--glass-border);
+
+    border-radius:
+      28px;
+
+    background:
+      var(--glass-background);
+
+    box-shadow:
+      var(--shadow-card);
+
+    backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+
+    -webkit-backdrop-filter:
+      blur(
+        var(--glass-blur)
+      );
+  }
+
+  .profile-top {
+    display:
+      flex;
+
+    justify-content:
+      space-between;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+
+    font-weight:
+      750;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .profile-main {
+    min-height:
+      210px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-direction:
+      column;
+  }
+
+  .profile-avatar {
+    width:
+      88px;
+
+    height:
+      88px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      5px solid
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          16%,
+        transparent
+      );
+
+    border-radius:
+      28px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    color:
+      #ffffff;
+
+    font-size:
+      36px;
+
+    font-weight:
+      800;
+
+    box-shadow:
+      0 16px 34px
+      color-mix(
+        in srgb,
+        var(--color-primary)
+          24%,
+        transparent
+      );
+  }
+
+  .profile-main strong {
+    margin-top:
+      18px;
+
+    font-size:
+      26px;
+  }
+
+  .profile-main > span {
+    margin-top:
+      4px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      9px;
+
+    letter-spacing:
+      0.12em;
+  }
+
+  .profile-grid {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      8px;
+  }
+
+  .profile-grid div {
+    min-width:
+      0;
+
+    padding:
+      12px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      6px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      13px;
+
+    background:
+      color-mix(
+        in srgb,
+        var(--color-surface)
+          78%,
+        transparent
+      );
+  }
+
+  .profile-grid span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      7px;
+  }
+
+  .profile-grid strong {
+    font-size:
+      10px;
+  }
+
+  .story-section,
+  .skills-section,
+  .interests-section,
+  .blog-section,
+  .contact-section {
+    min-width:
+      0;
+
+    padding:
+      78px 0;
+
+    border-bottom:
+      1px solid
+      var(--border);
+  }
+
+  .contact-section {
+    border-bottom:
+      0;
   }
 
   .section-heading {
-    position: sticky;
+    display:
+      flex;
 
-    top: 100px;
+    align-items:
+      flex-end;
 
-    align-self: start;
+    justify-content:
+      space-between;
+
+    gap:
+      30px;
   }
 
-  .section-number {
-    margin: 0 0 8px;
-
-    color: var(--text-secondary);
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.1em;
+  .section-heading > * {
+    min-width:
+      0;
   }
 
-  .section-heading h2 {
-    margin: 0;
+  .section-eyebrow {
+    margin:
+      0 0 9px;
 
-    font-size: 22px;
+    color:
+      var(--color-primary);
 
-    letter-spacing: -0.025em;
+    font-size:
+      9px;
+
+    font-weight:
+      800;
+
+    letter-spacing:
+      0.15em;
   }
 
-  .section-content {
-    min-width: 0;
+  .section-heading h2,
+  .blog-copy h2,
+  .contact-section h2 {
+    margin:
+      0;
+
+    font-size:
+      clamp(
+        30px,
+        4vw,
+        42px
+      );
+
+    letter-spacing:
+      -0.045em;
+
+    word-break:
+      normal;
   }
 
-  .section-content > p {
-    margin: 0 0 18px;
+  .section-description {
+    margin:
+      10px 0 0;
 
-    color: var(--text-secondary);
+    color:
+      var(--text-secondary);
 
-    line-height: 1.9;
+    font-size:
+      13px;
   }
 
-  .section-content > p:last-child {
-    margin-bottom: 0;
+  .story-list {
+    margin-top:
+      36px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      14px;
   }
 
-  .skill-list {
-    margin-top: 24px;
+  .story-card {
+    min-width:
+      0;
 
-    display: flex;
+    padding:
+      26px;
 
-    flex-wrap: wrap;
+    display:
+      grid;
 
-    gap: 10px;
+    grid-template-columns:
+      80px
+      minmax(0, 1fr);
+
+    gap:
+      28px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
   }
 
-  .skill {
-    padding: 7px 11px;
+  .story-index {
+    color:
+      var(--color-primary);
 
-    border: 1px solid var(--border);
+    font-size:
+      26px;
 
-    border-radius: 7px;
+    font-weight:
+      750;
 
-    font-size: 13px;
+    letter-spacing:
+      0.08em;
   }
 
-  .interest-grid {
-    display: grid;
+  .story-content {
+    min-width:
+      0;
+  }
 
-    grid-template-columns: repeat(
-      2,
+  .story-content h3 {
+    margin:
+      0;
+
+    font-size:
+      22px;
+
+    word-break:
+      normal;
+  }
+
+  .story-content p {
+    max-width:
+      760px;
+
+    margin:
+      12px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    line-height:
+      1.9;
+
+    word-break:
+      normal;
+  }
+
+  .skills-grid {
+    margin-top:
+      34px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      12px;
+  }
+
+  .skill-card {
+    min-width:
+      0;
+
+    min-height:
+      120px;
+
+    padding:
+      18px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      space-between;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .skill-card span {
+    color:
+      var(--color-primary);
+
+    font-size:
+      8px;
+
+    font-weight:
+      800;
+  }
+
+  .skill-card strong {
+    font-size:
+      15px;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .interest-list {
+    margin-top:
+      32px;
+
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      10px;
+  }
+
+  .interest-list > span {
+    max-width:
+      100%;
+
+    padding:
+      10px 14px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      999px;
+
+    background:
+      var(--color-surface);
+
+    color:
+      var(--text-secondary);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .blog-panel {
+    min-width:
+      0;
+
+    padding:
+      38px;
+
+    display:
+      grid;
+
+    grid-template-columns:
       minmax(0, 1fr)
-    );
+      minmax(300px, 0.65fr);
 
-    gap: 12px;
+    align-items:
+      center;
+
+    gap:
+      54px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      var(--radius-xl);
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-surface),
+        color-mix(
+          in srgb,
+          var(--color-primary-soft)
+            48%,
+          var(--color-surface)
+        )
+      );
+
+    box-shadow:
+      var(--shadow-card);
   }
 
-  .interest-item {
-    padding: 18px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 10px;
-
-    background: var(--surface);
-
-    font-size: 14px;
+  .blog-panel > * {
+    min-width:
+      0;
   }
 
-  .contact-placeholder {
-    padding: 18px 0;
+  .blog-copy > p:not(
+    .section-eyebrow
+  ) {
+    max-width:
+      650px;
 
-    display: flex;
+    color:
+      var(--text-secondary);
 
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    border-bottom: 1px solid var(--border);
+    line-height:
+      1.85;
   }
 
-  .contact-placeholder:first-of-type {
-    margin-top: 24px;
+  .feature-list {
+    margin-top:
+      24px;
 
-    border-top: 1px solid var(--border);
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      9px;
   }
 
-  .contact-placeholder span {
-    color: var(--text-secondary);
+  .feature-list > span {
+    min-width:
+      0;
 
-    font-size: 14px;
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    color:
+      var(--text-secondary);
+
+    font-size:
+      11px;
   }
 
-  .contact-placeholder strong {
-    font-size: 14px;
+  .feature-dot {
+    width:
+      6px;
 
-    font-weight: 500;
+    height:
+      6px;
+
+    flex-shrink:
+      0;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-primary);
   }
 
-  @media (max-width: 700px) {
-    .about-page {
-      padding: 52px 0;
-    }
+  .blog-status {
+    min-width:
+      0;
 
+    padding:
+      24px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      22px;
+
+    background:
+      var(--color-surface);
+
+    box-shadow:
+      var(--shadow-sm);
+  }
+
+  .status-header {
+    display:
+      flex;
+
+    justify-content:
+      space-between;
+
+    gap:
+      20px;
+
+    color:
+      var(--text-muted);
+
+    font-size:
+      8px;
+  }
+
+  .blog-status > strong {
+    display:
+      block;
+
+    margin-top:
+      38px;
+
+    color:
+      var(--color-primary);
+
+    font-size:
+      64px;
+
+    line-height:
+      1;
+  }
+
+  .blog-status > p {
+    margin:
+      9px 0 0;
+
+    color:
+      var(--text-secondary);
+  }
+
+  .status-line {
+    height:
+      1px;
+
+    margin:
+      28px 0;
+
+    background:
+      var(--border);
+  }
+
+  .status-meta {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      12px;
+  }
+
+  .status-meta div {
+    min-width:
+      0;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      5px;
+  }
+
+  .status-meta span {
+    color:
+      var(--text-muted);
+
+    font-size:
+      7px;
+  }
+
+  .status-meta strong {
+    font-size:
+      10px;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .contact-section {
+    display:
+      flex;
+
+    align-items:
+      flex-end;
+
+    justify-content:
+      space-between;
+
+    gap:
+      40px;
+  }
+
+  .contact-section > div {
+    min-width:
+      0;
+  }
+
+  .contact-section p:not(
+    .section-eyebrow
+  ) {
+    max-width:
+      560px;
+
+    color:
+      var(--text-secondary);
+  }
+
+  .contact-actions {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    justify-content:
+      flex-end;
+
+    gap:
+      10px;
+  }
+
+  .contact-actions a,
+  .email-status {
+    min-height:
+      44px;
+
+    padding:
+      0 14px;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius:
+      12px;
+
+    background:
+      var(--color-surface);
+  }
+
+  .email-status {
+    color:
+      var(--text-muted);
+
+    font-size:
+      11px;
+  }
+
+  /* =========================
+     Runtime mobile fallback
+     ========================= */
+
+  :global(html.mobile-device)
+  .about-hero {
+    min-height:
+      auto;
+
+    padding:
+      56px 0 60px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    align-items:
+      stretch;
+
+    gap:
+      38px;
+  }
+
+  :global(html.mobile-device)
+  .hero-copy {
+    width:
+      100%;
+
+    max-width:
+      100%;
+  }
+
+  :global(html.mobile-device)
+  .hero-copy h1 {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      clamp(
+        43px,
+        12vw,
+        60px
+      );
+
+    line-height:
+      1.08;
+
+    word-break:
+      normal;
+  }
+
+  :global(html.mobile-device)
+  .hero-description {
+    width:
+      100%;
+
+    max-width:
+      100%;
+  }
+
+  :global(html.mobile-device)
+  .hero-actions {
+    width:
+      100%;
+
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .primary-action,
+  :global(html.mobile-device)
+  .secondary-action {
+    width:
+      100%;
+  }
+
+  :global(html.mobile-device)
+  .profile-panel {
+    width:
+      100%;
+
+    min-height:
+      390px;
+
+    overflow:
+      hidden;
+  }
+
+  :global(html.mobile-device)
+  .profile-card {
+    width:
+      min(
+        calc(100% - 20px),
+        350px
+      );
+  }
+
+  :global(html.mobile-device)
+  .profile-orbit {
+    width:
+      min(
+        330px,
+        82vw
+      );
+
+    height:
+      min(
+        330px,
+        82vw
+      );
+  }
+
+  :global(html.mobile-device)
+  .story-section,
+  :global(html.mobile-device)
+  .skills-section,
+  :global(html.mobile-device)
+  .interests-section,
+  :global(html.mobile-device)
+  .blog-section,
+  :global(html.mobile-device)
+  .contact-section {
+    padding:
+      58px 0;
+  }
+
+  :global(html.mobile-device)
+  .section-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      16px;
+  }
+
+  :global(html.mobile-device)
+  .story-card {
+    padding:
+      22px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      18px;
+  }
+
+  :global(html.mobile-device)
+  .story-index {
+    font-size:
+      20px;
+  }
+
+  :global(html.mobile-device)
+  .story-content h3 {
+    font-size:
+      21px;
+  }
+
+  :global(html.mobile-device)
+  .story-content p {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      14px;
+
+    line-height:
+      1.85;
+  }
+
+  :global(html.mobile-device)
+  .skills-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  :global(html.mobile-device)
+  .blog-panel {
+    padding:
+      24px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      34px;
+
+    border-radius:
+      22px;
+  }
+
+  :global(html.mobile-device)
+  .feature-list {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  :global(html.mobile-device)
+  .contact-section {
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .contact-actions {
+    width:
+      100%;
+
+    align-items:
+      stretch;
+
+    justify-content:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .contact-actions a,
+  :global(html.mobile-device)
+  .email-status {
+    width:
+      100%;
+
+    justify-content:
+      center;
+  }
+
+  /* =========================
+     Standard responsive
+     ========================= */
+
+  @media (
+    max-width: 900px
+  ) {
     .about-hero {
-      padding-bottom: 52px;
+      grid-template-columns:
+        1fr;
+
+      gap:
+        40px;
     }
 
-    .description {
-      font-size: 16px;
+    .blog-panel {
+      grid-template-columns:
+        1fr;
+    }
+  }
+
+  @media (
+    max-width: 700px
+  ) {
+    .about-hero {
+      min-height:
+        auto;
+
+      padding:
+        56px 0 60px;
     }
 
-    .about-section {
-      padding: 40px 0;
-
-      grid-template-columns: 1fr;
-
-      gap: 24px;
+    .hero-copy h1 {
+      font-size:
+        clamp(
+          43px,
+          14vw,
+          60px
+        );
     }
 
-    .section-heading {
-      position: static;
+    .hero-actions {
+      flex-direction:
+        column;
     }
 
-    .interest-grid {
-      grid-template-columns: 1fr;
+    .primary-action,
+    .secondary-action {
+      width:
+        100%;
+    }
+
+    .story-section,
+    .skills-section,
+    .interests-section,
+    .blog-section,
+    .contact-section {
+      padding:
+        58px 0;
+    }
+
+    .story-card {
+      grid-template-columns:
+        1fr;
+    }
+
+    .skills-grid {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+    }
+
+    .feature-list {
+      grid-template-columns:
+        1fr;
+    }
+
+    .contact-section {
+      align-items:
+        stretch;
+
+      flex-direction:
+        column;
+    }
+
+    .contact-actions {
+      justify-content:
+        flex-start;
+    }
+  }
+
+  @media (
+    max-width: 390px
+  ) {
+    .skills-grid {
+      grid-template-columns:
+        1fr;
+    }
+
+    .profile-grid,
+    .status-meta {
+      grid-template-columns:
+        1fr;
     }
   }
 </style>

@@ -632,12 +632,19 @@ const categories =
       var(--border);
   }
 
+  .hero > * {
+    min-width: 0;
+  }
+
   .hero-copy {
     position:
       relative;
 
     z-index:
       2;
+
+    min-width:
+      0;
   }
 
   .hero-badge {
@@ -689,6 +696,9 @@ const categories =
     height:
       6px;
 
+    flex-shrink:
+      0;
+
     border-radius:
       50%;
 
@@ -720,6 +730,12 @@ const categories =
 
     letter-spacing:
       0.04em;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      normal;
   }
 
   .hero h1 {
@@ -741,6 +757,12 @@ const categories =
 
     letter-spacing:
       -0.06em;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      keep-all;
   }
 
   .hero h1 span {
@@ -780,6 +802,12 @@ const categories =
 
     line-height:
       1.9;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      normal;
   }
 
   .hero-actions {
@@ -946,6 +974,9 @@ const categories =
   }
 
   .hero-meta div {
+    min-width:
+      0;
+
     display:
       flex;
 
@@ -982,6 +1013,9 @@ const categories =
     position:
       relative;
 
+    min-width:
+      0;
+
     min-height:
       470px;
 
@@ -1007,6 +1041,9 @@ const categories =
         100%,
         420px
       );
+
+    min-width:
+      0;
 
     padding:
       24px;
@@ -1358,6 +1395,9 @@ const categories =
   }
 
   .visual-grid div {
+    min-width:
+      0;
+
     padding:
       12px;
 
@@ -1551,6 +1591,9 @@ const categories =
   }
 
   .home-section {
+    min-width:
+      0;
+
     padding:
       88px 0;
 
@@ -1576,6 +1619,11 @@ const categories =
 
     gap:
       32px;
+  }
+
+  .section-heading > * {
+    min-width:
+      0;
   }
 
   .section-eyebrow {
@@ -1660,6 +1708,9 @@ const categories =
   }
 
   .featured-post {
+    min-width:
+      0;
+
     margin-top:
       38px;
 
@@ -1700,6 +1751,9 @@ const categories =
   }
 
   .featured-post-link {
+    min-width:
+      0;
+
     display:
       grid;
 
@@ -1714,6 +1768,9 @@ const categories =
   .featured-cover {
     position:
       relative;
+
+    min-width:
+      0;
 
     min-height:
       100%;
@@ -1870,6 +1927,9 @@ const categories =
   }
 
   .featured-content {
+    min-width:
+      0;
+
     padding:
       42px;
 
@@ -2006,6 +2066,9 @@ const categories =
   }
 
   .post-grid {
+    min-width:
+      0;
+
     margin-top:
       20px;
 
@@ -2023,6 +2086,9 @@ const categories =
   }
 
   .post-card {
+    min-width:
+      0;
+
     overflow:
       hidden;
 
@@ -2106,6 +2172,9 @@ const categories =
   }
 
   .post-card-content {
+    min-width:
+      0;
+
     flex:
       1;
 
@@ -2156,6 +2225,9 @@ const categories =
   }
 
   .category-grid {
+    min-width:
+      0;
+
     margin-top:
       34px;
 
@@ -2173,6 +2245,9 @@ const categories =
   }
 
   .category-card {
+    min-width:
+      0;
+
     min-height:
       100px;
 
@@ -2314,6 +2389,9 @@ const categories =
   }
 
   .project-showcase {
+    min-width:
+      0;
+
     padding:
       42px;
 
@@ -2354,6 +2432,11 @@ const categories =
 
     box-shadow:
       var(--shadow-card);
+  }
+
+  .project-showcase > * {
+    min-width:
+      0;
   }
 
   .project-copy > p {
@@ -2485,6 +2568,9 @@ const categories =
   .project-panel {
     position:
       relative;
+
+    min-width:
+      0;
   }
 
   .project-panel::before {
@@ -2518,6 +2604,9 @@ const categories =
   .project-window {
     position:
       relative;
+
+    min-width:
+      0;
 
     overflow:
       hidden;
@@ -2621,6 +2710,9 @@ const categories =
     padding:
       28px;
 
+    overflow-wrap:
+      anywhere;
+
     font-family:
       "SFMono-Regular",
       Consolas,
@@ -2653,6 +2745,381 @@ const categories =
     color:
       #a9b4ff;
   }
+
+  /* =========================
+     Runtime mobile fallback
+
+     Used by system browsers that
+     expose an incorrect layout
+     viewport but are detected as
+     physical mobile devices.
+     ========================= */
+
+  :global(html.mobile-device)
+  .hero {
+    min-height:
+      auto;
+
+    padding:
+      58px 0 62px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    align-items:
+      stretch;
+
+    gap:
+      28px;
+  }
+
+  :global(html.mobile-device)
+  .hero-copy {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    min-width:
+      0;
+  }
+
+  :global(html.mobile-device)
+  .hero-kicker {
+    margin-top:
+      24px;
+
+    white-space:
+      normal;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      keep-all;
+  }
+
+  :global(html.mobile-device)
+  .hero h1 {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      clamp(
+        46px,
+        12vw,
+        64px
+      );
+
+    line-height:
+      1.05;
+
+    letter-spacing:
+      -0.055em;
+
+    white-space:
+      normal;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      keep-all;
+  }
+
+  :global(html.mobile-device)
+  .hero h1 span {
+    display:
+      block;
+  }
+
+  :global(html.mobile-device)
+  .hero-description {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    font-size:
+      15px;
+
+    line-height:
+      1.85;
+
+    white-space:
+      normal;
+
+    overflow-wrap:
+      normal;
+
+    word-break:
+      normal;
+  }
+
+  :global(html.mobile-device)
+  .hero-actions {
+    width:
+      100%;
+
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .hero-primary,
+  :global(html.mobile-device)
+  .hero-secondary {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    min-height:
+      50px;
+  }
+
+  :global(html.mobile-device)
+  .hero-meta {
+    width:
+      100%;
+
+    justify-content:
+      space-between;
+
+    gap:
+      16px;
+  }
+
+  :global(html.mobile-device)
+  .hero-meta div {
+    flex:
+      1 1 0;
+
+    min-width:
+      0;
+  }
+
+  :global(html.mobile-device)
+  .hero-visual {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    min-width:
+      0;
+
+    min-height:
+      390px;
+
+    overflow:
+      hidden;
+  }
+
+  :global(html.mobile-device)
+  .visual-card {
+    width:
+      min(
+        calc(100% - 24px),
+        390px
+      );
+
+    max-width:
+      100%;
+
+    padding:
+      20px;
+
+    border-radius:
+      24px;
+
+    transform:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .orbit-one {
+    width:
+      min(
+        350px,
+        88vw
+      );
+
+    height:
+      min(
+        350px,
+        88vw
+      );
+  }
+
+  :global(html.mobile-device)
+  .orbit-two {
+    width:
+      min(
+        285px,
+        72vw
+      );
+
+    height:
+      min(
+        285px,
+        72vw
+      );
+  }
+
+  :global(html.mobile-device)
+  .visual-label {
+    display:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .home-section {
+    padding:
+      62px 0;
+  }
+
+  :global(html.mobile-device)
+  .section-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      18px;
+  }
+
+  :global(html.mobile-device)
+  .section-link {
+    flex-shrink:
+      1;
+  }
+
+  :global(html.mobile-device)
+  .featured-post-link {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    min-height:
+      0;
+  }
+
+  :global(html.mobile-device)
+  .featured-cover {
+    min-height:
+      0;
+
+    aspect-ratio:
+      16 / 9;
+  }
+
+  :global(html.mobile-device)
+  .featured-cover img {
+    min-height:
+      0;
+
+    aspect-ratio:
+      16 / 9;
+  }
+
+  :global(html.mobile-device)
+  .cover-placeholder {
+    min-height:
+      0;
+
+    aspect-ratio:
+      16 / 9;
+  }
+
+  :global(html.mobile-device)
+  .featured-content {
+    padding:
+      24px;
+  }
+
+  :global(html.mobile-device)
+  .featured-content h3 {
+    font-size:
+      clamp(
+        24px,
+        7vw,
+        32px
+      );
+  }
+
+  :global(html.mobile-device)
+  .post-grid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  :global(html.mobile-device)
+  .category-grid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  :global(html.mobile-device)
+  .category-card {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr)
+      auto;
+  }
+
+  :global(html.mobile-device)
+  .project-showcase {
+    padding:
+      26px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      40px;
+
+    border-radius:
+      22px;
+  }
+
+  :global(html.mobile-device)
+  .project-window {
+    transform:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .project-actions {
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+  :global(html.mobile-device)
+  .project-primary,
+  :global(html.mobile-device)
+  .project-secondary {
+    width:
+      100%;
+  }
+
+  /* =========================
+     Standard responsive rules
+     ========================= */
 
   @media (
     max-width: 980px
@@ -2736,6 +3203,20 @@ const categories =
         15px;
     }
 
+    .hero-actions {
+      align-items:
+        stretch;
+
+      flex-direction:
+        column;
+    }
+
+    .hero-primary,
+    .hero-secondary {
+      width:
+        100%;
+    }
+
     .hero-meta {
       gap:
         24px;
@@ -2744,6 +3225,9 @@ const categories =
     .hero-visual {
       min-height:
         390px;
+
+      overflow:
+        hidden;
     }
 
     .visual-card {
@@ -2778,14 +3262,9 @@ const categories =
         285px;
     }
 
-    .visual-label-left {
-      left:
-        0;
-    }
-
-    .visual-label-right {
-      right:
-        0;
+    .visual-label {
+      display:
+        none;
     }
 
     .home-section {
@@ -2832,20 +3311,6 @@ const categories =
   @media (
     max-width: 420px
   ) {
-    .hero-actions {
-      align-items:
-        stretch;
-
-      flex-direction:
-        column;
-    }
-
-    .hero-primary,
-    .hero-secondary {
-      width:
-        100%;
-    }
-
     .hero-meta {
       justify-content:
         space-between;
@@ -2862,11 +3327,6 @@ const categories =
     .visual-grid div {
       padding:
         10px;
-    }
-
-    .visual-label {
-      display:
-        none;
     }
 
     .featured-content {

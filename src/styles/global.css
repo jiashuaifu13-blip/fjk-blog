@@ -6,57 +6,126 @@
   --color-bg: #f8f9ff;
   --color-bg-soft: #fff7fb;
 
-  --color-surface: rgba(255, 255, 255, 0.78);
-  --color-surface-solid: #ffffff;
-  --color-surface-hover: #f1f3ff;
-  --color-surface-elevated: rgba(255, 255, 255, 0.92);
+  --color-surface:
+    rgba(255, 255, 255, 0.78);
 
-  --color-primary: #7c8cff;
-  --color-primary-hover: #6979f5;
-  --color-primary-soft: rgba(124, 140, 255, 0.14);
+  --color-surface-solid:
+    #ffffff;
 
-  --color-secondary: #9b8cff;
-  --color-pink: #ff9fcf;
-  --color-cyan: #8edcff;
+  --color-surface-hover:
+    #f1f3ff;
 
-  --text-primary: #2d3142;
-  --text-secondary: #697087;
-  --text-muted: #9299ad;
+  --color-surface-elevated:
+    rgba(255, 255, 255, 0.92);
 
-  --border: rgba(116, 127, 166, 0.16);
-  --border-strong: rgba(116, 127, 166, 0.3);
+  --color-primary:
+    #7c8cff;
+
+  --color-primary-hover:
+    #6979f5;
+
+  --color-primary-soft:
+    rgba(124, 140, 255, 0.14);
+
+  --color-secondary:
+    #9b8cff;
+
+  --color-pink:
+    #ff9fcf;
+
+  --color-cyan:
+    #8edcff;
+
+  --text-primary:
+    #2d3142;
+
+  --text-secondary:
+    #697087;
+
+  --text-muted:
+    #9299ad;
+
+  --border:
+    rgba(116, 127, 166, 0.16);
+
+  --border-strong:
+    rgba(116, 127, 166, 0.3);
 
   /* =========================
      Compatibility aliases
-     Keep old page CSS working
      ========================= */
 
-  --background: var(--color-bg);
-  --surface: var(--color-surface);
-  --surface-hover: var(--color-surface-hover);
-  --accent: var(--color-primary);
+  --background:
+    var(--color-bg);
+
+  --surface:
+    var(--color-surface);
+
+  --surface-hover:
+    var(--color-surface-hover);
+
+  --accent:
+    var(--color-primary);
+
+  /* =========================
+     Safe areas
+     ========================= */
+
+  --safe-top:
+    env(
+      safe-area-inset-top,
+      0px
+    );
+
+  --safe-right:
+    env(
+      safe-area-inset-right,
+      0px
+    );
+
+  --safe-bottom:
+    env(
+      safe-area-inset-bottom,
+      0px
+    );
+
+  --safe-left:
+    env(
+      safe-area-inset-left,
+      0px
+    );
 
   /* =========================
      Radius
      ========================= */
 
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-sm:
+    10px;
+
+  --radius-md:
+    14px;
+
+  --radius-lg:
+    20px;
+
+  --radius-xl:
+    28px;
 
   /* =========================
      Shadow
      ========================= */
 
   --shadow-sm:
-    0 4px 16px rgba(68, 76, 120, 0.05);
+    0 4px 16px
+    rgba(68, 76, 120, 0.05);
 
   --shadow-card:
-    0 12px 34px rgba(68, 76, 120, 0.08);
+    0 12px 34px
+    rgba(68, 76, 120, 0.08);
 
   --shadow-hover:
-    0 18px 42px rgba(68, 76, 120, 0.13);
+    0 18px 42px
+    rgba(68, 76, 120, 0.13);
 
   /* =========================
      Glass
@@ -68,38 +137,48 @@
   --glass-border:
     rgba(255, 255, 255, 0.66);
 
-  --glass-blur: 18px;
+  --glass-blur:
+    18px;
 
   /* =========================
      Layout
      ========================= */
 
-  --content-width: 1100px;
-  --article-width: 760px;
+  --content-width:
+    1100px;
+
+  --article-width:
+    760px;
 
   /* =========================
      Transition
      ========================= */
 
-  --transition-fast: 150ms ease;
-  --transition-normal: 240ms ease;
-  --transition-slow: 380ms ease;
+  --transition-fast:
+    150ms ease;
 
-  color-scheme: light;
+  --transition-normal:
+    240ms ease;
+
+  --transition-slow:
+    380ms ease;
+
+  color-scheme:
+    light;
 }
 
 :root.dark {
-  /* =========================
-     Dark Anime Soft Tech
-     ========================= */
+  --color-bg:
+    #10111a;
 
-  --color-bg: #10111a;
-  --color-bg-soft: #151827;
+  --color-bg-soft:
+    #151827;
 
   --color-surface:
     rgba(27, 30, 47, 0.78);
 
-  --color-surface-solid: #1b1e2f;
+  --color-surface-solid:
+    #1b1e2f;
 
   --color-surface-hover:
     #23273c;
@@ -107,18 +186,32 @@
   --color-surface-elevated:
     rgba(31, 35, 54, 0.94);
 
-  --color-primary: #9ea8ff;
-  --color-primary-hover: #b0b8ff;
+  --color-primary:
+    #9ea8ff;
+
+  --color-primary-hover:
+    #b0b8ff;
+
   --color-primary-soft:
     rgba(158, 168, 255, 0.16);
 
-  --color-secondary: #b7a6ff;
-  --color-pink: #ff9fd6;
-  --color-cyan: #7de3ff;
+  --color-secondary:
+    #b7a6ff;
 
-  --text-primary: #eef0ff;
-  --text-secondary: #aeb5cd;
-  --text-muted: #7d849d;
+  --color-pink:
+    #ff9fd6;
+
+  --color-cyan:
+    #7de3ff;
+
+  --text-primary:
+    #eef0ff;
+
+  --text-secondary:
+    #aeb5cd;
+
+  --text-muted:
+    #7d849d;
 
   --border:
     rgba(165, 175, 220, 0.13);
@@ -139,13 +232,16 @@
     var(--color-primary);
 
   --shadow-sm:
-    0 4px 18px rgba(0, 0, 0, 0.2);
+    0 4px 18px
+    rgba(0, 0, 0, 0.2);
 
   --shadow-card:
-    0 14px 38px rgba(0, 0, 0, 0.24);
+    0 14px 38px
+    rgba(0, 0, 0, 0.24);
 
   --shadow-hover:
-    0 20px 48px rgba(0, 0, 0, 0.32);
+    0 20px 48px
+    rgba(0, 0, 0, 0.32);
 
   --glass-background:
     rgba(21, 24, 39, 0.7);
@@ -153,7 +249,8 @@
   --glass-border:
     rgba(255, 255, 255, 0.06);
 
-  color-scheme: dark;
+  color-scheme:
+    dark;
 }
 
 /* =========================
@@ -163,12 +260,28 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing:
+    border-box;
 }
 
 html {
-  margin: 0;
-  padding: 0;
+  width:
+    100%;
+
+  min-width:
+    320px;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow-x:
+    hidden;
+
+  overflow-x:
+    clip;
 
   background:
     var(--color-bg);
@@ -178,17 +291,45 @@ html {
 
   scroll-behavior:
     smooth;
+
+  /*
+   * Prevent mobile browsers from
+   * unexpectedly inflating text.
+   */
+  -webkit-text-size-adjust:
+    100%;
+
+  text-size-adjust:
+    100%;
 }
 
 body {
+  width:
+    100%;
+
   min-width:
     320px;
 
   min-height:
     100vh;
 
-  margin: 0;
-  padding: 0;
+  min-height:
+    100dvh;
+
+  margin:
+    0;
+
+  padding:
+    0
+    var(--safe-right)
+    var(--safe-bottom)
+    var(--safe-left);
+
+  overflow-x:
+    hidden;
+
+  overflow-x:
+    clip;
 
   color:
     var(--text-primary);
@@ -269,6 +410,31 @@ body {
 }
 
 /* =========================
+   Structural mobile safety
+   ========================= */
+
+main,
+section,
+article,
+aside,
+nav,
+header,
+footer {
+  min-width:
+    0;
+}
+
+body > * {
+  max-width:
+    100%;
+}
+
+main {
+  overflow-wrap:
+    break-word;
+}
+
+/* =========================
    Global border behavior
    ========================= */
 
@@ -295,6 +461,9 @@ h3,
 h4,
 h5,
 h6 {
+  max-width:
+    100%;
+
   color:
     var(--text-primary);
 
@@ -306,6 +475,9 @@ h6 {
 }
 
 p {
+  max-width:
+    100%;
+
   text-wrap:
     pretty;
 }
@@ -351,6 +523,9 @@ button,
 input,
 textarea,
 select {
+  max-width:
+    100%;
+
   font:
     inherit;
 }
@@ -358,6 +533,19 @@ select {
 button {
   color:
     inherit;
+}
+
+/* =========================
+   Touch behavior
+   ========================= */
+
+a,
+button,
+input,
+textarea,
+select {
+  touch-action:
+    manipulation;
 }
 
 /* =========================
@@ -376,7 +564,8 @@ svg {
     100%;
 }
 
-img {
+img,
+video {
   height:
     auto;
 }
@@ -404,8 +593,14 @@ img {
       var(--content-width)
     );
 
+  min-width:
+    0;
+
   min-height:
     calc(100vh - 160px);
+
+  min-height:
+    calc(100dvh - 160px);
 
   margin:
     0 auto;
@@ -504,11 +699,17 @@ html {
    ========================= */
 
 .article-content {
+  min-width:
+    0;
+
   color:
     var(--text-primary);
 }
 
 .article-content a {
+  overflow-wrap:
+    anywhere;
+
   color:
     var(--color-primary);
 
@@ -554,7 +755,8 @@ html {
     var(--text-secondary);
 }
 
-.article-content :not(pre) > code {
+.article-content
+:not(pre) > code {
   padding:
     0.16em
     0.42em;
@@ -574,14 +776,31 @@ html {
 
   font-size:
     0.92em;
+
+  overflow-wrap:
+    anywhere;
 }
 
 .article-content pre {
+  max-width:
+    100%;
+
+  overflow-x:
+    auto;
+
   border-radius:
     var(--radius-md);
 
   box-shadow:
     var(--shadow-sm);
+
+  -webkit-overflow-scrolling:
+    touch;
+}
+
+.article-content table {
+  max-width:
+    100%;
 }
 
 /* =========================
@@ -611,6 +830,9 @@ html {
    ========================= */
 
 .soft-card {
+  min-width:
+    0;
+
   border:
     1px solid
     var(--border);
@@ -675,12 +897,25 @@ html.dark
 }
 
 /* =========================
-   Responsive
+   Mobile compatibility layer
    ========================= */
 
-@media (
-  max-width: 700px
-) {
+/*
+ * Standard mobile layout is driven
+ * by max-width.
+ *
+ * max-device-width and coarse pointer
+ * are compatibility fallbacks for
+ * mobile browsers that expose an
+ * unexpectedly wide layout viewport.
+ */
+@media
+  (max-width: 700px),
+  (max-device-width: 700px),
+  (hover: none) and
+    (pointer: coarse) and
+    (max-width: 1100px) {
+
   body {
     font-size:
       15px;
@@ -695,6 +930,25 @@ html.dark
         calc(100% - 28px),
         var(--content-width)
       );
+  }
+}
+
+/* =========================
+   Very small phones
+   ========================= */
+
+@media (
+  max-width: 360px
+) {
+  html,
+  body {
+    min-width:
+      0;
+  }
+
+  .site-main {
+    width:
+      calc(100% - 20px);
   }
 }
 

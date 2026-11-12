@@ -52,16 +52,12 @@ const currentIndex =
 const olderPost =
   currentIndex <
   allPosts.length - 1
-    ? allPosts[
-        currentIndex + 1
-      ]
+    ? allPosts[currentIndex + 1]
     : undefined;
 
 const newerPost =
   currentIndex > 0
-    ? allPosts[
-        currentIndex - 1
-      ]
+    ? allPosts[currentIndex - 1]
     : undefined;
 
 const {
@@ -97,15 +93,7 @@ const publishedDate =
           class="back-link"
           href="/blog"
         >
-          <span
-            aria-hidden="true"
-          >
-            ←
-          </span>
-
-          <span>
-            返回文章
-          </span>
+          ← 返回文章
         </a>
 
         <span class="article-type">
@@ -117,12 +105,9 @@ const publishedDate =
         <div class="article-eyebrow">
           <span
             class="eyebrow-dot"
-            aria-hidden="true"
           ></span>
 
-          <span>
-            STORIES & NOTES
-          </span>
+          STORIES & NOTES
         </div>
 
         <h1>
@@ -221,11 +206,6 @@ const publishedDate =
               }
             />
 
-            <div
-              class="cover-shine"
-              aria-hidden="true"
-            ></div>
-
             <figcaption>
               <span>
                 FJK BLOG
@@ -259,7 +239,7 @@ const publishedDate =
             )}
           </strong>
 
-          <span class="sidebar-total">
+          <span>
             / {String(
               allPosts.length
             ).padStart(
@@ -284,10 +264,7 @@ const publishedDate =
         </div>
 
         <div class="article-end">
-          <div
-            class="end-symbol"
-            aria-hidden="true"
-          >
+          <div>
             ✦
           </div>
 
@@ -315,32 +292,20 @@ const publishedDate =
         </div>
 
         <a href="/blog">
-          全部文章
-          <span aria-hidden="true">
-            →
-          </span>
+          全部文章 →
         </a>
       </div>
 
-      <nav
-        class="article-navigation"
-        aria-label="文章导航"
-      >
+      <nav class="article-navigation">
         {
           olderPost ? (
             <a
               class="navigation-card"
               href={`/blog/${olderPost.id}/`}
             >
-              <div class="navigation-top">
-                <span>
-                  ← 较早文章
-                </span>
-
-                <span class="navigation-index">
-                  PREV
-                </span>
-              </div>
+              <span>
+                ← 较早文章
+              </span>
 
               <strong>
                 {olderPost.data.title}
@@ -351,41 +316,16 @@ const publishedDate =
                   olderPost.data.description
                 }
               </p>
-
-              <div class="navigation-bottom">
-                <span>
-                  {
-                    olderPost.data
-                      .category
-                  }
-                </span>
-
-                <span
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-              </div>
             </a>
           ) : (
             <div class="navigation-card disabled">
-              <div class="navigation-top">
-                <span>
-                  ← 较早文章
-                </span>
-
-                <span class="navigation-index">
-                  PREV
-                </span>
-              </div>
+              <span>
+                ← 较早文章
+              </span>
 
               <strong>
                 已经是最早的文章
               </strong>
-
-              <p>
-                暂时没有更早的内容。
-              </p>
             </div>
           )
         }
@@ -393,18 +333,12 @@ const publishedDate =
         {
           newerPost ? (
             <a
-              class="navigation-card navigation-newer"
+              class="navigation-card"
               href={`/blog/${newerPost.id}/`}
             >
-              <div class="navigation-top">
-                <span>
-                  较新文章 →
-                </span>
-
-                <span class="navigation-index">
-                  NEXT
-                </span>
-              </div>
+              <span>
+                较新文章 →
+              </span>
 
               <strong>
                 {newerPost.data.title}
@@ -415,41 +349,16 @@ const publishedDate =
                   newerPost.data.description
                 }
               </p>
-
-              <div class="navigation-bottom">
-                <span>
-                  {
-                    newerPost.data
-                      .category
-                  }
-                </span>
-
-                <span
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-              </div>
             </a>
           ) : (
             <div class="navigation-card disabled">
-              <div class="navigation-top">
-                <span>
-                  较新文章 →
-                </span>
-
-                <span class="navigation-index">
-                  NEXT
-                </span>
-              </div>
+              <span>
+                较新文章 →
+              </span>
 
               <strong>
                 已经是最新的文章
               </strong>
-
-              <p>
-                新内容正在准备中。
-              </p>
             </div>
           )
         }
@@ -460,11 +369,17 @@ const publishedDate =
 
 <style>
   .article {
+    min-width:
+      0;
+
     padding:
       66px 0 40px;
   }
 
   .article-header {
+    min-width:
+      0;
+
     padding-bottom:
       70px;
 
@@ -474,7 +389,8 @@ const publishedDate =
   }
 
   .article-topbar {
-    display: flex;
+    display:
+      flex;
 
     align-items:
       center;
@@ -499,9 +415,6 @@ const publishedDate =
     align-items:
       center;
 
-    gap:
-      8px;
-
     border:
       1px solid
       var(--border);
@@ -514,39 +427,6 @@ const publishedDate =
 
     color:
       var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    font-size:
-      11px;
-
-    font-weight:
-      650;
-
-    transition:
-      transform
-        var(--transition-fast),
-      border-color
-        var(--transition-fast),
-      color
-        var(--transition-fast),
-      background-color
-        var(--transition-fast);
-  }
-
-  .back-link:hover {
-    transform:
-      translateX(-2px);
-
-    border-color:
-      var(--border-strong);
-
-    background:
-      var(--color-surface-elevated);
-
-    color:
-      var(--color-primary);
   }
 
   .article-type {
@@ -555,9 +435,6 @@ const publishedDate =
 
     font-size:
       9px;
-
-    font-weight:
-      750;
 
     letter-spacing:
       0.13em;
@@ -569,6 +446,9 @@ const publishedDate =
         100%,
         880px
       );
+
+    min-width:
+      0;
 
     margin:
       64px auto 0;
@@ -606,17 +486,8 @@ const publishedDate =
     background:
       var(--color-surface);
 
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
     font-size:
       9px;
-
-    font-weight:
-      750;
 
     letter-spacing:
       0.14em;
@@ -629,20 +500,14 @@ const publishedDate =
     height:
       6px;
 
+    flex-shrink:
+      0;
+
     border-radius:
       50%;
 
     background:
       var(--color-cyan);
-
-    box-shadow:
-      0 0 0 4px
-      color-mix(
-        in srgb,
-        var(--color-cyan)
-          15%,
-        transparent
-      );
   }
 
   .article-heading h1 {
@@ -661,6 +526,9 @@ const publishedDate =
 
     letter-spacing:
       -0.055em;
+
+    word-break:
+      normal;
   }
 
   .article-description {
@@ -704,6 +572,9 @@ const publishedDate =
   }
 
   .meta-item {
+    min-width:
+      0;
+
     display:
       flex;
 
@@ -712,9 +583,6 @@ const publishedDate =
 
     flex-direction:
       column;
-
-    justify-content:
-      center;
 
     gap:
       5px;
@@ -726,30 +594,6 @@ const publishedDate =
 
     font-size:
       8px;
-
-    font-weight:
-      750;
-
-    letter-spacing:
-      0.13em;
-  }
-
-  .meta-item time,
-  .meta-item a,
-  .meta-item > span:last-child {
-    color:
-      var(--text-secondary);
-
-    font-size:
-      11px;
-
-    font-weight:
-      550;
-  }
-
-  .meta-item a:hover {
-    color:
-      var(--color-primary);
   }
 
   .meta-divider {
@@ -770,9 +614,6 @@ const publishedDate =
     display:
       flex;
 
-    align-items:
-      center;
-
     justify-content:
       center;
 
@@ -784,6 +625,9 @@ const publishedDate =
   }
 
   .article-tags a {
+    max-width:
+      100%;
+
     padding:
       6px 9px;
 
@@ -803,28 +647,11 @@ const publishedDate =
     font-size:
       10px;
 
-    font-weight:
-      650;
-
-    transition:
-      transform
-        var(--transition-fast),
-      border-color
-        var(--transition-fast);
-  }
-
-  .article-tags a:hover {
-    transform:
-      translateY(-2px);
-
-    border-color:
-      var(--border-strong);
+    overflow-wrap:
+      anywhere;
   }
 
   .article-cover {
-    position:
-      relative;
-
     margin:
       54px 0 0;
 
@@ -859,29 +686,6 @@ const publishedDate =
       cover;
   }
 
-  .cover-shine {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(
-          255,
-          255,
-          255,
-          0.08
-        ),
-        transparent 38%
-      );
-
-    pointer-events:
-      none;
-  }
-
   .article-cover figcaption {
     min-height:
       42px;
@@ -912,39 +716,15 @@ const publishedDate =
       9px;
   }
 
-  .article-cover figcaption
-  span:first-child {
-    flex-shrink:
-      0;
-
-    color:
-      var(--color-primary);
-
-    font-weight:
-      750;
-
-    letter-spacing:
-      0.11em;
-  }
-
-  .article-cover figcaption
-  span:last-child {
-    overflow:
-      hidden;
-
-    text-overflow:
-      ellipsis;
-
-    white-space:
-      nowrap;
-  }
-
   .reading-layout {
     width:
       min(
         100%,
         980px
       );
+
+    min-width:
+      0;
 
     margin:
       0 auto;
@@ -967,11 +747,6 @@ const publishedDate =
 
     gap:
       54px;
-  }
-
-  .article-sidebar {
-    position:
-      relative;
   }
 
   .sidebar-card {
@@ -999,23 +774,6 @@ const publishedDate =
 
     background:
       var(--color-surface);
-
-    box-shadow:
-      var(--shadow-sm);
-  }
-
-  .sidebar-label {
-    color:
-      var(--text-muted);
-
-    font-size:
-      8px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.12em;
   }
 
   .sidebar-card strong {
@@ -1027,20 +785,6 @@ const publishedDate =
 
     font-size:
       28px;
-
-    line-height:
-      1;
-  }
-
-  .sidebar-total {
-    margin-top:
-      3px;
-
-    color:
-      var(--text-muted);
-
-    font-size:
-      10px;
   }
 
   .sidebar-line {
@@ -1054,18 +798,14 @@ const publishedDate =
       var(--border);
   }
 
-  .sidebar-text {
+  .sidebar-label,
+  .sidebar-text,
+  .sidebar-card > span {
     color:
-      var(--text-secondary);
+      var(--text-muted);
 
     font-size:
       9px;
-
-    line-height:
-      1.7;
-
-    letter-spacing:
-      0.02em;
   }
 
   .article-body {
@@ -1074,6 +814,9 @@ const publishedDate =
   }
 
   .article-content {
+    min-width:
+      0;
+
     font-size:
       17px;
 
@@ -1081,11 +824,6 @@ const publishedDate =
       1.9;
   }
 
-  /*
-   * Markdown 文件本身目前以 # 标题开头。
-   * 页面 Header 已经显示文章标题，
-   * 所以隐藏正文中的重复首个 H1。
-   */
   .article-content
   > :global(h1:first-child) {
     display:
@@ -1093,27 +831,9 @@ const publishedDate =
   }
 
   .article-content
-  :global(h1),
-  .article-content
-  :global(h2),
-  .article-content
-  :global(h3),
-  .article-content
-  :global(h4) {
-    position:
-      relative;
-
-    scroll-margin-top:
-      120px;
-  }
-
-  .article-content
   :global(h2) {
     margin:
       64px 0 20px;
-
-    padding-top:
-      8px;
 
     font-size:
       30px;
@@ -1121,39 +841,8 @@ const publishedDate =
     line-height:
       1.3;
 
-    letter-spacing:
-      -0.04em;
-  }
-
-  .article-content
-  :global(h2::before) {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      -11px;
-
-    left:
-      0;
-
-    width:
-      28px;
-
-    height:
-      3px;
-
-    border-radius:
-      999px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-primary),
-        var(--color-pink)
-      );
+    word-break:
+      normal;
   }
 
   .article-content
@@ -1163,21 +852,6 @@ const publishedDate =
 
     font-size:
       22px;
-
-    line-height:
-      1.4;
-
-    letter-spacing:
-      -0.025em;
-  }
-
-  .article-content
-  :global(h4) {
-    margin:
-      32px 0 12px;
-
-    font-size:
-      18px;
   }
 
   .article-content
@@ -1190,18 +864,9 @@ const publishedDate =
   }
 
   .article-content
-  :global(strong) {
-    font-weight:
-      700;
-  }
-
-  .article-content
   :global(ul),
   .article-content
   :global(ol) {
-    margin:
-      22px 0 28px;
-
     padding-left:
       26px;
 
@@ -1210,121 +875,28 @@ const publishedDate =
   }
 
   .article-content
-  :global(li) {
-    margin:
-      8px 0;
-
-    padding-left:
-      4px;
-  }
-
-  .article-content
-  :global(li::marker) {
-    color:
-      var(--color-primary);
-  }
-
-  .article-content
-  :global(blockquote) {
-    position:
-      relative;
-
-    margin:
-      36px 0;
-
-    padding:
-      22px 24px 22px 27px;
-
-    overflow:
-      hidden;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-left:
-      3px solid
-      var(--color-primary);
-
-    border-radius:
-      0
-      var(--radius-md)
-      var(--radius-md)
-      0;
-
-    background:
-      linear-gradient(
-        135deg,
-        var(--color-primary-soft),
-        var(--color-surface)
-      );
-
-    box-shadow:
-      var(--shadow-sm);
-  }
-
-  .article-content
-  :global(blockquote p) {
-    margin:
-      0;
-
-    color:
-      var(--text-secondary);
-  }
-
-  .article-content
-  :global(a) {
-    color:
-      var(--color-primary);
-
-    text-decoration:
-      underline;
-
-    text-decoration-color:
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          35%,
-        transparent
-      );
-
-    text-underline-offset:
-      4px;
-  }
-
-  .article-content
-  :global(a:hover) {
-    text-decoration-color:
-      var(--color-primary);
-  }
-
-  .article-content
   :global(img) {
     width:
       100%;
 
+    height:
+      auto;
+
     margin:
       34px 0;
 
-    border:
-      1px solid
-      var(--border);
-
     border-radius:
       var(--radius-lg);
-
-    box-shadow:
-      var(--shadow-card);
-  }
-
-  .article-content
-  :global(hr) {
-    margin:
-      52px 0;
   }
 
   .article-content
   :global(pre) {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
     margin:
       32px 0;
 
@@ -1344,52 +916,11 @@ const publishedDate =
     background:
       #111421;
 
-    box-shadow:
-      var(--shadow-card);
-
     font-size:
       13px;
 
-    line-height:
-      1.75;
-  }
-
-  .article-content
-  :global(pre code) {
-    padding:
-      0;
-
-    border:
-      0;
-
-    background:
-      transparent;
-
-    color:
-      inherit;
-  }
-
-  .article-content
-  :global(:not(pre) > code) {
-    padding:
-      0.18em
-      0.43em;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      7px;
-
-    background:
-      var(--color-primary-soft);
-
-    color:
-      var(--color-primary);
-
-    font-size:
-      0.9em;
+    -webkit-overflow-scrolling:
+      touch;
   }
 
   .article-content
@@ -1397,54 +928,17 @@ const publishedDate =
     width:
       100%;
 
-    margin:
-      32px 0;
+    max-width:
+      100%;
 
-    border-collapse:
-      collapse;
+    display:
+      block;
 
-    overflow:
-      hidden;
+    overflow-x:
+      auto;
 
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      var(--radius-md);
-
-    font-size:
-      14px;
-  }
-
-  .article-content
-  :global(th),
-  .article-content
-  :global(td) {
-    padding:
-      12px 14px;
-
-    border:
-      1px solid
-      var(--border);
-
-    text-align:
-      left;
-  }
-
-  .article-content
-  :global(th) {
-    background:
-      var(--color-primary-soft);
-
-    color:
-      var(--text-primary);
-  }
-
-  .article-content
-  :global(td) {
-    color:
-      var(--text-secondary);
+    -webkit-overflow-scrolling:
+      touch;
   }
 
   .article-end {
@@ -1454,15 +948,6 @@ const publishedDate =
     padding:
       32px 20px;
 
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    flex-direction:
-      column;
-
     border-top:
       1px solid
       var(--border);
@@ -1471,44 +956,12 @@ const publishedDate =
       center;
   }
 
-  .end-symbol {
-    color:
-      var(--color-primary);
-
-    font-size:
-      20px;
-
-    text-shadow:
-      0 0 20px
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          55%,
-        transparent
-      );
-  }
-
   .article-end p {
     margin:
       10px 0 0;
-
-    color:
-      var(--text-primary);
-
-    font-size:
-      13px;
-
-    font-weight:
-      700;
-
-    letter-spacing:
-      0.04em;
   }
 
   .article-end span {
-    margin-top:
-      4px;
-
     color:
       var(--text-muted);
 
@@ -1551,12 +1004,6 @@ const publishedDate =
 
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.15em;
   }
 
   .article-footer-heading h2 {
@@ -1565,45 +1012,12 @@ const publishedDate =
 
     font-size:
       34px;
-
-    letter-spacing:
-      -0.04em;
-  }
-
-  .article-footer-heading > a {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      7px;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      12px;
-
-    font-weight:
-      650;
-  }
-
-  .article-footer-heading
-  > a span {
-    transition:
-      transform
-        var(--transition-fast);
-  }
-
-  .article-footer-heading
-  > a:hover span {
-    transform:
-      translateX(3px);
   }
 
   .article-navigation {
+    min-width:
+      0;
+
     margin-top:
       30px;
 
@@ -1621,8 +1035,11 @@ const publishedDate =
   }
 
   .navigation-card {
+    min-width:
+      0;
+
     min-height:
-      220px;
+      190px;
 
     padding:
       24px;
@@ -1642,64 +1059,14 @@ const publishedDate =
 
     background:
       var(--color-surface);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    transition:
-      transform
-        var(--transition-normal),
-      border-color
-        var(--transition-normal),
-      box-shadow
-        var(--transition-normal),
-      background-color
-        var(--transition-normal);
   }
 
-  a.navigation-card:hover {
-    transform:
-      translateY(-4px);
-
-    border-color:
-      var(--border-strong);
-
-    background:
-      var(--color-surface-elevated);
-
-    box-shadow:
-      var(--shadow-card);
-  }
-
-  .navigation-top,
-  .navigation-bottom {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      space-between;
-
-    gap:
-      20px;
-  }
-
-  .navigation-top {
+  .navigation-card > span {
     color:
       var(--text-muted);
 
     font-size:
       9px;
-
-    font-weight:
-      650;
-  }
-
-  .navigation-index {
-    letter-spacing:
-      0.1em;
   }
 
   .navigation-card strong {
@@ -1709,76 +1076,194 @@ const publishedDate =
     font-size:
       19px;
 
-    line-height:
-      1.45;
-
-    letter-spacing:
-      -0.025em;
+    word-break:
+      normal;
   }
 
-  .navigation-card > p {
-    margin:
-      10px 0 24px;
-
+  .navigation-card p {
     color:
       var(--text-secondary);
 
     font-size:
       12px;
-
-    line-height:
-      1.7;
-  }
-
-  .navigation-bottom {
-    margin-top:
-      auto;
-
-    padding-top:
-      16px;
-
-    border-top:
-      1px solid
-      var(--border);
-
-    color:
-      var(--text-muted);
-
-    font-size:
-      10px;
-  }
-
-  a.navigation-card
-  .navigation-bottom
-  span:last-child {
-    transition:
-      transform
-        var(--transition-fast),
-      color
-        var(--transition-fast);
-  }
-
-  a.navigation-card:hover
-  .navigation-bottom
-  span:last-child {
-    color:
-      var(--color-primary);
-
-    transform:
-      translate(
-        2px,
-        -2px
-      );
-  }
-
-  .navigation-newer {
-    text-align:
-      right;
   }
 
   .disabled {
     opacity:
       0.52;
+  }
+
+  /* Runtime mobile fallback */
+
+  :global(html.mobile-device)
+  .article {
+    padding:
+      42px 0 18px;
+  }
+
+  :global(html.mobile-device)
+  .article-header {
+    padding-bottom:
+      52px;
+  }
+
+  :global(html.mobile-device)
+  .article-type {
+    display:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .article-heading {
+    width:
+      100%;
+
+    margin-top:
+      46px;
+
+    text-align:
+      left;
+  }
+
+  :global(html.mobile-device)
+  .article-eyebrow {
+    margin:
+      0;
+  }
+
+  :global(html.mobile-device)
+  .article-heading h1 {
+    width:
+      100%;
+
+    font-size:
+      clamp(
+        38px,
+        11vw,
+        54px
+      );
+
+    word-break:
+      normal;
+  }
+
+  :global(html.mobile-device)
+  .article-description {
+    width:
+      100%;
+
+    margin-left:
+      0;
+
+    font-size:
+      15px;
+  }
+
+  :global(html.mobile-device)
+  .article-meta {
+    justify-content:
+      flex-start;
+  }
+
+  :global(html.mobile-device)
+  .meta-item {
+    align-items:
+      flex-start;
+  }
+
+  :global(html.mobile-device)
+  .article-tags {
+    justify-content:
+      flex-start;
+  }
+
+  :global(html.mobile-device)
+  .article-cover {
+    margin-top:
+      40px;
+
+    border-radius:
+      var(--radius-lg);
+  }
+
+  :global(html.mobile-device)
+  .article-cover figcaption {
+    display:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .reading-layout {
+    width:
+      100%;
+
+    padding-top:
+      52px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      0;
+  }
+
+  :global(html.mobile-device)
+  .article-sidebar {
+    display:
+      none;
+  }
+
+  :global(html.mobile-device)
+  .article-content {
+    width:
+      100%;
+
+    font-size:
+      16px;
+
+    line-height:
+      1.86;
+  }
+
+  :global(html.mobile-device)
+  .article-content
+  :global(h2) {
+    margin-top:
+      52px;
+
+    font-size:
+      26px;
+  }
+
+  :global(html.mobile-device)
+  .article-content
+  :global(h3) {
+    font-size:
+      20px;
+  }
+
+  :global(html.mobile-device)
+  .article-footer {
+    padding-top:
+      54px;
+  }
+
+  :global(html.mobile-device)
+  .article-footer-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      16px;
+  }
+
+  :global(html.mobile-device)
+  .article-navigation {
+    grid-template-columns:
+      minmax(0, 1fr);
   }
 
   @media (
@@ -1787,15 +1272,6 @@ const publishedDate =
     .reading-layout {
       grid-template-columns:
         1fr;
-
-      width:
-        min(
-          100%,
-          var(--article-width)
-        );
-
-      gap:
-        0;
     }
 
     .article-sidebar {
@@ -1810,11 +1286,6 @@ const publishedDate =
     .article {
       padding:
         42px 0 18px;
-    }
-
-    .article-header {
-      padding-bottom:
-        52px;
     }
 
     .article-type {
@@ -1835,137 +1306,15 @@ const publishedDate =
         0;
     }
 
-    .article-heading h1 {
-      font-size:
-        clamp(
-          38px,
-          12vw,
-          54px
-        );
-    }
-
-    .article-description {
-      margin-left:
-        0;
-
-      font-size:
-        15px;
-    }
-
-    .article-meta {
-      justify-content:
-        flex-start;
-    }
-
-    .meta-item {
-      align-items:
-        flex-start;
-    }
-
+    .article-meta,
     .article-tags {
       justify-content:
         flex-start;
     }
 
-    .article-cover {
-      margin-top:
-        40px;
-
-      border-radius:
-        var(--radius-lg);
-    }
-
-    .article-cover figcaption {
-      display:
-        none;
-    }
-
-    .reading-layout {
-      padding-top:
-        52px;
-    }
-
-    .article-content {
-      font-size:
-        16px;
-
-      line-height:
-        1.86;
-    }
-
-    .article-content
-    :global(h2) {
-      margin-top:
-        52px;
-
-      font-size:
-        26px;
-    }
-
-    .article-content
-    :global(h3) {
-      font-size:
-        20px;
-    }
-
-    .article-footer {
-      padding-top:
-        54px;
-    }
-
-    .article-footer-heading {
-      align-items:
-        flex-start;
-
-      flex-direction:
-        column;
-
-      gap:
-        16px;
-    }
-
     .article-navigation {
       grid-template-columns:
         1fr;
-    }
-
-    .navigation-newer {
-      text-align:
-        left;
-    }
-  }
-
-  @media (
-    max-width: 420px
-  ) {
-    .article-meta {
-      align-items:
-        flex-start;
-
-      flex-direction:
-        column;
-
-      gap:
-        12px;
-    }
-
-    .meta-divider {
-      width:
-        100%;
-
-      min-height:
-        1px;
-
-      height:
-        1px;
-    }
-
-    .navigation-card {
-      min-height:
-        200px;
-
-      padding:
-        20px;
     }
   }
 </style>

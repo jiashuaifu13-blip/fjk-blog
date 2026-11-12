@@ -9,7 +9,8 @@ export async function getStaticPaths() {
   const categories = [
     ...new Set(
       posts.map(
-        (post) => post.data.category
+        (post) =>
+          post.data.category
       )
     ),
   ];
@@ -19,7 +20,6 @@ export async function getStaticPaths() {
       params: {
         category,
       },
-
       props: {
         category,
       },
@@ -31,23 +31,26 @@ const {
   category,
 } = Astro.props;
 
-const posts = (await getCollection("posts"))
-  .filter(
-    (post) =>
-      !post.data.draft &&
-      post.data.category === category
-  )
-  .sort(
-    (a, b) =>
-      b.data.date.getTime() -
-      a.data.date.getTime()
-  );
+const posts =
+  (await getCollection("posts"))
+    .filter(
+      (post) =>
+        !post.data.draft &&
+        post.data.category ===
+          category
+    )
+    .sort(
+      (a, b) =>
+        b.data.date.getTime() -
+        a.data.date.getTime()
+    );
 
-const allPosts = (await getCollection("posts"))
-  .filter(
-    (post) =>
-      !post.data.draft
-  );
+const allPosts =
+  (await getCollection("posts"))
+    .filter(
+      (post) =>
+        !post.data.draft
+    );
 
 const allCategories = [
   ...new Set(
@@ -56,18 +59,12 @@ const allCategories = [
         post.data.category
     )
   ),
-].sort(
-  (a, b) =>
-    a.localeCompare(
-      b,
-      "zh-CN"
-    )
-);
+];
 ---
 
 <Layout
   title={`${category} - 分类`}
-  description={`浏览 FJK Blog 中分类为「${category}」的文章。`}
+  description={`浏览分类「${category}」下的文章。`}
 >
   <section class="collection-hero">
     <div class="collection-copy">
@@ -75,26 +72,12 @@ const allCategories = [
         class="back-link"
         href="/blog"
       >
-        <span
-          aria-hidden="true"
-        >
-          ←
-        </span>
-
-        <span>
-          返回文章
-        </span>
+        ← 返回文章
       </a>
 
       <div class="collection-badge">
-        <span
-          class="badge-dot"
-          aria-hidden="true"
-        ></span>
-
-        <span>
-          CATEGORY
-        </span>
+        <span></span>
+        CATEGORY
       </div>
 
       <p class="collection-kicker">
@@ -114,14 +97,9 @@ const allCategories = [
       </p>
     </div>
 
-    <div
-      class="collection-visual"
-      aria-hidden="true"
-    >
-      <div class="visual-orbit"></div>
-
+    <div class="collection-visual">
       <div class="visual-card">
-        <span class="visual-label">
+        <span>
           CATEGORY
         </span>
 
@@ -134,29 +112,26 @@ const allCategories = [
           )}
         </strong>
 
-        <span class="visual-name">
+        <h2>
           {category}
-        </span>
+        </h2>
 
-        <div class="visual-line"></div>
+        <div></div>
 
-        <span class="visual-footer">
+        <small>
           FJK BLOG / ARCHIVE
-        </span>
+        </small>
       </div>
-
-      <span class="visual-star">
-        ✦
-      </span>
     </div>
   </section>
 
   {
-    allCategories.length > 1 && (
+    allCategories.length >
+      1 && (
       <section class="switcher-section">
         <div class="section-heading">
           <div>
-            <p class="section-eyebrow">
+            <p>
               BROWSE
             </p>
 
@@ -164,18 +139,6 @@ const allCategories = [
               其他分类
             </h2>
           </div>
-
-          <a
-            href="/blog"
-            class="section-link"
-          >
-            全部文章
-            <span
-              aria-hidden="true"
-            >
-              →
-            </span>
-          </a>
         </div>
 
         <div class="switcher-list">
@@ -207,17 +170,13 @@ const allCategories = [
   <section class="posts-section">
     <div class="section-heading">
       <div>
-        <p class="section-eyebrow">
+        <p>
           POSTS
         </p>
 
         <h2>
           分类文章
         </h2>
-
-        <p class="section-description">
-          按发布时间从新到旧排列。
-        </p>
       </div>
 
       <span class="post-total">
@@ -225,149 +184,63 @@ const allCategories = [
       </span>
     </div>
 
-    {
-      posts.length > 0 ? (
-        <div class="posts-grid">
-          {
-            posts.map(
-              (post, index) => (
-                <article class="post-card">
-                  <a
-                    href={`/blog/${post.id}/`}
-                    class="post-card-link"
-                  >
+    <div class="posts-grid">
+      {
+        posts.map(
+          (post) => (
+            <article class="post-card">
+              <a
+                href={`/blog/${post.id}/`}
+              >
+                {
+                  post.data.cover && (
                     <div class="post-cover">
-                      {
-                        post.data.cover ? (
-                          <img
-                            src={post.data.cover}
-                            alt={
-                              post.data.coverAlt ??
-                              post.data.title
-                            }
-                            loading={
-                              index < 2
-                                ? "eager"
-                                : "lazy"
-                            }
-                          />
-                        ) : (
-                          <div class="cover-placeholder">
-                            <span>
-                              FJK
-                            </span>
-                          </div>
-                        )
-                      }
-
-                      <div class="cover-overlay"></div>
-
-                      <span class="post-number">
-                        {String(
-                          index + 1
-                        ).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
+                      <img
+                        src={post.data.cover}
+                        alt={
+                          post.data.coverAlt ??
+                          post.data.title
+                        }
+                      />
                     </div>
+                  )
+                }
 
-                    <div class="post-content">
-                      <div class="post-meta">
-                        <time
-                          datetime={
-                            post.data.date.toISOString()
-                          }
-                        >
-                          {
-                            post.data.date.toLocaleDateString(
-                              "zh-CN",
-                              {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                              }
-                            )
-                          }
-                        </time>
+                <div class="post-content">
+                  <div class="post-meta">
+                    {
+                      post.data.date.toLocaleDateString(
+                        "zh-CN"
+                      )
+                    }
+                  </div>
 
-                        <span>
-                          ·
-                        </span>
+                  <h3>
+                    {post.data.title}
+                  </h3>
 
-                        <span>
-                          {post.data.category}
-                        </span>
-                      </div>
+                  <p>
+                    {post.data.description}
+                  </p>
 
-                      <h3>
-                        {post.data.title}
-                      </h3>
-
-                      <p>
-                        {post.data.description}
-                      </p>
-
-                      {
-                        post.data.tags.length >
-                          0 && (
-                          <div class="tag-list">
-                            {
-                              post.data.tags
-                                .slice(0, 4)
-                                .map(
-                                  (tag) => (
-                                    <span>
-                                      #{tag}
-                                    </span>
-                                  )
-                                )
-                            }
-                          </div>
+                  <div class="tag-list">
+                    {
+                      post.data.tags.map(
+                        (tag) => (
+                          <span>
+                            #{tag}
+                          </span>
                         )
-                      }
-
-                      <div class="post-footer">
-                        <span>
-                          阅读文章
-                        </span>
-
-                        <span
-                          class="post-arrow"
-                          aria-hidden="true"
-                        >
-                          ↗
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </article>
-              )
-            )
-          }
-        </div>
-      ) : (
-        <div class="empty-state">
-          <span
-            aria-hidden="true"
-          >
-            ✦
-          </span>
-
-          <h2>
-            暂无文章
-          </h2>
-
-          <p>
-            当前分类暂时没有已发布内容。
-          </p>
-
-          <a href="/blog">
-            返回全部文章
-          </a>
-        </div>
-      )
-    }
+                      )
+                    }
+                  </div>
+                </div>
+              </a>
+            </article>
+          )
+        )
+      }
+    </div>
   </section>
 </Layout>
 
@@ -397,10 +270,12 @@ const allCategories = [
       var(--border);
   }
 
-  .back-link {
-    width:
-      fit-content;
+  .collection-hero > * {
+    min-width:
+      0;
+  }
 
+  .back-link {
     min-height:
       38px;
 
@@ -413,9 +288,6 @@ const allCategories = [
     align-items:
       center;
 
-    gap:
-      8px;
-
     border:
       1px solid
       var(--border);
@@ -425,37 +297,6 @@ const allCategories = [
 
     background:
       var(--color-surface);
-
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    font-size:
-      11px;
-
-    font-weight:
-      650;
-
-    transition:
-      transform
-        var(--transition-fast),
-      color
-        var(--transition-fast),
-      border-color
-        var(--transition-fast);
-  }
-
-  .back-link:hover {
-    transform:
-      translateX(-2px);
-
-    color:
-      var(--color-primary);
-
-    border-color:
-      var(--border-strong);
   }
 
   .collection-badge {
@@ -469,7 +310,7 @@ const allCategories = [
       7px 11px;
 
     display:
-      inline-flex;
+      flex;
 
     align-items:
       center;
@@ -487,23 +328,11 @@ const allCategories = [
     background:
       var(--color-surface);
 
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.14em;
   }
 
-  .badge-dot {
+  .collection-badge span {
     width:
       6px;
 
@@ -518,14 +347,11 @@ const allCategories = [
   }
 
   .collection-kicker {
-    margin:
-      22px 0 0;
+    margin-top:
+      22px;
 
     color:
       var(--color-primary);
-
-    font-size:
-      14px;
 
     font-weight:
       700;
@@ -545,87 +371,40 @@ const allCategories = [
     line-height:
       1.05;
 
-    letter-spacing:
-      -0.055em;
-
     word-break:
-      break-word;
+      normal;
   }
 
   .collection-description {
-    margin:
-      22px 0 0;
-
     color:
       var(--text-secondary);
-
-    line-height:
-      1.8;
   }
 
   .collection-description strong {
-    margin:
-      0 4px;
-
     color:
       var(--color-primary);
   }
 
   .collection-visual {
-    position:
-      relative;
-
-    min-height:
-      300px;
+    min-width:
+      0;
 
     display:
       flex;
-
-    align-items:
-      center;
 
     justify-content:
       center;
   }
 
-  .visual-orbit {
-    position:
-      absolute;
-
-    width:
-      290px;
-
-    height:
-      290px;
-
-    border:
-      1px dashed
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          26%,
-        transparent
-      );
-
-    border-radius:
-      50%;
-
-    transform:
-      rotate(-18deg);
-  }
-
   .visual-card {
-    position:
-      relative;
-
-    z-index:
-      2;
-
     width:
       min(
         100%,
         300px
       );
+
+    min-width:
+      0;
 
     min-height:
       250px;
@@ -641,7 +420,7 @@ const allCategories = [
 
     border:
       1px solid
-      var(--glass-border);
+      var(--border);
 
     border-radius:
       28px;
@@ -651,28 +430,15 @@ const allCategories = [
 
     box-shadow:
       var(--shadow-card);
-
-    backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
-
-    transform:
-      rotate(2deg);
   }
 
-  .visual-label {
+  .visual-card > span,
+  .visual-card small {
     color:
       var(--text-muted);
 
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.13em;
   }
 
   .visual-card strong {
@@ -684,97 +450,51 @@ const allCategories = [
 
     font-size:
       58px;
-
-    line-height:
-      1;
   }
 
-  .visual-name {
-    margin-top:
-      8px;
+  .visual-card h2 {
+    margin:
+      8px 0;
 
-    color:
-      var(--text-primary);
-
-    font-size:
-      18px;
-
-    font-weight:
-      750;
+    word-break:
+      normal;
   }
 
-  .visual-line {
+  .visual-card div {
     height:
       1px;
 
     margin:
-      20px 0 14px;
+      15px 0;
 
     background:
       var(--border);
   }
 
-  .visual-footer {
-    color:
-      var(--text-muted);
-
-    font-size:
-      8px;
-
-    letter-spacing:
-      0.1em;
-  }
-
-  .visual-star {
-    position:
-      absolute;
-
-    top:
-      34px;
-
-    right:
-      12px;
-
-    z-index:
-      3;
-
-    color:
-      var(--color-pink);
-
-    font-size:
-      22px;
-  }
-
   .switcher-section,
   .posts-section {
+    min-width:
+      0;
+
     padding:
       70px 0;
-
-    border-bottom:
-      1px solid
-      var(--border);
-  }
-
-  .posts-section {
-    border-bottom:
-      0;
   }
 
   .section-heading {
     display:
       flex;
 
-    align-items:
-      flex-end;
-
     justify-content:
       space-between;
 
+    align-items:
+      flex-end;
+
     gap:
-      30px;
+      20px;
   }
 
-  .section-eyebrow {
+  .section-heading p {
     margin:
       0 0 8px;
 
@@ -783,12 +503,6 @@ const allCategories = [
 
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.15em;
   }
 
   .section-heading h2 {
@@ -796,56 +510,7 @@ const allCategories = [
       0;
 
     font-size:
-      clamp(
-        30px,
-        4vw,
-        40px
-      );
-
-    letter-spacing:
-      -0.04em;
-  }
-
-  .section-description {
-    margin:
-      10px 0 0;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      13px;
-  }
-
-  .section-link {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      7px;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      12px;
-
-    font-weight:
-      650;
-  }
-
-  .section-link span {
-    transition:
-      transform
-        var(--transition-fast);
-  }
-
-  .section-link:hover span {
-    transform:
-      translateX(3px);
+      36px;
   }
 
   .switcher-list {
@@ -863,6 +528,9 @@ const allCategories = [
   }
 
   .switcher-chip {
+    max-width:
+      100%;
+
     min-height:
       38px;
 
@@ -884,57 +552,20 @@ const allCategories = [
 
     background:
       var(--color-surface);
-
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    font-size:
-      11px;
-
-    font-weight:
-      600;
   }
 
-  .switcher-chip:hover,
   .switcher-chip.active {
-    border-color:
-      var(--border-strong);
+    color:
+      var(--color-primary);
 
     background:
       var(--color-primary-soft);
-
-    color:
-      var(--color-primary);
-  }
-
-  .post-total {
-    padding:
-      7px 10px;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      999px;
-
-    background:
-      var(--color-surface);
-
-    color:
-      var(--text-muted);
-
-    font-size:
-      10px;
-
-    font-weight:
-      700;
   }
 
   .posts-grid {
+    min-width:
+      0;
+
     margin-top:
       32px;
 
@@ -952,6 +583,9 @@ const allCategories = [
   }
 
   .post-card {
+    min-width:
+      0;
+
     overflow:
       hidden;
 
@@ -964,53 +598,14 @@ const allCategories = [
 
     background:
       var(--color-surface);
-
-    box-shadow:
-      var(--shadow-card);
-
-    transition:
-      transform
-        var(--transition-normal),
-      border-color
-        var(--transition-normal),
-      box-shadow
-        var(--transition-normal);
-  }
-
-  .post-card:hover {
-    transform:
-      translateY(-5px);
-
-    border-color:
-      var(--border-strong);
-
-    box-shadow:
-      var(--shadow-hover);
-  }
-
-  .post-card-link {
-    height:
-      100%;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
   }
 
   .post-cover {
-    position:
-      relative;
-
     aspect-ratio:
       16 / 9;
 
     overflow:
       hidden;
-
-    background:
-      var(--color-primary-soft);
   }
 
   .post-cover img {
@@ -1022,166 +617,17 @@ const allCategories = [
 
     object-fit:
       cover;
-
-    transition:
-      transform
-        var(--transition-slow);
-  }
-
-  .post-card:hover
-  .post-cover img {
-    transform:
-      scale(1.035);
-  }
-
-  .cover-placeholder {
-    width:
-      100%;
-
-    height:
-      100%;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    background:
-      linear-gradient(
-        135deg,
-        var(--color-primary-soft),
-        color-mix(
-          in srgb,
-          var(--color-pink)
-            18%,
-          transparent
-        )
-      );
-  }
-
-  .cover-placeholder span {
-    color:
-      var(--color-primary);
-
-    font-size:
-      42px;
-
-    font-weight:
-      800;
-  }
-
-  .cover-overlay {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    background:
-      linear-gradient(
-        180deg,
-        transparent 55%,
-        rgba(
-          10,
-          12,
-          24,
-          0.18
-        )
-      );
-  }
-
-  .post-number {
-    position:
-      absolute;
-
-    right:
-      14px;
-
-    bottom:
-      14px;
-
-    z-index:
-      2;
-
-    width:
-      38px;
-
-    height:
-      38px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    border:
-      1px solid
-      rgba(
-        255,
-        255,
-        255,
-        0.22
-      );
-
-    border-radius:
-      12px;
-
-    background:
-      rgba(
-        14,
-        16,
-        30,
-        0.56
-      );
-
-    color:
-      #ffffff;
-
-    backdrop-filter:
-      blur(10px);
-
-    font-size:
-      9px;
-
-    font-weight:
-      800;
   }
 
   .post-content {
-    flex:
-      1;
+    min-width:
+      0;
 
     padding:
       25px;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
   }
 
   .post-meta {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      7px;
-
     color:
       var(--text-muted);
 
@@ -1189,38 +635,23 @@ const allCategories = [
       10px;
   }
 
-  .post-card h3 {
+  .post-content h3 {
     margin:
       14px 0 9px;
 
     font-size:
       22px;
 
-    line-height:
-      1.4;
-
-    letter-spacing:
-      -0.03em;
+    word-break:
+      normal;
   }
 
-  .post-content > p {
-    margin:
-      0;
-
+  .post-content p {
     color:
       var(--text-secondary);
-
-    font-size:
-      13px;
-
-    line-height:
-      1.8;
   }
 
   .tag-list {
-    margin-top:
-      19px;
-
     display:
       flex;
 
@@ -1232,12 +663,11 @@ const allCategories = [
   }
 
   .tag-list span {
+    max-width:
+      100%;
+
     padding:
       5px 8px;
-
-    border:
-      1px solid
-      var(--border);
 
     border-radius:
       999px;
@@ -1251,149 +681,67 @@ const allCategories = [
     font-size:
       9px;
 
-    font-weight:
-      600;
+    overflow-wrap:
+      anywhere;
   }
 
-  .post-footer {
-    margin-top:
+  /* Runtime fallback */
+
+  :global(html.mobile-device)
+  .collection-hero {
+    min-height:
       auto;
 
-    padding-top:
-      22px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      space-between;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      11px;
-
-    font-weight:
-      650;
-  }
-
-  .post-arrow {
-    width:
-      32px;
-
-    height:
-      32px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      10px;
-
-    color:
-      var(--text-muted);
-  }
-
-  .post-card:hover
-  .post-arrow {
-    color:
-      var(--color-primary);
-  }
-
-  .empty-state {
-    margin-top:
-      32px;
-
     padding:
-      64px 24px;
+      48px 0 54px;
 
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      30px;
+  }
+
+  :global(html.mobile-device)
+  .collection-copy h1 {
+    font-size:
+      clamp(
+        46px,
+        14vw,
+        66px
+      );
+  }
+
+  :global(html.mobile-device)
+  .collection-visual {
     display:
-      flex;
+      none;
+  }
 
+  :global(html.mobile-device)
+  .switcher-section,
+  :global(html.mobile-device)
+  .posts-section {
+    padding:
+      56px 0;
+  }
+
+  :global(html.mobile-device)
+  .section-heading {
     align-items:
-      center;
+      flex-start;
 
     flex-direction:
       column;
 
-    border:
-      1px dashed
-      var(--border-strong);
-
-    border-radius:
-      var(--radius-xl);
-
-    background:
-      var(--color-surface);
-
-    text-align:
-      center;
+    gap:
+      15px;
   }
 
-  .empty-state > span {
-    color:
-      var(--color-primary);
-
-    font-size:
-      24px;
-  }
-
-  .empty-state h2 {
-    margin:
-      14px 0 0;
-  }
-
-  .empty-state p {
-    margin:
-      8px 0 0;
-
-    color:
-      var(--text-secondary);
-  }
-
-  .empty-state a {
-    margin-top:
-      22px;
-
-    color:
-      var(--color-primary);
-
-    font-size:
-      12px;
-
-    font-weight:
-      650;
-  }
-
-  @media (
-    max-width: 850px
-  ) {
-    .collection-hero {
-      grid-template-columns:
-        1fr;
-
-      gap:
-        38px;
-    }
-
-    .collection-visual {
-      min-height:
-        280px;
-    }
+  :global(html.mobile-device)
+  .posts-grid {
+    grid-template-columns:
+      minmax(0, 1fr);
   }
 
   @media (
@@ -1403,33 +751,13 @@ const allCategories = [
       min-height:
         auto;
 
-      padding:
-        48px 0 54px;
-    }
-
-    .collection-badge {
-      margin-top:
-        34px;
-    }
-
-    .collection-copy h1 {
-      font-size:
-        clamp(
-          46px,
-          15vw,
-          66px
-        );
+      grid-template-columns:
+        1fr;
     }
 
     .collection-visual {
       display:
         none;
-    }
-
-    .switcher-section,
-    .posts-section {
-      padding:
-        56px 0;
     }
 
     .section-heading {
@@ -1438,9 +766,6 @@ const allCategories = [
 
       flex-direction:
         column;
-
-      gap:
-        15px;
     }
 
     .posts-grid {

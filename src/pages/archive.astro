@@ -2,13 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("posts"))
-  .filter((post) => !post.data.draft)
-  .sort(
-    (a, b) =>
-      b.data.date.getTime() -
-      a.data.date.getTime()
-  );
+const posts =
+  (await getCollection("posts"))
+    .filter(
+      (post) =>
+        !post.data.draft
+    )
+    .sort(
+      (a, b) =>
+        b.data.date.getTime() -
+        a.data.date.getTime()
+    );
 
 const postsByYear =
   new Map<
@@ -35,8 +39,8 @@ const archiveYears =
   Array.from(
     postsByYear.entries()
   ).sort(
-    ([yearA], [yearB]) =>
-      yearB - yearA
+    ([a], [b]) =>
+      b - a
   );
 
 const categoryCount =
@@ -56,33 +60,27 @@ const tagCount =
   ).size;
 
 const firstYear =
-  archiveYears.length > 0
+  archiveYears.length
     ? archiveYears[
         archiveYears.length - 1
       ][0]
     : undefined;
 
 const latestYear =
-  archiveYears.length > 0
+  archiveYears.length
     ? archiveYears[0][0]
     : undefined;
 ---
 
 <Layout
   title="归档"
-  description="FJK Blog 的文章归档，按年份整理技术、项目、学习与生活记录。"
+  description="FJK Blog 的文章归档。"
 >
   <section class="archive-hero">
     <div class="archive-copy">
       <div class="archive-badge">
-        <span
-          class="badge-dot"
-          aria-hidden="true"
-        ></span>
-
-        <span>
-          ARCHIVE
-        </span>
+        <span></span>
+        ARCHIVE
       </div>
 
       <p class="archive-kicker">
@@ -106,21 +104,13 @@ const latestYear =
         class="back-link"
         href="/blog"
       >
-        <span>
-          查看全部文章
-        </span>
-
-        <span
-          aria-hidden="true"
-        >
-          →
-        </span>
+        查看全部文章 →
       </a>
     </div>
 
     <div class="archive-stats">
       <div class="stats-main">
-        <span class="stats-label">
+        <span>
           TOTAL POSTS
         </span>
 
@@ -143,7 +133,6 @@ const latestYear =
           <span>
             YEARS
           </span>
-
           <strong>
             {archiveYears.length}
           </strong>
@@ -153,7 +142,6 @@ const latestYear =
           <span>
             CATEGORIES
           </span>
-
           <strong>
             {categoryCount}
           </strong>
@@ -163,7 +151,6 @@ const latestYear =
           <span>
             TAGS
           </span>
-
           <strong>
             {tagCount}
           </strong>
@@ -173,8 +160,7 @@ const latestYear =
           <span>
             RANGE
           </span>
-
-          <strong class="range-text">
+          <strong>
             {
               firstYear &&
               latestYear
@@ -190,245 +176,119 @@ const latestYear =
     </div>
   </section>
 
-  {
-    archiveYears.length > 0 ? (
-      <section class="timeline-section">
-        <div class="section-heading">
-          <div>
-            <p class="section-eyebrow">
-              ALL STORIES
-            </p>
+  <section class="timeline-section">
+    <div class="section-heading">
+      <div>
+        <p>
+          ALL STORIES
+        </p>
 
-            <h2>
-              文章时间轴
-            </h2>
+        <h2>
+          文章时间轴
+        </h2>
+      </div>
+    </div>
 
-            <p class="section-description">
-              从最近的记录开始向过去翻阅。
-            </p>
-          </div>
+    <div class="timeline">
+      {
+        archiveYears.map(
+          ([year, yearPosts]) => (
+            <section class="year-group">
+              <div class="year-column">
+                <div class="year-sticky">
+                  <strong>
+                    {year}
+                  </strong>
 
-          <span class="timeline-total">
-            {archiveYears.length}
-            {" "}
-            Years
-          </span>
-        </div>
-
-        <div class="timeline">
-          {
-            archiveYears.map(
-              (
-                [
-                  year,
-                  yearPosts,
-                ],
-                yearIndex
-              ) => (
-                <section class="year-group">
-                  <div class="year-column">
-                    <div class="year-sticky">
-                      <span class="year-index">
-                        {String(
-                          yearIndex +
-                            1
-                        ).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
-
-                      <strong>
-                        {year}
-                      </strong>
-
-                      <span class="year-count">
-                        {
-                          yearPosts.length
-                        }
-                        {" "}
-                        Posts
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="year-posts">
+                  <span>
                     {
-                      yearPosts.map(
-                        (
-                          post,
-                          postIndex
-                        ) => (
-                          <article class="timeline-item">
-                            <div
-                              class="timeline-node"
-                              aria-hidden="true"
-                            >
-                              <span></span>
+                      yearPosts.length
+                    }
+                    {" "}
+                    Posts
+                  </span>
+                </div>
+              </div>
+
+              <div class="year-posts">
+                {
+                  yearPosts.map(
+                    (post) => (
+                      <article class="timeline-item">
+                        <a
+                          class="timeline-card"
+                          href={`/blog/${post.id}/`}
+                        >
+                          <div class="timeline-date">
+                            <strong>
+                              {String(
+                                post.data.date.getDate()
+                              ).padStart(
+                                2,
+                                "0"
+                              )}
+                            </strong>
+
+                            <span>
+                              {
+                                post.data.date.toLocaleDateString(
+                                  "zh-CN",
+                                  {
+                                    month:
+                                      "2-digit",
+                                  }
+                                )
+                              }
+                            </span>
+                          </div>
+
+                          <div class="timeline-content">
+                            <div class="timeline-meta">
+                              {
+                                post.data.category
+                              }
                             </div>
 
-                            <a
-                              class="timeline-card"
-                              href={`/blog/${post.id}/`}
-                            >
-                              <div class="timeline-date">
-                                <span class="date-day">
-                                  {
-                                    String(
-                                      post.data.date.getDate()
-                                    ).padStart(
-                                      2,
-                                      "0"
-                                    )
-                                  }
-                                </span>
+                            <h3>
+                              {
+                                post.data.title
+                              }
+                            </h3>
 
-                                <span class="date-month">
-                                  {
-                                    post.data.date.toLocaleDateString(
-                                      "zh-CN",
-                                      {
-                                        month:
-                                          "2-digit",
-                                      }
-                                    )
-                                  }
-                                </span>
-                              </div>
+                            <p>
+                              {
+                                post.data.description
+                              }
+                            </p>
 
-                              <div class="timeline-content">
-                                <div class="timeline-meta">
-                                  <span>
-                                    {
-                                      post.data.category
-                                    }
-                                  </span>
-
-                                  <span
-                                    aria-hidden="true"
-                                  >
-                                    ·
-                                  </span>
-
-                                  <time
-                                    datetime={
-                                      post.data.date.toISOString()
-                                    }
-                                  >
-                                    {
-                                      post.data.date.toLocaleDateString(
-                                        "zh-CN",
-                                        {
-                                          year:
-                                            "numeric",
-                                          month:
-                                            "2-digit",
-                                          day:
-                                            "2-digit",
-                                        }
-                                      )
-                                    }
-                                  </time>
-                                </div>
-
-                                <h3>
-                                  {
-                                    post.data.title
-                                  }
-                                </h3>
-
-                                <p>
-                                  {
-                                    post.data.description
-                                  }
-                                </p>
-
-                                {
-                                  post.data
-                                    .tags
-                                    .length >
-                                    0 && (
-                                    <div class="tag-list">
-                                      {
-                                        post.data.tags
-                                          .slice(
-                                            0,
-                                            4
-                                          )
-                                          .map(
-                                            (
-                                              tag
-                                            ) => (
-                                              <span>
-                                                #
-                                                {
-                                                  tag
-                                                }
-                                              </span>
-                                            )
-                                          )
-                                      }
-                                    </div>
+                            <div class="tag-list">
+                              {
+                                post.data.tags.map(
+                                  (tag) => (
+                                    <span>
+                                      #{tag}
+                                    </span>
                                   )
-                                }
-                              </div>
+                                )
+                              }
+                            </div>
+                          </div>
 
-                              <div class="timeline-end">
-                                <span class="item-number">
-                                  {String(
-                                    postIndex +
-                                      1
-                                  ).padStart(
-                                    2,
-                                    "0"
-                                  )}
-                                </span>
-
-                                <span
-                                  class="item-arrow"
-                                  aria-hidden="true"
-                                >
-                                  ↗
-                                </span>
-                              </div>
-                            </a>
-                          </article>
-                        )
-                      )
-                    }
-                  </div>
-                </section>
-              )
-            )
-          }
-        </div>
-      </section>
-    ) : (
-      <section class="empty-section">
-        <div class="empty-state">
-          <span
-            class="empty-symbol"
-            aria-hidden="true"
-          >
-            ✦
-          </span>
-
-          <h2>
-            归档还是空的
-          </h2>
-
-          <p>
-            第一篇文章发布后，
-            它会出现在这里。
-          </p>
-
-          <a href="/blog">
-            返回文章
-          </a>
-        </div>
-      </section>
-    )
-  }
+                          <span class="item-arrow">
+                            ↗
+                          </span>
+                        </a>
+                      </article>
+                    )
+                  )
+                }
+              </div>
+            </section>
+          )
+        )
+      }
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -457,6 +317,11 @@ const latestYear =
       var(--border);
   }
 
+  .archive-hero > * {
+    min-width:
+      0;
+  }
+
   .archive-badge {
     width:
       fit-content;
@@ -465,7 +330,7 @@ const latestYear =
       7px 11px;
 
     display:
-      inline-flex;
+      flex;
 
     align-items:
       center;
@@ -483,23 +348,11 @@ const latestYear =
     background:
       var(--color-surface);
 
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.14em;
   }
 
-  .badge-dot {
+  .archive-badge span {
     width:
       6px;
 
@@ -511,35 +364,20 @@ const latestYear =
 
     background:
       var(--color-cyan);
-
-    box-shadow:
-      0 0 0 4px
-      color-mix(
-        in srgb,
-        var(--color-cyan)
-          15%,
-        transparent
-      );
   }
 
   .archive-kicker {
-    margin:
-      24px 0 0;
+    margin-top:
+      24px;
 
     color:
       var(--color-primary);
-
-    font-size:
-      14px;
 
     font-weight:
       700;
   }
 
   .archive-copy h1 {
-    max-width:
-      720px;
-
     margin:
       12px 0 0;
 
@@ -555,6 +393,9 @@ const latestYear =
 
     letter-spacing:
       -0.055em;
+
+    word-break:
+      normal;
   }
 
   .archive-copy h1 span {
@@ -583,40 +424,22 @@ const latestYear =
     max-width:
       620px;
 
-    margin:
-      25px 0 0;
-
     color:
       var(--text-secondary);
-
-    font-size:
-      15px;
 
     line-height:
       1.9;
   }
 
   .back-link {
-    width:
-      fit-content;
-
-    min-height:
-      44px;
-
     margin-top:
       30px;
 
     padding:
-      0 16px;
+      12px 16px;
 
     display:
       inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      10px;
 
     border:
       1px solid
@@ -627,51 +450,18 @@ const latestYear =
 
     background:
       var(--color-surface);
-
-    color:
-      var(--text-primary);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    font-size:
-      12px;
-
-    font-weight:
-      650;
-
-    transition:
-      transform
-        var(--transition-normal),
-      border-color
-        var(--transition-normal),
-      color
-        var(--transition-normal),
-      box-shadow
-        var(--transition-normal);
-  }
-
-  .back-link:hover {
-    transform:
-      translateY(-2px);
-
-    border-color:
-      var(--border-strong);
-
-    color:
-      var(--color-primary);
-
-    box-shadow:
-      var(--shadow-card);
   }
 
   .archive-stats {
+    min-width:
+      0;
+
     overflow:
       hidden;
 
     border:
       1px solid
-      var(--glass-border);
+      var(--border);
 
     border-radius:
       28px;
@@ -681,19 +471,6 @@ const latestYear =
 
     box-shadow:
       var(--shadow-card);
-
-    backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
-
-    -webkit-backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
-
-    transform:
-      rotate(1.5deg);
   }
 
   .stats-main {
@@ -713,19 +490,10 @@ const latestYear =
       flex-end;
 
     background:
-      linear-gradient(
-        135deg,
-        var(--color-primary-soft),
-        color-mix(
-          in srgb,
-          var(--color-pink)
-            12%,
-          transparent
-        )
-      );
+      var(--color-primary-soft);
   }
 
-  .stats-label {
+  .stats-main > span {
     margin-bottom:
       auto;
 
@@ -734,12 +502,6 @@ const latestYear =
 
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.14em;
   }
 
   .stats-main strong {
@@ -748,23 +510,6 @@ const latestYear =
 
     font-size:
       72px;
-
-    line-height:
-      0.95;
-
-    letter-spacing:
-      -0.06em;
-  }
-
-  .stats-main p {
-    margin:
-      10px 0 0;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      12px;
   }
 
   .stats-grid {
@@ -779,6 +524,9 @@ const latestYear =
   }
 
   .stats-grid div {
+    min-width:
+      0;
+
     min-height:
       95px;
 
@@ -794,20 +542,9 @@ const latestYear =
     justify-content:
       space-between;
 
-    border-top:
+    border:
       1px solid
       var(--border);
-
-    border-right:
-      1px solid
-      var(--border);
-  }
-
-  .stats-grid div:nth-child(
-    2n
-  ) {
-    border-right:
-      0;
   }
 
   .stats-grid span {
@@ -816,32 +553,6 @@ const latestYear =
 
     font-size:
       8px;
-
-    font-weight:
-      750;
-
-    letter-spacing:
-      0.11em;
-  }
-
-  .stats-grid strong {
-    margin-top:
-      10px;
-
-    font-size:
-      20px;
-
-    letter-spacing:
-      -0.03em;
-  }
-
-  .stats-grid
-  .range-text {
-    font-size:
-      14px;
-
-    letter-spacing:
-      -0.02em;
   }
 
   .timeline-section {
@@ -849,28 +560,7 @@ const latestYear =
       82px 0 30px;
   }
 
-  .section-heading {
-    display:
-      flex;
-
-    align-items:
-      flex-end;
-
-    justify-content:
-      space-between;
-
-    gap:
-      30px;
-
-    padding-bottom:
-      34px;
-
-    border-bottom:
-      1px solid
-      var(--border);
-  }
-
-  .section-eyebrow {
+  .section-heading p {
     margin:
       0 0 9px;
 
@@ -879,12 +569,6 @@ const latestYear =
 
     font-size:
       9px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.15em;
   }
 
   .section-heading h2 {
@@ -892,57 +576,18 @@ const latestYear =
       0;
 
     font-size:
-      clamp(
-        30px,
-        4vw,
-        42px
-      );
-
-    letter-spacing:
-      -0.045em;
-  }
-
-  .section-description {
-    margin:
-      10px 0 0;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      13px;
-  }
-
-  .timeline-total {
-    padding:
-      7px 10px;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      999px;
-
-    background:
-      var(--color-surface);
-
-    color:
-      var(--text-muted);
-
-    font-size:
-      10px;
-
-    font-weight:
-      700;
+      40px;
   }
 
   .timeline {
     margin-top:
-      12px;
+      46px;
   }
 
   .year-group {
+    min-width:
+      0;
+
     display:
       grid;
 
@@ -961,16 +606,6 @@ const latestYear =
       var(--border);
   }
 
-  .year-group:last-child {
-    border-bottom:
-      0;
-  }
-
-  .year-column {
-    position:
-      relative;
-  }
-
   .year-sticky {
     position:
       sticky;
@@ -985,54 +620,22 @@ const latestYear =
       column;
   }
 
-  .year-index {
-    color:
-      var(--text-muted);
-
-    font-size:
-      8px;
-
-    font-weight:
-      800;
-
-    letter-spacing:
-      0.12em;
-  }
-
   .year-sticky strong {
-    margin-top:
-      7px;
-
-    color:
-      var(--text-primary);
-
     font-size:
       42px;
-
-    line-height:
-      1;
-
-    letter-spacing:
-      -0.05em;
   }
 
-  .year-count {
-    margin-top:
-      9px;
-
+  .year-sticky span {
     color:
       var(--color-primary);
 
     font-size:
       10px;
-
-    font-weight:
-      650;
   }
 
   .year-posts {
-    position:
-      relative;
+    min-width:
+      0;
 
     display:
       flex;
@@ -1044,94 +647,9 @@ const latestYear =
       14px;
   }
 
-  .year-posts::before {
-    content: "";
-
-    position:
-      absolute;
-
-    top:
-      22px;
-
-    bottom:
-      22px;
-
-    left:
-      -25px;
-
-    width:
-      1px;
-
-    background:
-      linear-gradient(
-        180deg,
-        var(--color-primary),
-        var(--border),
-        var(--border)
-      );
-  }
-
-  .timeline-item {
-    position:
-      relative;
-  }
-
-  .timeline-node {
-    position:
-      absolute;
-
-    top:
-      33px;
-
-    left:
-      -31px;
-
-    z-index:
-      3;
-
-    width:
-      13px;
-
-    height:
-      13px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    border:
-      3px solid
-      var(--background);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-primary);
-  }
-
-  .timeline-node span {
-    width:
-      3px;
-
-    height:
-      3px;
-
-    border-radius:
-      50%;
-
-    background:
-      #ffffff;
-  }
-
   .timeline-card {
-    min-height:
-      160px;
+    min-width:
+      0;
 
     padding:
       22px;
@@ -1143,9 +661,6 @@ const latestYear =
       58px
       minmax(0, 1fr)
       auto;
-
-    align-items:
-      start;
 
     gap:
       20px;
@@ -1159,33 +674,6 @@ const latestYear =
 
     background:
       var(--color-surface);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    transition:
-      transform
-        var(--transition-normal),
-      border-color
-        var(--transition-normal),
-      background-color
-        var(--transition-normal),
-      box-shadow
-        var(--transition-normal);
-  }
-
-  .timeline-card:hover {
-    transform:
-      translateX(4px);
-
-    border-color:
-      var(--border-strong);
-
-    background:
-      var(--color-surface-elevated);
-
-    box-shadow:
-      var(--shadow-card);
   }
 
   .timeline-date {
@@ -1194,40 +682,19 @@ const latestYear =
 
     flex-direction:
       column;
-
-    align-items:
-      flex-start;
   }
 
-  .date-day {
-    color:
-      var(--text-primary);
-
+  .timeline-date strong {
     font-size:
       27px;
-
-    font-weight:
-      750;
-
-    line-height:
-      1;
-
-    letter-spacing:
-      -0.045em;
   }
 
-  .date-month {
-    margin-top:
-      5px;
-
+  .timeline-date span {
     color:
       var(--text-muted);
 
     font-size:
       9px;
-
-    font-weight:
-      650;
   }
 
   .timeline-content {
@@ -1236,18 +703,6 @@ const latestYear =
   }
 
   .timeline-meta {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      6px;
-
     color:
       var(--text-muted);
 
@@ -1262,31 +717,19 @@ const latestYear =
     font-size:
       19px;
 
-    line-height:
-      1.4;
-
-    letter-spacing:
-      -0.025em;
+    word-break:
+      normal;
   }
 
-  .timeline-content > p {
-    margin:
-      0;
-
+  .timeline-content p {
     color:
       var(--text-secondary);
 
     font-size:
       12px;
-
-    line-height:
-      1.75;
   }
 
   .tag-list {
-    margin-top:
-      15px;
-
     display:
       flex;
 
@@ -1298,12 +741,11 @@ const latestYear =
   }
 
   .tag-list span {
+    max-width:
+      100%;
+
     padding:
       4px 7px;
-
-    border:
-      1px solid
-      var(--border);
 
     border-radius:
       999px;
@@ -1317,42 +759,8 @@ const latestYear =
     font-size:
       8px;
 
-    font-weight:
-      600;
-  }
-
-  .timeline-end {
-    min-width:
-      34px;
-
-    height:
-      100%;
-
-    display:
-      flex;
-
-    align-items:
-      flex-end;
-
-    justify-content:
-      space-between;
-
-    flex-direction:
-      column;
-  }
-
-  .item-number {
-    color:
-      var(--text-muted);
-
-    font-size:
-      8px;
-
-    font-weight:
-      750;
-
-    letter-spacing:
-      0.08em;
+    overflow-wrap:
+      anywhere;
   }
 
   .item-arrow {
@@ -1377,291 +785,130 @@ const latestYear =
 
     border-radius:
       10px;
-
-    background:
-      var(--color-surface-elevated);
-
-    color:
-      var(--text-muted);
-
-    transition:
-      transform
-        var(--transition-fast),
-      color
-        var(--transition-fast),
-      border-color
-        var(--transition-fast);
   }
 
-  .timeline-card:hover
-  .item-arrow {
-    transform:
-      translate(
-        2px,
-        -2px
+  :global(html.mobile-device)
+  .archive-hero {
+    min-height:
+      auto;
+
+    padding:
+      56px 0 60px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      42px;
+  }
+
+  :global(html.mobile-device)
+  .archive-copy h1 {
+    font-size:
+      clamp(
+        44px,
+        13vw,
+        62px
       );
-
-    border-color:
-      var(--border-strong);
-
-    color:
-      var(--color-primary);
   }
 
-  .empty-section {
-    padding:
-      80px 0;
+  :global(html.mobile-device)
+  .archive-stats {
+    width:
+      100%;
+
+    transform:
+      none;
   }
 
-  .empty-state {
+  :global(html.mobile-device)
+  .stats-main {
+    min-height:
+      175px;
+
     padding:
-      70px 24px;
+      22px;
+  }
 
-    display:
-      flex;
+  :global(html.mobile-device)
+  .stats-main strong {
+    font-size:
+      58px;
+  }
 
-    align-items:
-      center;
+  :global(html.mobile-device)
+  .timeline-section {
+    padding-top:
+      60px;
+  }
+
+  :global(html.mobile-device)
+  .year-group {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      24px;
+
+    padding:
+      44px 0;
+  }
+
+  :global(html.mobile-device)
+  .year-sticky {
+    position:
+      static;
 
     flex-direction:
-      column;
+      row;
 
-    border:
-      1px dashed
-      var(--border-strong);
+    align-items:
+      baseline;
 
-    border-radius:
-      var(--radius-xl);
-
-    background:
-      var(--color-surface);
-
-    text-align:
-      center;
+    gap:
+      10px;
   }
 
-  .empty-symbol {
-    color:
-      var(--color-primary);
+  :global(html.mobile-device)
+  .timeline-card {
+    grid-template-columns:
+      45px
+      minmax(0, 1fr);
 
-    font-size:
-      26px;
+    gap:
+      14px;
+
+    padding:
+      18px;
   }
 
-  .empty-state h2 {
-    margin:
-      16px 0 0;
-  }
-
-  .empty-state p {
-    margin:
-      8px 0 0;
-
-    color:
-      var(--text-secondary);
-  }
-
-  .empty-state a {
-    margin-top:
-      22px;
-
-    color:
-      var(--color-primary);
-
-    font-size:
-      12px;
-
-    font-weight:
-      650;
-  }
-
-  @media (
-    max-width: 900px
-  ) {
-    .archive-hero {
-      grid-template-columns:
-        1fr;
-
-      gap:
-        46px;
-    }
-
-    .archive-stats {
-      width:
-        min(
-          100%,
-          580px
-        );
-
-      transform:
-        none;
-    }
-
-    .year-group {
-      grid-template-columns:
-        110px
-        minmax(0, 1fr);
-
-      gap:
-        32px;
-    }
+  :global(html.mobile-device)
+  .item-arrow {
+    display:
+      none;
   }
 
   @media (
     max-width: 700px
   ) {
     .archive-hero {
-      min-height:
-        auto;
-
-      padding:
-        56px 0 60px;
-    }
-
-    .archive-copy h1 {
-      font-size:
-        clamp(
-          44px,
-          14vw,
-          62px
-        );
-    }
-
-    .archive-stats {
-      border-radius:
-        22px;
-    }
-
-    .stats-main {
-      min-height:
-        175px;
-
-      padding:
-        22px;
-    }
-
-    .stats-main strong {
-      font-size:
-        58px;
-    }
-
-    .timeline-section {
-      padding-top:
-        60px;
-    }
-
-    .section-heading {
-      align-items:
-        flex-start;
-
-      flex-direction:
-        column;
-
-      gap:
-        15px;
+      grid-template-columns:
+        1fr;
     }
 
     .year-group {
       grid-template-columns:
         1fr;
-
-      gap:
-        24px;
-
-      padding:
-        44px 0;
-    }
-
-    .year-sticky {
-      position:
-        static;
-
-      display:
-        grid;
-
-      grid-template-columns:
-        auto auto 1fr;
-
-      align-items:
-        baseline;
-
-      gap:
-        10px;
-    }
-
-    .year-sticky strong {
-      margin:
-        0;
-
-      font-size:
-        34px;
-    }
-
-    .year-count {
-      margin:
-        0;
-    }
-
-    .year-posts {
-      padding-left:
-        20px;
-    }
-
-    .year-posts::before {
-      left:
-        0;
-    }
-
-    .timeline-node {
-      left:
-        -6px;
-    }
-  }
-
-  @media (
-    max-width: 500px
-  ) {
-    .stats-grid {
-      grid-template-columns:
-        1fr 1fr;
-    }
-
-    .stats-grid div {
-      min-height:
-        82px;
-
-      padding:
-        14px;
     }
 
     .timeline-card {
-      min-height:
-        0;
-
-      padding:
-        18px;
-
       grid-template-columns:
-        45px
-        minmax(0, 1fr);
-
-      gap:
-        14px;
+        45px 1fr;
     }
 
-    .timeline-end {
+    .item-arrow {
       display:
         none;
-    }
-
-    .date-day {
-      font-size:
-        23px;
-    }
-
-    .timeline-content h3 {
-      font-size:
-        18px;
     }
   }
 </style>
