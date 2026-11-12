@@ -7,8 +7,8 @@ tags:
   - Astro
   - TypeScript
   - Blog
-cover: "/images/covers/building-blog.png"
-coverAlt: "从零开始搭建个人博客的文章封面"
+cover: "/images/anime/covers/sakura-landscape.webp"
+coverAlt: "樱花与城市风景插画"
 draft: false
 ---
 

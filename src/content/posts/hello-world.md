@@ -6,8 +6,8 @@ category: "博客"
 tags:
   - Astro
   - Blog
-cover: "/images/covers/hello-world.jpg"
-coverAlt: "我的第一篇博客文章封面"
+cover: "/images/anime/covers/starry-sky.webp"
+coverAlt: "星空夜景插画"
 draft: false
 ---
 

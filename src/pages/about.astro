@@ -1,217 +1,418 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
-const skills = [
+const stack = [
   "Astro",
   "TypeScript",
-  "JavaScript",
-  "HTML",
-  "CSS",
   "Tailwind CSS",
+  "Markdown / MDX",
   "Git",
-  "Linux",
+  "Nginx",
 ];
 
 const interests = [
-  "Web 开发",
-  "个人项目",
-  "技术学习",
-  "工具使用",
-  "服务器",
-  "开源技术",
-];
-
-const milestones = [
   {
     index: "01",
-    title: "这个博客",
+    title: "Web Development",
     description:
-      "从零开始构建，主要目标是拥有一个真正属于自己的内容空间。与依赖第三方内容平台不同，文章、代码和网站本身都会由我自己维护，并部署到个人服务器。",
+      "持续学习现代 Web 开发，关注页面体验、工程结构与性能。",
   },
   {
     index: "02",
-    title: "现在在做什么",
+    title: "Projects",
     description:
-      "持续完善 FJK Blog V2，优化视觉设计、文章阅读体验、移动端兼容、搜索、评论以及整个项目的工程质量。",
+      "通过真实项目验证想法，把学习过程变成可以长期维护的作品。",
   },
   {
     index: "03",
-    title: "学习方式",
+    title: "Writing",
     description:
-      "比起只看教程，我更喜欢通过实际项目学习。规划、实现、测试、部署，再从真实问题中继续改进。",
+      "把技术、项目与思考整理成文章，让零散经验变得更清晰。",
   },
 ];
 
-const completedFeatures = [
-  "文章系统",
-  "分类与标签",
-  "文章归档",
-  "亮色 / 暗色主题",
-  "SEO",
-  "RSS",
-  "Sitemap",
-  "HTTPS",
-  "Nginx 部署",
-  "GitHub 仓库",
+const timeline = [
+  {
+    label: "START",
+    title: "开始建立个人博客",
+    description:
+      "使用 Astro 搭建自己的内容空间，并逐步完善文章、分类、标签与归档。",
+  },
+  {
+    label: "BUILD",
+    title: "持续完善工程与部署",
+    description:
+      "补充 SEO、RSS、Sitemap、HTTPS、Nginx 静态部署以及跨设备兼容。",
+  },
+  {
+    label: "NOW",
+    title: "Anime Soft Tech",
+    description:
+      "正在继续升级博客的视觉表现，让技术感、二次元氛围和阅读体验自然融合。",
+  },
 ];
 ---
 
 <Layout
   title="关于"
-  description="关于 FJK，以及这个个人博客。"
+  description="关于 FJK，以及这个博客正在记录的事情。"
 >
   <section class="about-hero">
-    <div class="hero-copy">
-      <div class="hero-badge">
-        <span
-          class="badge-dot"
-          aria-hidden="true"
-        ></span>
+    <div
+      class="hero-background"
+      aria-hidden="true"
+    >
+      <picture>
+        <source
+          media="(max-width: 700px)"
+          srcset="/images/anime/hero/hero-800.webp"
+        />
 
-        <span>
-          ABOUT FJK
-        </span>
-      </div>
+        <source
+          media="(max-width: 1200px)"
+          srcset="/images/anime/hero/hero-1200.webp"
+        />
 
-      <p class="hero-kicker">
-        Hello, I'm FJK
-      </p>
+        <img
+          src="/images/anime/hero/hero-1600.webp"
+          alt=""
+        />
+      </picture>
 
-      <h1>
-        关于我，
-        <span>
-          也关于这个博客。
-        </span>
-      </h1>
+      <div class="hero-tint"></div>
+      <div class="hero-fade"></div>
 
-      <p class="hero-description">
-        我正在学习 Web 开发，并通过实际项目持续积累经验。
-        FJK Blog 是其中一个长期维护的个人项目，
-        用来记录技术、项目、工具和一些值得留下来的想法。
-      </p>
-
-      <div class="hero-actions">
-        <a
-          class="primary-action"
-          href="https://github.com/jiashuaifu13-blip"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-          <span aria-hidden="true">
-            ↗
-          </span>
-        </a>
-
-        <a
-          class="secondary-action"
-          href="/projects"
-        >
-          查看项目
-        </a>
-      </div>
+      <div
+        class="hero-holo"
+        aria-hidden="true"
+      ></div>
     </div>
 
-    <div class="profile-panel">
-      <div class="profile-orbit"></div>
-
-      <div class="profile-card">
-        <div class="profile-top">
-          <span>
-            PROFILE
-          </span>
-
-          <span>
-            2026
-          </span>
-        </div>
-
-        <div class="profile-main">
-          <div class="profile-avatar">
-            F
-          </div>
-
-          <strong>
-            FJK
-          </strong>
+    <div class="about-hero-inner">
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <span
+            class="badge-dot"
+            aria-hidden="true"
+          ></span>
 
           <span>
-            LEARNING / BUILDING
+            ABOUT FJK
           </span>
         </div>
 
-        <div class="profile-grid">
-          <div>
+        <p class="hero-kicker">
+          Hello again.
+        </p>
+
+        <h1>
+          关于我，
+          <span>
+            也关于这个空间。
+          </span>
+        </h1>
+
+        <p class="hero-description">
+          我是 FJK。这里是我的个人博客，
+          用来记录技术学习、项目实践、工具使用，
+          以及一些值得长期留下来的内容。
+        </p>
+
+        <div class="hero-actions">
+          <a
+            class="primary-action"
+            href="/blog"
+          >
+            阅读文章
+
+            <span aria-hidden="true">
+              →
+            </span>
+          </a>
+
+          <a
+            class="secondary-action"
+            href="/projects"
+          >
+            查看项目
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="identity-area"
+        aria-hidden="true"
+      >
+        <div class="identity-orbit orbit-one"></div>
+        <div class="identity-orbit orbit-two"></div>
+
+        <div class="identity-card">
+          <div class="identity-holo"></div>
+
+          <div class="identity-card-top">
             <span>
-              ROLE
+              PROFILE
             </span>
 
-            <strong>
-              LEARNER
-            </strong>
+            <span>
+              2026
+            </span>
           </div>
 
-          <div>
+          <div class="identity-avatar">
             <span>
-              FOCUS
+              F
             </span>
-
-            <strong>
-              WEB
-            </strong>
           </div>
 
-          <div>
-            <span>
-              STACK
-            </span>
-
+          <div class="identity-name">
             <strong>
-              ASTRO
+              FJK
             </strong>
+
+            <span>
+              Developer / Creator
+            </span>
           </div>
 
-          <div>
-            <span>
-              STATUS
-            </span>
+          <div class="identity-grid">
+            <div>
+              <span>
+                FOCUS
+              </span>
 
-            <strong>
-              BUILDING
-            </strong>
+              <strong>
+                WEB
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                STYLE
+              </span>
+
+              <strong>
+                SOFT TECH
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                BLOG
+              </span>
+
+              <strong>
+                FJKSP.CN
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                STATUS
+              </span>
+
+              <strong>
+                BUILDING
+              </strong>
+            </div>
           </div>
         </div>
+
+        <span class="identity-star star-one">
+          ✦
+        </span>
+
+        <span class="identity-star star-two">
+          ✧
+        </span>
       </div>
     </div>
   </section>
 
-  <section class="story-section">
+  <section class="about-section intro-section">
     <div class="section-heading">
       <div>
         <p class="section-eyebrow">
-          MY STORY
+          WHO I AM
         </p>
 
         <h2>
-          一点关于我的记录
+          一个持续学习和构建的人
+        </h2>
+      </div>
+    </div>
+
+    <div class="intro-grid">
+      <div class="intro-main">
+        <p class="intro-lead">
+          我喜欢通过实际项目学习新东西。
+        </p>
+
+        <p>
+          相比只把知识停留在笔记里，
+          我更希望把它们真正做出来：
+          写成页面、完成一个功能、部署到服务器，
+          然后不断修正和完善。
+        </p>
+
+        <p>
+          FJK Blog 也是这个过程的一部分。
+          它既是一个内容网站，也是一个长期维护的个人项目。
+        </p>
+      </div>
+
+      <div class="intro-note">
+        <span class="note-mark">
+          ✦
+        </span>
+
+        <p>
+          “记录不是结束，
+          而是把一次学习变成下一次进步的起点。”
+        </p>
+
+        <small>
+          FJK BLOG / NOTE
+        </small>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          INTERESTS
+        </p>
+
+        <h2>
+          我正在关注的方向
         </h2>
 
         <p class="section-description">
-          这个页面也会随着学习和项目经历不断更新。
+          目前博客里的内容，也基本围绕这些方向展开。
         </p>
       </div>
     </div>
 
-    <div class="story-list">
+    <div class="interest-grid">
       {
-        milestones.map(
-          (item) => (
-            <article class="story-card">
-              <div class="story-index">
-                {item.index}
+        interests.map((item) => (
+          <article class="interest-card">
+            <div
+              class="card-holo"
+              aria-hidden="true"
+            ></div>
+
+            <div class="interest-index">
+              {item.index}
+            </div>
+
+            <div>
+              <h3>
+                {item.title}
+              </h3>
+
+              <p>
+                {item.description}
+              </p>
+            </div>
+
+            <span
+              class="interest-arrow"
+              aria-hidden="true"
+            >
+              ↗
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="about-section">
+    <div class="stack-panel">
+      <div
+        class="stack-glow"
+        aria-hidden="true"
+      ></div>
+
+      <div class="stack-copy">
+        <p class="section-eyebrow">
+          CURRENT STACK
+        </p>
+
+        <h2>
+          目前使用的技术
+        </h2>
+
+        <p>
+          这个博客本身就是主要的实验场，
+          我会尽量保持结构简单、可维护，
+          同时逐步尝试新的 Web 技术。
+        </p>
+      </div>
+
+      <div class="stack-list">
+        {
+          stack.map(
+            (item, index) => (
+              <div class="stack-item">
+                <span>
+                  {String(
+                    index + 1
+                  ).padStart(
+                    2,
+                    "0"
+                  )}
+                </span>
+
+                <strong>
+                  {item}
+                </strong>
+              </div>
+            )
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">
+          JOURNEY
+        </p>
+
+        <h2>
+          博客正在发生的事情
+        </h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {
+        timeline.map(
+          (item, index) => (
+            <article class="timeline-item">
+              <div class="timeline-rail">
+                <span class="timeline-dot"></span>
+
+                {
+                  index !==
+                    timeline.length -
+                      1 && (
+                    <i></i>
+                  )
+                }
               </div>
 
-              <div class="story-content">
+              <div class="timeline-card">
+                <span class="timeline-label">
+                  {item.label}
+                </span>
+
                 <h3>
                   {item.title}
                 </h3>
@@ -227,241 +428,269 @@ const completedFeatures = [
     </div>
   </section>
 
-  <section class="skills-section">
-    <div class="section-heading">
-      <div>
+  <section class="about-section">
+    <div class="closing-card">
+      <div
+        class="closing-holo"
+        aria-hidden="true"
+      ></div>
+
+      <div class="closing-copy">
         <p class="section-eyebrow">
-          SKILLS
+          KEEP BUILDING
         </p>
 
         <h2>
-          正在使用和学习
-        </h2>
-      </div>
-    </div>
-
-    <div class="skills-grid">
-      {
-        skills.map(
-          (skill, index) => (
-            <div class="skill-card">
-              <span>
-                {String(
-                  index + 1
-                ).padStart(
-                  2,
-                  "0"
-                )}
-              </span>
-
-              <strong>
-                {skill}
-              </strong>
-            </div>
-          )
-        )
-      }
-    </div>
-  </section>
-
-  <section class="interests-section">
-    <div class="section-heading">
-      <div>
-        <p class="section-eyebrow">
-          INTERESTS
-        </p>
-
-        <h2>
-          感兴趣的方向
-        </h2>
-      </div>
-    </div>
-
-    <div class="interest-list">
-      {
-        interests.map(
-          (interest) => (
-            <span>
-              {interest}
-            </span>
-          )
-        )
-      }
-    </div>
-  </section>
-
-  <section class="blog-section">
-    <div class="blog-panel">
-      <div class="blog-copy">
-        <p class="section-eyebrow">
-          FJK BLOG
-        </p>
-
-        <h2>
-          这个博客已经完成什么？
+          这个博客还会继续变化。
         </h2>
 
         <p>
-          最初只是一个简单的 Astro 静态博客，
-          现在已经逐渐拥有完整的内容组织、主题系统、
-          SEO、部署和 V2 视觉设计。
+          新文章、新项目和新的想法都会慢慢加入。
+          不追求一次完成，而是持续把它变得更好。
         </p>
-
-        <div class="feature-list">
-          {
-            completedFeatures.map(
-              (feature) => (
-                <span>
-                  <span
-                    class="feature-dot"
-                    aria-hidden="true"
-                  ></span>
-
-                  {feature}
-                </span>
-              )
-            )
-          }
-        </div>
       </div>
 
-      <div class="blog-status">
-        <div class="status-header">
-          <span>
-            CURRENT STATUS
+      <div class="closing-actions">
+        <a
+          class="primary-action"
+          href="/blog"
+        >
+          去看看文章
+
+          <span aria-hidden="true">
+            →
           </span>
+        </a>
 
-          <span>
-            ONLINE
-          </span>
-        </div>
-
-        <strong>
-          V2
-        </strong>
-
-        <p>
-          Anime Soft Tech
-        </p>
-
-        <div class="status-line"></div>
-
-        <div class="status-meta">
-          <div>
-            <span>
-              SITE
-            </span>
-
-            <strong>
-              FJKSP.CN
-            </strong>
-          </div>
-
-          <div>
-            <span>
-              FRAMEWORK
-            </span>
-
-            <strong>
-              ASTRO
-            </strong>
-          </div>
-        </div>
+        <a
+          class="secondary-action"
+          href="/projects"
+        >
+          查看项目
+        </a>
       </div>
-    </div>
-  </section>
-
-  <section class="contact-section">
-    <div>
-      <p class="section-eyebrow">
-        CONTACT
-      </p>
-
-      <h2>
-        找到我
-      </h2>
-
-      <p>
-        目前主要通过 GitHub 公开项目和代码，
-        邮箱暂未公开。
-      </p>
-    </div>
-
-    <div class="contact-actions">
-      <a
-        href="https://github.com/jiashuaifu13-blip"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub
-        <span aria-hidden="true">
-          ↗
-        </span>
-      </a>
-
-      <span class="email-status">
-        Email · 暂未公开
-      </span>
     </div>
   </section>
 </Layout>
 
 <style>
   .about-hero {
-    min-height:
-      650px;
+    position: relative;
 
-    padding:
-      78px 0 82px;
+    min-height: 680px;
 
-    display:
-      grid;
+    margin:
+      0 calc(
+        50% - 50vw
+      );
 
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(340px, 0.72fr);
-
-    align-items:
-      center;
-
-    gap:
-      78px;
+    overflow: hidden;
 
     border-bottom:
       1px solid
       var(--border);
+
+    isolation: isolate;
   }
 
-  .about-hero > * {
-    min-width:
-      0;
+  .hero-background {
+    position: absolute;
+
+    z-index: -3;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+  }
+
+  .hero-background picture,
+  .hero-background img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+  }
+
+  .hero-background img {
+    object-fit: cover;
+
+    object-position:
+      center 43%;
+
+    transform:
+      scale(1.03);
+
+    filter:
+      saturate(0.88)
+      brightness(1.02);
+  }
+
+  .hero-tint,
+  .hero-fade,
+  .hero-holo {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+  }
+
+  .hero-tint {
+    z-index: 1;
+
+    background:
+      linear-gradient(
+        110deg,
+        color-mix(
+          in srgb,
+          var(--background) 94%,
+          transparent
+        ) 0%,
+        color-mix(
+          in srgb,
+          var(--background) 77%,
+          transparent
+        ) 38%,
+        color-mix(
+          in srgb,
+          var(--background) 24%,
+          transparent
+        ) 78%,
+        transparent 100%
+      );
+  }
+
+  .hero-fade {
+    z-index: 2;
+
+    background:
+      linear-gradient(
+        180deg,
+        transparent 42%,
+        color-mix(
+          in srgb,
+          var(--background) 30%,
+          transparent
+        ) 69%,
+        var(--background) 100%
+      );
+  }
+
+  .hero-holo {
+    z-index: 3;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-position: center;
+    background-size: cover;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0.035;
+  }
+
+  :global(html.dark)
+  .hero-background img {
+    filter:
+      brightness(0.55)
+      saturate(0.76);
+  }
+
+  :global(html.dark)
+  .hero-tint {
+    background:
+      linear-gradient(
+        110deg,
+        rgba(
+          16,
+          17,
+          26,
+          0.97
+        ) 0%,
+        rgba(
+          16,
+          17,
+          26,
+          0.86
+        ) 40%,
+        rgba(
+          16,
+          17,
+          26,
+          0.35
+        ) 80%,
+        transparent 100%
+      );
+  }
+
+  .about-hero-inner {
+    width:
+      min(
+        calc(
+          100% - 48px
+        ),
+        1180px
+      );
+
+    min-height: 680px;
+
+    margin:
+      0 auto;
+
+    padding:
+      84px 0 88px;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(330px, 0.72fr);
+
+    align-items: center;
+
+    gap: 72px;
+  }
+
+  .about-hero-inner > * {
+    min-width: 0;
+  }
+
+  .hero-copy {
+    position: relative;
+
+    z-index: 4;
   }
 
   .hero-badge {
-    width:
-      fit-content;
+    width: fit-content;
 
     padding:
       7px 11px;
 
-    display:
-      inline-flex;
+    display: inline-flex;
 
-    align-items:
-      center;
+    align-items: center;
 
-    gap:
-      8px;
+    gap: 8px;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      999px;
+    border-radius: 999px;
 
     background:
-      var(--color-surface);
+      color-mix(
+        in srgb,
+        var(--color-surface) 76%,
+        transparent
+      );
 
     color:
       var(--text-secondary);
@@ -469,31 +698,37 @@ const completedFeatures = [
     box-shadow:
       var(--shadow-sm);
 
-    font-size:
-      9px;
+    backdrop-filter:
+      blur(12px);
 
-    font-weight:
-      800;
+    -webkit-backdrop-filter:
+      blur(12px);
+
+    font-size: 10px;
+    font-weight: 800;
 
     letter-spacing:
       0.14em;
   }
 
   .badge-dot {
-    width:
-      6px;
+    width: 6px;
+    height: 6px;
 
-    height:
-      6px;
+    flex-shrink: 0;
 
-    flex-shrink:
-      0;
-
-    border-radius:
-      50%;
+    border-radius: 50%;
 
     background:
       var(--color-cyan);
+
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-cyan) 15%,
+        transparent
+      );
   }
 
   .hero-kicker {
@@ -503,43 +738,33 @@ const completedFeatures = [
     color:
       var(--color-primary);
 
-    font-size:
-      14px;
-
-    font-weight:
-      700;
-
-    word-break:
-      keep-all;
+    font-size: 14px;
+    font-weight: 700;
   }
 
   .hero-copy h1 {
-    max-width:
-      720px;
+    max-width: 720px;
 
     margin:
-      12px 0 0;
+      13px 0 0;
 
     font-size:
       clamp(
-        48px,
-        6.5vw,
-        78px
+        50px,
+        7vw,
+        80px
       );
 
-    line-height:
-      1.07;
+    line-height: 1.04;
 
     letter-spacing:
-      -0.055em;
+      -0.06em;
 
-    word-break:
-      normal;
+    word-break: keep-all;
   }
 
   .hero-copy h1 span {
-    display:
-      block;
+    display: block;
 
     background:
       linear-gradient(
@@ -555,72 +780,69 @@ const completedFeatures = [
     background-clip:
       text;
 
-    color:
-      transparent;
+    color: transparent;
   }
 
   .hero-description {
-    max-width:
-      640px;
+    max-width: 610px;
 
     margin:
-      26px 0 0;
+      25px 0 0;
 
     color:
       var(--text-secondary);
 
-    font-size:
-      15px;
-
-    line-height:
-      1.9;
+    font-size: 16px;
+    line-height: 1.9;
   }
 
-  .hero-actions {
-    margin-top:
-      32px;
+  .hero-actions,
+  .closing-actions {
+    margin-top: 31px;
 
-    display:
-      flex;
+    display: flex;
+    flex-wrap: wrap;
 
-    flex-wrap:
-      wrap;
-
-    gap:
-      10px;
+    gap: 11px;
   }
 
   .primary-action,
   .secondary-action {
-    min-height:
-      46px;
+    min-height: 46px;
 
     padding:
-      0 17px;
+      0 18px;
 
-    display:
-      inline-flex;
+    display: inline-flex;
 
-    align-items:
-      center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-      center;
+    gap: 10px;
 
-    gap:
-      8px;
+    border-radius: 13px;
 
-    border-radius:
-      13px;
+    font-size: 12px;
+    font-weight: 650;
 
-    font-size:
-      12px;
-
-    font-weight:
-      650;
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast),
+      box-shadow
+        var(--transition-fast);
   }
 
   .primary-action {
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--color-primary) 48%,
+        transparent
+      );
+
     background:
       linear-gradient(
         135deg,
@@ -628,22 +850,30 @@ const completedFeatures = [
         var(--color-secondary)
       );
 
-    color:
-      #ffffff;
+    color: #ffffff;
 
     box-shadow:
-      0 12px 28px
+      0 12px 26px
       color-mix(
         in srgb,
-        var(--color-primary)
-          24%,
+        var(--color-primary) 22%,
         transparent
       );
   }
 
   .primary-action:hover {
-    color:
-      #ffffff;
+    color: #ffffff;
+
+    transform:
+      translateY(-2px);
+
+    box-shadow:
+      0 17px 34px
+      color-mix(
+        in srgb,
+        var(--color-primary) 29%,
+        transparent
+      );
   }
 
   .secondary-action {
@@ -652,162 +882,167 @@ const completedFeatures = [
       var(--border);
 
     background:
-      var(--color-surface);
-
-    color:
-      var(--text-primary);
-  }
-
-  .profile-panel {
-    position:
-      relative;
-
-    min-width:
-      0;
-
-    min-height:
-      430px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-  }
-
-  .profile-orbit {
-    position:
-      absolute;
-
-    width:
-      350px;
-
-    height:
-      350px;
-
-    border:
-      1px dashed
       color-mix(
         in srgb,
-        var(--color-primary)
-          24%,
+        var(--color-surface) 80%,
         transparent
       );
 
-    border-radius:
-      50%;
+    color:
+      var(--text-primary);
+
+    backdrop-filter:
+      blur(10px);
   }
 
-  .profile-card {
-    position:
-      relative;
+  .secondary-action:hover {
+    color:
+      var(--color-primary);
 
-    z-index:
-      2;
+    transform:
+      translateY(-2px);
+
+    border-color:
+      var(--border-strong);
+  }
+
+  /* =========================
+     Identity
+     ========================= */
+
+  .identity-area {
+    position: relative;
+
+    z-index: 4;
+
+    min-height: 440px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+  .identity-card {
+    position: relative;
+
+    z-index: 3;
 
     width:
       min(
         100%,
-        350px
+        355px
       );
 
-    min-width:
-      0;
+    padding: 22px;
 
-    padding:
-      24px;
+    overflow: hidden;
 
     border:
       1px solid
       var(--glass-border);
 
-    border-radius:
-      28px;
+    border-radius: 27px;
 
     background:
-      var(--glass-background);
+      color-mix(
+        in srgb,
+        var(--glass-background) 86%,
+        transparent
+      );
 
     box-shadow:
-      var(--shadow-card);
+      0 28px 78px
+      rgba(
+        20,
+        20,
+        50,
+        0.18
+      );
 
     backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
+      blur(18px);
 
     -webkit-backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
+      blur(18px);
+
+    transform:
+      rotate(2deg);
   }
 
-  .profile-top {
-    display:
-      flex;
+  .identity-holo {
+    position: absolute;
 
-    justify-content:
-      space-between;
+    inset: 0;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-size: cover;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0.07;
+
+    pointer-events: none;
+  }
+
+  .identity-card-top {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
 
     color:
       var(--text-muted);
 
-    font-size:
-      8px;
-
-    font-weight:
-      750;
+    font-size: 8px;
+    font-weight: 800;
 
     letter-spacing:
-      0.12em;
+      0.13em;
   }
 
-  .profile-main {
-    min-height:
-      210px;
+  .identity-avatar {
+    position: relative;
 
-    display:
-      flex;
+    z-index: 2;
 
-    align-items:
-      center;
+    width: 92px;
+    height: 92px;
 
-    justify-content:
-      center;
+    margin:
+      34px auto 0;
 
-    flex-direction:
-      column;
-  }
-
-  .profile-avatar {
-    width:
-      88px;
-
-    height:
-      88px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
+    padding: 5px;
 
     border:
-      5px solid
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          16%,
-        transparent
-      );
+      1px solid
+      var(--border);
 
-    border-radius:
-      28px;
+    border-radius: 30px;
+
+    background:
+      var(--color-primary-soft);
+  }
+
+  .identity-avatar span {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 24px;
 
     background:
       linear-gradient(
@@ -817,50 +1052,50 @@ const completedFeatures = [
         var(--color-pink)
       );
 
-    color:
-      #ffffff;
+    color: #ffffff;
 
-    font-size:
-      36px;
-
-    font-weight:
-      800;
-
-    box-shadow:
-      0 16px 34px
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          24%,
-        transparent
-      );
+    font-size: 36px;
+    font-weight: 800;
   }
 
-  .profile-main strong {
-    margin-top:
-      18px;
+  .identity-name {
+    position: relative;
 
-    font-size:
-      26px;
+    z-index: 2;
+
+    margin-top: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    gap: 4px;
   }
 
-  .profile-main > span {
-    margin-top:
-      4px;
+  .identity-name strong {
+    font-size: 25px;
+  }
 
+  .identity-name span {
     color:
       var(--text-secondary);
 
-    font-size:
-      9px;
+    font-size: 9px;
 
     letter-spacing:
-      0.12em;
+      0.09em;
   }
 
-  .profile-grid {
-    display:
-      grid;
+  .identity-grid {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 29px;
+
+    display: grid;
 
     grid-template-columns:
       repeat(
@@ -868,93 +1103,118 @@ const completedFeatures = [
         minmax(0, 1fr)
       );
 
-    gap:
-      8px;
+    gap: 8px;
   }
 
-  .profile-grid div {
-    min-width:
-      0;
+  .identity-grid div {
+    min-width: 0;
 
-    padding:
-      12px;
+    padding: 11px;
 
-    display:
-      flex;
+    display: flex;
 
-    flex-direction:
-      column;
+    flex-direction: column;
 
-    gap:
-      6px;
+    gap: 4px;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      13px;
+    border-radius: 12px;
 
     background:
       color-mix(
         in srgb,
-        var(--color-surface)
-          78%,
+        var(--color-surface) 70%,
         transparent
       );
   }
 
-  .profile-grid span {
+  .identity-grid span {
     color:
       var(--text-muted);
 
-    font-size:
-      7px;
+    font-size: 7px;
   }
 
-  .profile-grid strong {
-    font-size:
-      10px;
+  .identity-grid strong {
+    font-size: 9px;
   }
 
-  .story-section,
-  .skills-section,
-  .interests-section,
-  .blog-section,
-  .contact-section {
-    min-width:
-      0;
+  .identity-orbit {
+    position: absolute;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary) 27%,
+        transparent
+      );
+
+    border-radius: 50%;
+  }
+
+  .orbit-one {
+    width: 390px;
+    height: 390px;
+
+    transform:
+      rotate(20deg);
+  }
+
+  .orbit-two {
+    width: 310px;
+    height: 310px;
+
+    transform:
+      rotate(-26deg);
+  }
+
+  .identity-star {
+    position: absolute;
+
+    z-index: 5;
+
+    color:
+      var(--color-primary);
+  }
+
+  .star-one {
+    right: 4px;
+    top: 72px;
+
+    font-size: 24px;
+  }
+
+  .star-two {
+    left: 12px;
+    bottom: 75px;
+
+    color:
+      var(--color-pink);
+
+    font-size: 19px;
+  }
+
+  /* =========================
+     Sections
+     ========================= */
+
+  .about-section {
+    min-width: 0;
 
     padding:
-      78px 0;
+      82px 0;
 
     border-bottom:
       1px solid
       var(--border);
   }
 
-  .contact-section {
-    border-bottom:
-      0;
-  }
-
-  .section-heading {
-    display:
-      flex;
-
-    align-items:
-      flex-end;
-
-    justify-content:
-      space-between;
-
-    gap:
-      30px;
-  }
-
-  .section-heading > * {
-    min-width:
-      0;
+  .about-section:last-child {
+    border-bottom: 0;
   }
 
   .section-eyebrow {
@@ -964,21 +1224,17 @@ const completedFeatures = [
     color:
       var(--color-primary);
 
-    font-size:
-      9px;
-
-    font-weight:
-      800;
+    font-size: 10px;
+    font-weight: 800;
 
     letter-spacing:
       0.15em;
   }
 
   .section-heading h2,
-  .blog-copy h2,
-  .contact-section h2 {
-    margin:
-      0;
+  .stack-copy h2,
+  .closing-copy h2 {
+    margin: 0;
 
     font-size:
       clamp(
@@ -989,247 +1245,328 @@ const completedFeatures = [
 
     letter-spacing:
       -0.045em;
-
-    word-break:
-      normal;
   }
 
   .section-description {
     margin:
-      10px 0 0;
+      11px 0 0;
 
     color:
       var(--text-secondary);
 
-    font-size:
-      13px;
+    line-height: 1.75;
   }
 
-  .story-list {
-    margin-top:
-      36px;
+  /* =========================
+     Intro
+     ========================= */
 
-    display:
-      flex;
+  .intro-grid {
+    margin-top: 34px;
 
-    flex-direction:
-      column;
-
-    gap:
-      14px;
-  }
-
-  .story-card {
-    min-width:
-      0;
-
-    padding:
-      26px;
-
-    display:
-      grid;
+    display: grid;
 
     grid-template-columns:
-      80px
-      minmax(0, 1fr);
+      minmax(0, 1.25fr)
+      minmax(300px, 0.75fr);
 
-    gap:
-      28px;
+    align-items: start;
+
+    gap: 48px;
+  }
+
+  .intro-main {
+    min-width: 0;
+
+    color:
+      var(--text-secondary);
+
+    font-size: 15px;
+    line-height: 1.95;
+  }
+
+  .intro-main p {
+    margin:
+      0 0 19px;
+  }
+
+  .intro-lead {
+    color:
+      var(--text-primary);
+
+    font-size: 22px;
+    font-weight: 650;
+
+    line-height: 1.6;
+  }
+
+  .intro-note {
+    position: relative;
+
+    padding: 26px;
+
+    overflow: hidden;
 
     border:
       1px solid
-      var(--border);
+      color-mix(
+        in srgb,
+        var(--color-primary) 18%,
+        var(--border)
+      );
 
-    border-radius:
-      var(--radius-lg);
+    border-radius: 20px;
 
     background:
-      var(--color-surface);
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink) 5%,
+          var(--color-surface)
+        )
+      );
 
     box-shadow:
       var(--shadow-sm);
   }
 
-  .story-index {
+  .note-mark {
     color:
       var(--color-primary);
 
-    font-size:
-      26px;
-
-    font-weight:
-      750;
-
-    letter-spacing:
-      0.08em;
+    font-size: 20px;
   }
 
-  .story-content {
-    min-width:
-      0;
-  }
-
-  .story-content h3 {
+  .intro-note p {
     margin:
-      0;
-
-    font-size:
-      22px;
-
-    word-break:
-      normal;
-  }
-
-  .story-content p {
-    max-width:
-      760px;
-
-    margin:
-      12px 0 0;
+      17px 0 0;
 
     color:
-      var(--text-secondary);
+      var(--text-primary);
 
-    line-height:
-      1.9;
-
-    word-break:
-      normal;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
-  .skills-grid {
-    margin-top:
-      34px;
+  .intro-note small {
+    margin-top: 18px;
 
-    display:
-      grid;
+    display: block;
+
+    color:
+      var(--text-muted);
+
+    font-size: 8px;
+
+    letter-spacing:
+      0.13em;
+  }
+
+  /* =========================
+     Interests
+     ========================= */
+
+  .interest-grid {
+    min-width: 0;
+
+    margin-top: 34px;
+
+    display: grid;
 
     grid-template-columns:
       repeat(
-        4,
+        3,
         minmax(0, 1fr)
       );
 
-    gap:
-      12px;
+    gap: 16px;
   }
 
-  .skill-card {
-    min-width:
-      0;
+  .interest-card {
+    position: relative;
 
-    min-height:
-      120px;
+    min-width: 0;
+    min-height: 230px;
 
-    padding:
-      18px;
+    padding: 23px;
 
-    display:
-      flex;
+    display: flex;
+    flex-direction: column;
 
-    flex-direction:
-      column;
-
-    justify-content:
-      space-between;
+    overflow: hidden;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      var(--radius-lg);
+    border-radius: 20px;
 
     background:
       var(--color-surface);
 
     box-shadow:
       var(--shadow-sm);
+
+    isolation: isolate;
+
+    transition:
+      transform
+        var(--transition-normal),
+      border-color
+        var(--transition-normal),
+      box-shadow
+        var(--transition-normal);
   }
 
-  .skill-card span {
+  .card-holo {
+    position: absolute;
+
+    z-index: -1;
+
+    inset: 0;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-size: cover;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0;
+
+    transition:
+      opacity 320ms ease,
+      transform 500ms ease;
+  }
+
+  .interest-card:hover {
+    transform:
+      translateY(-5px);
+
+    border-color:
+      color-mix(
+        in srgb,
+        var(--color-primary) 34%,
+        var(--border)
+      );
+
+    box-shadow:
+      0 20px 48px
+      color-mix(
+        in srgb,
+        var(--color-primary) 10%,
+        transparent
+      );
+  }
+
+  .interest-card:hover
+  .card-holo {
+    opacity: 0.09;
+
+    transform:
+      scale(1.06);
+  }
+
+  .interest-index {
     color:
       var(--color-primary);
 
-    font-size:
-      8px;
+    font-size: 10px;
+    font-weight: 800;
 
-    font-weight:
-      800;
+    letter-spacing:
+      0.12em;
   }
 
-  .skill-card strong {
-    font-size:
-      15px;
+  .interest-card h3 {
+    margin:
+      50px 0 8px;
 
-    overflow-wrap:
-      anywhere;
+    font-size: 20px;
   }
 
-  .interest-list {
-    margin-top:
-      32px;
-
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      10px;
-  }
-
-  .interest-list > span {
-    max-width:
-      100%;
-
-    padding:
-      10px 14px;
-
-    border:
-      1px solid
-      var(--border);
-
-    border-radius:
-      999px;
-
-    background:
-      var(--color-surface);
+  .interest-card p {
+    margin: 0;
 
     color:
       var(--text-secondary);
 
-    box-shadow:
-      var(--shadow-sm);
+    font-size: 12px;
+    line-height: 1.75;
   }
 
-  .blog-panel {
-    min-width:
-      0;
+  .interest-arrow {
+    width: 34px;
+    height: 34px;
 
-    padding:
-      38px;
+    margin-top: auto;
 
-    display:
-      grid;
+    display: flex;
 
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(300px, 0.65fr);
+    align-items: center;
+    justify-content: center;
 
-    align-items:
-      center;
-
-    gap:
-      54px;
+    align-self: flex-end;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      var(--radius-xl);
+    border-radius: 10px;
+
+    color:
+      var(--text-muted);
+
+    transition:
+      transform
+        var(--transition-fast),
+      color
+        var(--transition-fast);
+  }
+
+  .interest-card:hover
+  .interest-arrow {
+    color:
+      var(--color-primary);
+
+    transform:
+      translate(
+        2px,
+        -2px
+      );
+  }
+
+  /* =========================
+     Stack
+     ========================= */
+
+  .stack-panel {
+    position: relative;
+
+    min-width: 0;
+
+    padding: 38px;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 0.85fr)
+      minmax(420px, 1.15fr);
+
+    gap: 54px;
+
+    overflow: hidden;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius: 24px;
 
     background:
       linear-gradient(
@@ -1237,8 +1574,7 @@ const completedFeatures = [
         var(--color-surface),
         color-mix(
           in srgb,
-          var(--color-primary-soft)
-            48%,
+          var(--color-primary-soft) 34%,
           var(--color-surface)
         )
       );
@@ -1247,30 +1583,55 @@ const completedFeatures = [
       var(--shadow-card);
   }
 
-  .blog-panel > * {
-    min-width:
-      0;
+  .stack-glow {
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    right: -130px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    background:
+      radial-gradient(
+        circle,
+        color-mix(
+          in srgb,
+          var(--color-pink) 14%,
+          transparent
+        ),
+        transparent 70%
+      );
   }
 
-  .blog-copy > p:not(
+  .stack-panel > *:not(
+    .stack-glow
+  ) {
+    position: relative;
+
+    z-index: 2;
+
+    min-width: 0;
+  }
+
+  .stack-copy > p:not(
     .section-eyebrow
   ) {
-    max-width:
-      650px;
+    max-width: 480px;
+
+    margin:
+      16px 0 0;
 
     color:
       var(--text-secondary);
 
-    line-height:
-      1.85;
+    line-height: 1.8;
   }
 
-  .feature-list {
-    margin-top:
-      24px;
-
-    display:
-      grid;
+  .stack-list {
+    display: grid;
 
     grid-template-columns:
       repeat(
@@ -1278,60 +1639,158 @@ const completedFeatures = [
         minmax(0, 1fr)
       );
 
-    gap:
-      9px;
+    gap: 10px;
   }
 
-  .feature-list > span {
-    min-width:
-      0;
+  .stack-item {
+    min-width: 0;
 
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      8px;
-
-    color:
-      var(--text-secondary);
-
-    font-size:
-      11px;
-  }
-
-  .feature-dot {
-    width:
-      6px;
-
-    height:
-      6px;
-
-    flex-shrink:
-      0;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-primary);
-  }
-
-  .blog-status {
-    min-width:
-      0;
+    min-height: 70px;
 
     padding:
-      24px;
+      14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      22px;
+    border-radius: 14px;
+
+    background:
+      color-mix(
+        in srgb,
+        var(--color-surface) 76%,
+        transparent
+      );
+  }
+
+  .stack-item span {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background:
+      var(--color-primary-soft);
+
+    color:
+      var(--color-primary);
+
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+  .stack-item strong {
+    min-width: 0;
+
+    font-size: 12px;
+
+    overflow-wrap: anywhere;
+  }
+
+  /* =========================
+     Timeline
+     ========================= */
+
+  .timeline {
+    max-width: 780px;
+
+    margin:
+      40px auto 0;
+  }
+
+  .timeline-item {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+      28px
+      minmax(0, 1fr);
+
+    gap: 18px;
+  }
+
+  .timeline-rail {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-direction: column;
+  }
+
+  .timeline-dot {
+    position: relative;
+
+    z-index: 2;
+
+    width: 12px;
+    height: 12px;
+
+    margin-top: 18px;
+
+    flex-shrink: 0;
+
+    border:
+      3px solid
+      var(--background);
+
+    border-radius: 50%;
+
+    background:
+      var(--color-primary);
+
+    box-shadow:
+      0 0 0 4px
+      var(--color-primary-soft);
+  }
+
+  .timeline-rail i {
+    width: 1px;
+
+    flex: 1;
+
+    min-height: 105px;
+
+    background:
+      linear-gradient(
+        180deg,
+        var(--color-primary),
+        color-mix(
+          in srgb,
+          var(--border) 80%,
+          transparent
+        )
+      );
+  }
+
+  .timeline-card {
+    min-width: 0;
+
+    margin-bottom: 18px;
+
+    padding: 23px;
+
+    border:
+      1px solid
+      var(--border);
+
+    border-radius: 18px;
 
     background:
       var(--color-surface);
@@ -1340,431 +1799,316 @@ const completedFeatures = [
       var(--shadow-sm);
   }
 
-  .status-header {
-    display:
-      flex;
-
-    justify-content:
-      space-between;
-
-    gap:
-      20px;
-
-    color:
-      var(--text-muted);
-
-    font-size:
-      8px;
-  }
-
-  .blog-status > strong {
-    display:
-      block;
-
-    margin-top:
-      38px;
-
+  .timeline-label {
     color:
       var(--color-primary);
 
-    font-size:
-      64px;
+    font-size: 8px;
+    font-weight: 800;
 
-    line-height:
-      1;
+    letter-spacing:
+      0.13em;
   }
 
-  .blog-status > p {
+  .timeline-card h3 {
     margin:
-      9px 0 0;
+      10px 0 7px;
+
+    font-size: 18px;
+  }
+
+  .timeline-card p {
+    margin: 0;
 
     color:
       var(--text-secondary);
+
+    font-size: 12px;
+    line-height: 1.75;
   }
 
-  .status-line {
-    height:
-      1px;
+  /* =========================
+     Closing
+     ========================= */
 
-    margin:
-      28px 0;
+  .closing-card {
+    position: relative;
 
-    background:
-      var(--border);
-  }
+    min-width: 0;
 
-  .status-meta {
-    display:
-      grid;
+    padding: 38px;
 
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
-      );
+    display: flex;
 
-    gap:
-      12px;
-  }
+    align-items: center;
+    justify-content: space-between;
 
-  .status-meta div {
-    min-width:
-      0;
+    gap: 42px;
 
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      5px;
-  }
-
-  .status-meta span {
-    color:
-      var(--text-muted);
-
-    font-size:
-      7px;
-  }
-
-  .status-meta strong {
-    font-size:
-      10px;
-
-    overflow-wrap:
-      anywhere;
-  }
-
-  .contact-section {
-    display:
-      flex;
-
-    align-items:
-      flex-end;
-
-    justify-content:
-      space-between;
-
-    gap:
-      40px;
-  }
-
-  .contact-section > div {
-    min-width:
-      0;
-  }
-
-  .contact-section p:not(
-    .section-eyebrow
-  ) {
-    max-width:
-      560px;
-
-    color:
-      var(--text-secondary);
-  }
-
-  .contact-actions {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    flex-wrap:
-      wrap;
-
-    justify-content:
-      flex-end;
-
-    gap:
-      10px;
-  }
-
-  .contact-actions a,
-  .email-status {
-    min-height:
-      44px;
-
-    padding:
-      0 14px;
-
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      7px;
+    overflow: hidden;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      12px;
+    border-radius: 24px;
 
     background:
-      var(--color-surface);
+      linear-gradient(
+        135deg,
+        var(--color-surface),
+        color-mix(
+          in srgb,
+          var(--color-primary-soft) 34%,
+          var(--color-surface)
+        )
+      );
+
+    box-shadow:
+      var(--shadow-card);
+
+    isolation: isolate;
   }
 
-  .email-status {
-    color:
-      var(--text-muted);
+  .closing-holo {
+    position: absolute;
 
-    font-size:
-      11px;
+    z-index: -1;
+
+    inset: 0;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-size: cover;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0.045;
+  }
+
+  .closing-copy {
+    min-width: 0;
+  }
+
+  .closing-copy > p:not(
+    .section-eyebrow
+  ) {
+    max-width: 600px;
+
+    margin:
+      14px 0 0;
+
+    color:
+      var(--text-secondary);
+
+    line-height: 1.8;
+  }
+
+  .closing-actions {
+    margin-top: 0;
+
+    flex-shrink: 0;
   }
 
   /* =========================
-     Runtime mobile fallback
+     Mobile runtime
      ========================= */
 
   :global(html.mobile-device)
   .about-hero {
-    min-height:
-      auto;
+    min-height: auto;
+  }
+
+  :global(html.mobile-device)
+  .hero-background img {
+    object-position:
+      67% center;
+  }
+
+  :global(html.mobile-device)
+  .hero-tint {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(
+          in srgb,
+          var(--background) 48%,
+          transparent
+        ) 0%,
+        color-mix(
+          in srgb,
+          var(--background) 74%,
+          transparent
+        ) 45%,
+        var(--background) 100%
+      );
+  }
+
+  :global(html.mobile-device)
+  .about-hero-inner {
+    width:
+      min(
+        calc(
+          100% - 36px
+        ),
+        1180px
+      );
+
+    min-height: auto;
 
     padding:
-      56px 0 60px;
+      58px 0 58px;
 
     grid-template-columns:
       minmax(0, 1fr);
 
-    align-items:
-      stretch;
-
-    gap:
-      38px;
-  }
-
-  :global(html.mobile-device)
-  .hero-copy {
-    width:
-      100%;
-
-    max-width:
-      100%;
+    gap: 30px;
   }
 
   :global(html.mobile-device)
   .hero-copy h1 {
-    width:
-      100%;
-
-    max-width:
-      100%;
+    width: 100%;
+    max-width: 100%;
 
     font-size:
       clamp(
-        43px,
+        44px,
         12vw,
-        60px
+        62px
       );
-
-    line-height:
-      1.08;
-
-    word-break:
-      normal;
   }
 
   :global(html.mobile-device)
   .hero-description {
-    width:
-      100%;
-
-    max-width:
-      100%;
+    font-size: 15px;
   }
 
   :global(html.mobile-device)
-  .hero-actions {
-    width:
-      100%;
+  .hero-actions,
+  :global(html.mobile-device)
+  .closing-actions {
+    width: 100%;
 
-    align-items:
-      stretch;
-
-    flex-direction:
-      column;
+    flex-direction: column;
   }
 
   :global(html.mobile-device)
   .primary-action,
   :global(html.mobile-device)
   .secondary-action {
-    width:
-      100%;
+    width: 100%;
   }
 
   :global(html.mobile-device)
-  .profile-panel {
-    width:
-      100%;
+  .identity-area {
+    min-height: 350px;
 
-    min-height:
-      390px;
-
-    overflow:
-      hidden;
+    overflow: hidden;
   }
 
   :global(html.mobile-device)
-  .profile-card {
+  .identity-card {
     width:
       min(
-        calc(100% - 20px),
+        calc(
+          100% - 22px
+        ),
         350px
       );
+
+    transform: none;
   }
 
   :global(html.mobile-device)
-  .profile-orbit {
+  .orbit-one {
     width:
       min(
         330px,
-        82vw
+        84vw
       );
 
     height:
       min(
         330px,
-        82vw
+        84vw
       );
   }
 
   :global(html.mobile-device)
-  .story-section,
-  :global(html.mobile-device)
-  .skills-section,
-  :global(html.mobile-device)
-  .interests-section,
-  :global(html.mobile-device)
-  .blog-section,
-  :global(html.mobile-device)
-  .contact-section {
-    padding:
-      58px 0;
-  }
-
-  :global(html.mobile-device)
-  .section-heading {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      16px;
-  }
-
-  :global(html.mobile-device)
-  .story-card {
-    padding:
-      22px;
-
-    grid-template-columns:
-      minmax(0, 1fr);
-
-    gap:
-      18px;
-  }
-
-  :global(html.mobile-device)
-  .story-index {
-    font-size:
-      20px;
-  }
-
-  :global(html.mobile-device)
-  .story-content h3 {
-    font-size:
-      21px;
-  }
-
-  :global(html.mobile-device)
-  .story-content p {
+  .orbit-two {
     width:
-      100%;
+      min(
+        270px,
+        68vw
+      );
 
-    max-width:
-      100%;
-
-    font-size:
-      14px;
-
-    line-height:
-      1.85;
-  }
-
-  :global(html.mobile-device)
-  .skills-grid {
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
+    height:
+      min(
+        270px,
+        68vw
       );
   }
 
   :global(html.mobile-device)
-  .blog-panel {
+  .identity-star {
+    display: none;
+  }
+
+  :global(html.mobile-device)
+  .about-section {
     padding:
-      24px;
-
-    grid-template-columns:
-      minmax(0, 1fr);
-
-    gap:
-      34px;
-
-    border-radius:
-      22px;
+      60px 0;
   }
 
   :global(html.mobile-device)
-  .feature-list {
+  .intro-grid,
+  :global(html.mobile-device)
+  .interest-grid,
+  :global(html.mobile-device)
+  .stack-panel {
     grid-template-columns:
       minmax(0, 1fr);
   }
 
   :global(html.mobile-device)
-  .contact-section {
-    align-items:
-      stretch;
-
-    flex-direction:
-      column;
+  .intro-grid {
+    gap: 24px;
   }
 
   :global(html.mobile-device)
-  .contact-actions {
-    width:
-      100%;
-
-    align-items:
-      stretch;
-
-    justify-content:
-      flex-start;
-
-    flex-direction:
-      column;
+  .interest-grid {
+    gap: 12px;
   }
 
   :global(html.mobile-device)
-  .contact-actions a,
-  :global(html.mobile-device)
-  .email-status {
-    width:
-      100%;
+  .interest-card {
+    min-height: 190px;
+  }
 
-    justify-content:
-      center;
+  :global(html.mobile-device)
+  .stack-panel {
+    padding: 25px;
+
+    gap: 30px;
+  }
+
+  :global(html.mobile-device)
+  .stack-list {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  :global(html.mobile-device)
+  .closing-card {
+    padding: 25px;
+
+    align-items: stretch;
+
+    flex-direction: column;
   }
 
   /* =========================
@@ -1772,17 +2116,33 @@ const completedFeatures = [
      ========================= */
 
   @media (
-    max-width: 900px
+    max-width: 960px
   ) {
-    .about-hero {
+    .about-hero-inner {
       grid-template-columns:
         1fr;
 
-      gap:
-        40px;
+      gap: 24px;
     }
 
-    .blog-panel {
+    .identity-area {
+      min-height: 390px;
+    }
+
+    .intro-grid {
+      grid-template-columns:
+        1fr;
+    }
+
+    .interest-grid {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+    }
+
+    .stack-panel {
       grid-template-columns:
         1fr;
     }
@@ -1791,87 +2151,123 @@ const completedFeatures = [
   @media (
     max-width: 700px
   ) {
-    .about-hero {
-      min-height:
-        auto;
+    .about-hero-inner {
+      width:
+        calc(
+          100% - 36px
+        );
+
+      min-height: auto;
 
       padding:
-        56px 0 60px;
+        58px 0;
     }
 
     .hero-copy h1 {
       font-size:
         clamp(
-          43px,
+          44px,
           14vw,
-          60px
+          62px
         );
     }
 
-    .hero-actions {
-      flex-direction:
-        column;
+    .hero-actions,
+    .closing-actions {
+      flex-direction: column;
     }
 
     .primary-action,
     .secondary-action {
-      width:
-        100%;
+      width: 100%;
     }
 
-    .story-section,
-    .skills-section,
-    .interests-section,
-    .blog-section,
-    .contact-section {
+    .identity-card {
+      transform: none;
+    }
+
+    .about-section {
       padding:
-        58px 0;
+        60px 0;
     }
 
-    .story-card {
+    .interest-grid {
       grid-template-columns:
         1fr;
     }
 
-    .skills-grid {
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(0, 1fr)
-        );
+    .stack-panel,
+    .closing-card {
+      padding: 25px;
     }
 
-    .feature-list {
+    .stack-list {
       grid-template-columns:
         1fr;
     }
 
-    .contact-section {
-      align-items:
-        stretch;
+    .closing-card {
+      align-items: stretch;
 
-      flex-direction:
-        column;
-    }
-
-    .contact-actions {
-      justify-content:
-        flex-start;
+      flex-direction: column;
     }
   }
 
   @media (
-    max-width: 390px
+    max-width: 420px
   ) {
-    .skills-grid {
-      grid-template-columns:
-        1fr;
+    .identity-card {
+      padding: 19px;
     }
 
-    .profile-grid,
-    .status-meta {
-      grid-template-columns:
-        1fr;
+    .intro-note,
+    .interest-card,
+    .timeline-card {
+      padding: 20px;
+    }
+
+    .stack-panel,
+    .closing-card {
+      padding: 21px;
+    }
+  }
+
+  @media (
+    hover: none
+  ) {
+    .interest-card:hover,
+    .primary-action:hover,
+    .secondary-action:hover {
+      transform: none;
+    }
+
+    .interest-card:hover
+    .card-holo {
+      opacity: 0;
+      transform: none;
+    }
+
+    .interest-card:hover
+    .interest-arrow {
+      transform: none;
+    }
+  }
+
+  @media (
+    prefers-reduced-motion:
+      reduce
+  ) {
+    .identity-card,
+    .interest-card,
+    .card-holo,
+    .interest-arrow,
+    .primary-action,
+    .secondary-action {
+      transition:
+        none !important;
+
+      transform:
+        none !important;
     }
   }
 </style>

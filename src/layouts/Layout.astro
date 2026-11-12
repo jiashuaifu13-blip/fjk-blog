@@ -13,37 +13,22 @@ import {
 
 interface Props {
   title?: string;
-
   description?: string;
-
   image?: string;
-
   imageAlt?: string;
-
   type?: "website" | "article";
-
   publishedTime?: Date;
-
   noindex?: boolean;
 }
 
 const {
   title,
-
-  description =
-    SITE.description,
-
+  description = SITE.description,
   image,
-
   imageAlt,
-
-  type =
-    "website",
-
+  type = "website",
   publishedTime,
-
-  noindex =
-    false,
+  noindex = false,
 } = Astro.props;
 
 const pageTitle =
@@ -53,9 +38,7 @@ const pageTitle =
 
 const siteBase =
   Astro.site ??
-  new URL(
-    Astro.url.origin
-  );
+  new URL(Astro.url.origin);
 
 const canonicalURL =
   new URL(
@@ -82,9 +65,7 @@ const rssURL =
 
 <html lang={SITE.language}>
   <head>
-    <meta
-      charset="UTF-8"
-    />
+    <meta charset="UTF-8" />
 
     <meta
       name="viewport"
@@ -115,10 +96,23 @@ const rssURL =
       content={Astro.generator}
     />
 
-    <meta
-      name="color-scheme"
-      content="light dark"
-    />
+    <!--
+      Theme colors are completely
+      controlled by FJK Blog.
+
+      `only light` prevents browsers
+      with automatic / forced dark-page
+      algorithms from recoloring the
+      entire site a second time.
+
+      Our own `html.dark` class still
+      provides the actual dark theme.
+    -->
+    <style is:inline>
+      html {
+        color-scheme: only light;
+      }
+    </style>
 
     <link
       rel="canonical"
@@ -244,15 +238,11 @@ const rssURL =
     </title>
 
     <!--
-      Cross-platform mobile fallback.
+      Mobile compatibility fallback.
 
-      Standard browsers should enter the mobile layout
-      through CSS media queries.
-
-      Some embedded / system browsers expose an
-      unexpectedly wide layout viewport. In that case
-      we additionally detect a touch-oriented device
-      using the physical screen's short side.
+      Some system browsers expose a
+      desktop-like layout viewport on
+      physical mobile devices.
     -->
     <script is:inline>
       (() => {
@@ -296,13 +286,20 @@ const rssURL =
             );
         } catch {
           /*
-           * CSS responsive rules remain
-           * the normal fallback.
-           */
+            Standard CSS responsive
+            rules remain the fallback.
+          */
         }
       })();
     </script>
 
+    <!--
+      FJK custom theme controller.
+
+      We deliberately do NOT expose
+      "light dark" to browser automatic
+      recoloring systems.
+    -->
     <script is:inline>
       (() => {
         try {
@@ -333,6 +330,10 @@ const rssURL =
               "dark",
               theme === "dark"
             );
+
+          document.documentElement
+            .dataset.theme =
+              theme;
         } catch {
           const prefersDark =
             window.matchMedia(
@@ -344,6 +345,12 @@ const rssURL =
               "dark",
               prefersDark
             );
+
+          document.documentElement
+            .dataset.theme =
+              prefersDark
+                ? "dark"
+                : "light";
         }
       })();
     </script>

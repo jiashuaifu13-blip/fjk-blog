@@ -3,246 +3,431 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
-  title="页面未找到"
-  description="你访问的页面不存在。"
+  title="页面不存在"
+  description="这个页面暂时不存在，也许它只是迷路了。"
   noindex={true}
 >
-  <section class="error-page">
-    <div class="error-copy">
-      <div class="error-badge">
-        <span
-          class="badge-dot"
-          aria-hidden="true"
-        ></span>
-
-        <span>
-          PAGE NOT FOUND
-        </span>
-      </div>
-
-      <p class="error-kicker">
-        Lost in the blog
-      </p>
-
-      <h1>
-        404
-      </h1>
-
-      <h2>
-        好像走错地方了。
-      </h2>
-
-      <p class="error-description">
-        这个页面不存在，可能已经被移动、删除，
-        或者地址输入有误。
-        你可以返回首页，或者继续浏览文章。
-      </p>
-
-      <div class="error-actions">
-        <a
-          class="primary-action"
-          href="/"
-        >
-          返回首页
-
-          <span
-            aria-hidden="true"
-          >
-            →
-          </span>
-        </a>
-
-        <a
-          class="secondary-action"
-          href="/blog"
-        >
-          浏览文章
-        </a>
-      </div>
-
-      <div class="error-hints">
-        <div>
-          <span>
-            HOME
-          </span>
-
-          <strong>
-            /
-          </strong>
-        </div>
-
-        <div>
-          <span>
-            BLOG
-          </span>
-
-          <strong>
-            /blog
-          </strong>
-        </div>
-
-        <div>
-          <span>
-            STATUS
-          </span>
-
-          <strong>
-            LOST
-          </strong>
-        </div>
-      </div>
-    </div>
-
+  <section class="not-found">
     <div
-      class="error-visual"
+      class="not-found-background"
       aria-hidden="true"
     >
-      <div class="orbit orbit-one"></div>
-      <div class="orbit orbit-two"></div>
+      <picture>
+        <source
+          media="(max-width: 700px)"
+          srcset="/images/anime/hero/hero-800.webp"
+        />
 
-      <div class="visual-card">
-        <div class="visual-top">
-          <span>
-            ERROR
-          </span>
+        <source
+          media="(max-width: 1200px)"
+          srcset="/images/anime/hero/hero-1200.webp"
+        />
 
-          <span>
-            404
-          </span>
-        </div>
+        <img
+          src="/images/anime/hero/hero-1600.webp"
+          alt=""
+        />
+      </picture>
 
-        <div class="visual-main">
-          <div class="visual-symbol">
-            ?
-          </div>
+      <div class="background-tint"></div>
+      <div class="background-fade"></div>
 
-          <strong>
-            LOST
-          </strong>
+      <div
+        class="background-holo"
+        aria-hidden="true"
+      ></div>
+    </div>
+
+    <div class="not-found-inner">
+      <div class="error-copy">
+        <div class="error-badge">
+          <span
+            class="badge-dot"
+            aria-hidden="true"
+          ></span>
 
           <span>
             PAGE NOT FOUND
           </span>
         </div>
 
-        <div class="visual-grid">
-          <div>
-            <span>
-              CODE
-            </span>
+        <div
+          class="error-code"
+          aria-label="404"
+        >
+          <span>4</span>
+
+          <div class="error-zero">
+            <span class="zero-ring"></span>
 
             <strong>
-              404
+              0
             </strong>
-          </div>
 
-          <div>
-            <span>
-              MODE
+            <span
+              class="zero-star"
+              aria-hidden="true"
+            >
+              ✦
             </span>
-
-            <strong>
-              SEARCH
-            </strong>
           </div>
 
-          <div>
-            <span>
-              NEXT
+          <span>4</span>
+        </div>
+
+        <p class="error-kicker">
+          Looks like this page got lost.
+        </p>
+
+        <h1>
+          好像走到了
+          <span>
+            不存在的地方。
+          </span>
+        </h1>
+
+        <p class="error-description">
+          这个页面可能已经移动、删除，
+          或者地址里出现了一点小偏差。
+          不过没关系，可以从熟悉的地方重新开始。
+        </p>
+
+        <div class="error-actions">
+          <a
+            class="primary-action"
+            href="/"
+          >
+            返回首页
+
+            <span aria-hidden="true">
+              →
             </span>
+          </a>
 
-            <strong>
-              HOME
-            </strong>
-          </div>
-
-          <div>
-            <span>
-              SITE
-            </span>
-
-            <strong>
-              FJKSP.CN
-            </strong>
-          </div>
+          <a
+            class="secondary-action"
+            href="/blog"
+          >
+            浏览文章
+          </a>
         </div>
       </div>
 
-      <div class="visual-star star-one">
-        ✦
-      </div>
+      <div
+        class="lost-panel"
+        aria-hidden="true"
+      >
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
 
-      <div class="visual-star star-two">
-        ✧
-      </div>
+        <div class="lost-card">
+          <div class="lost-holo"></div>
 
-      <div class="visual-label">
-        FIND YOUR WAY
+          <div class="lost-card-top">
+            <span>
+              SYSTEM
+            </span>
+
+            <span>
+              ERROR_404
+            </span>
+          </div>
+
+          <div class="lost-icon">
+            <span>
+              ?
+            </span>
+          </div>
+
+          <div class="lost-message">
+            <strong>
+              TARGET LOST
+            </strong>
+
+            <span>
+              Route not found
+            </span>
+          </div>
+
+          <div class="lost-data">
+            <div>
+              <span>
+                STATUS
+              </span>
+
+              <strong>
+                404
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                ACTION
+              </span>
+
+              <strong>
+                RETURN
+              </strong>
+            </div>
+          </div>
+        </div>
+
+        <span class="panel-star panel-star-one">
+          ✦
+        </span>
+
+        <span class="panel-star panel-star-two">
+          ✧
+        </span>
       </div>
+    </div>
+
+    <div
+      class="bottom-note"
+      aria-hidden="true"
+    >
+      <span>
+        FJK BLOG
+      </span>
+
+      <i></i>
+
+      <span>
+        KEEP EXPLORING
+      </span>
     </div>
   </section>
 </Layout>
 
 <style>
-  .error-page {
-    min-height:
-      calc(100vh - 160px);
+  .not-found {
+    position: relative;
 
     min-height:
-      calc(100dvh - 160px);
+      calc(
+        100svh - 76px
+      );
+
+    margin:
+      0 calc(
+        50% - 50vw
+      );
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    border-bottom:
+      1px solid
+      var(--border);
+
+    isolation: isolate;
+  }
+
+  .not-found-background {
+    position: absolute;
+
+    z-index: -4;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+  }
+
+  .not-found-background picture,
+  .not-found-background img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+  }
+
+  .not-found-background img {
+    object-fit: cover;
+
+    object-position:
+      center 43%;
+
+    transform:
+      scale(1.035);
+
+    filter:
+      saturate(0.86)
+      brightness(1.02);
+  }
+
+  .background-tint,
+  .background-fade,
+  .background-holo {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+  }
+
+  .background-tint {
+    z-index: 1;
+
+    background:
+      linear-gradient(
+        105deg,
+        color-mix(
+          in srgb,
+          var(--background) 96%,
+          transparent
+        ) 0%,
+        color-mix(
+          in srgb,
+          var(--background) 83%,
+          transparent
+        ) 37%,
+        color-mix(
+          in srgb,
+          var(--background) 32%,
+          transparent
+        ) 77%,
+        transparent 100%
+      );
+  }
+
+  .background-fade {
+    z-index: 2;
+
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(
+          in srgb,
+          var(--background) 10%,
+          transparent
+        ) 0%,
+        transparent 34%,
+        color-mix(
+          in srgb,
+          var(--background) 32%,
+          transparent
+        ) 72%,
+        var(--background) 100%
+      );
+  }
+
+  .background-holo {
+    z-index: 3;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-size: cover;
+    background-position: center;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0.035;
+  }
+
+  :global(html.dark)
+  .not-found-background img {
+    filter:
+      brightness(0.5)
+      saturate(0.72)
+      contrast(1.02);
+  }
+
+  :global(html.dark)
+  .background-tint {
+    background:
+      linear-gradient(
+        105deg,
+        rgba(
+          16,
+          17,
+          26,
+          0.98
+        ) 0%,
+        rgba(
+          16,
+          17,
+          26,
+          0.88
+        ) 39%,
+        rgba(
+          16,
+          17,
+          26,
+          0.38
+        ) 79%,
+        transparent 100%
+      );
+  }
+
+  .not-found-inner {
+    width:
+      min(
+        calc(
+          100% - 48px
+        ),
+        1180px
+      );
+
+    margin:
+      0 auto;
 
     padding:
-      76px 0 84px;
+      86px 0 100px;
 
-    display:
-      grid;
+    display: grid;
 
     grid-template-columns:
       minmax(0, 1fr)
-      minmax(360px, 0.82fr);
+      minmax(320px, 0.72fr);
 
-    align-items:
-      center;
+    align-items: center;
 
-    gap:
-      76px;
+    gap: 72px;
   }
 
-  .error-page > * {
-    min-width:
-      0;
+  .not-found-inner > * {
+    min-width: 0;
   }
 
   .error-copy {
-    min-width:
-      0;
+    position: relative;
+
+    z-index: 4;
   }
 
   .error-badge {
-    width:
-      fit-content;
+    width: fit-content;
 
     padding:
       7px 11px;
 
-    display:
-      inline-flex;
+    display: inline-flex;
 
-    align-items:
-      center;
+    align-items: center;
 
-    gap:
-      8px;
+    gap: 8px;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      999px;
+    border-radius: 999px;
 
     background:
-      var(--color-surface);
+      color-mix(
+        in srgb,
+        var(--color-surface) 78%,
+        transparent
+      );
 
     color:
       var(--text-secondary);
@@ -250,66 +435,209 @@ import Layout from "../layouts/Layout.astro";
     box-shadow:
       var(--shadow-sm);
 
-    font-size:
-      9px;
+    backdrop-filter:
+      blur(12px);
 
-    font-weight:
-      800;
+    -webkit-backdrop-filter:
+      blur(12px);
+
+    font-size: 10px;
+    font-weight: 800;
 
     letter-spacing:
       0.14em;
   }
 
   .badge-dot {
-    width:
-      6px;
+    width: 6px;
+    height: 6px;
 
-    height:
-      6px;
+    flex-shrink: 0;
 
-    flex-shrink:
-      0;
-
-    border-radius:
-      50%;
+    border-radius: 50%;
 
     background:
       var(--color-pink);
+
+    box-shadow:
+      0 0 0 4px
+      color-mix(
+        in srgb,
+        var(--color-pink) 14%,
+        transparent
+      );
+  }
+
+  .error-code {
+    margin-top: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap:
+      clamp(
+        4px,
+        1vw,
+        12px
+      );
+
+    color:
+      var(--text-primary);
+
+    font-size:
+      clamp(
+        100px,
+        14vw,
+        174px
+      );
+
+    font-weight: 800;
+
+    line-height: 0.88;
+
+    letter-spacing:
+      -0.09em;
+  }
+
+  .error-code > span {
+    background:
+      linear-gradient(
+        180deg,
+        var(--text-primary),
+        color-mix(
+          in srgb,
+          var(--text-primary) 65%,
+          var(--color-primary)
+        )
+      );
+
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color: transparent;
+  }
+
+  .error-zero {
+    position: relative;
+
+    width:
+      0.72em;
+
+    height:
+      0.88em;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+  }
+
+  .error-zero strong {
+    position: relative;
+
+    z-index: 2;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-pink)
+      );
+
+    -webkit-background-clip:
+      text;
+
+    background-clip:
+      text;
+
+    color: transparent;
+
+    font: inherit;
+  }
+
+  .zero-ring {
+    position: absolute;
+
+    width: 0.72em;
+    height: 0.72em;
+
+    border:
+      1px dashed
+      color-mix(
+        in srgb,
+        var(--color-primary) 38%,
+        transparent
+      );
+
+    border-radius: 50%;
+
+    transform:
+      rotate(18deg);
+  }
+
+  .zero-star {
+    position: absolute;
+
+    z-index: 3;
+
+    right: -3px;
+    top: 9%;
+
+    color:
+      var(--color-pink);
+
+    font-size: 0.12em;
+
+    text-shadow:
+      0 0 16px
+      color-mix(
+        in srgb,
+        var(--color-pink) 50%,
+        transparent
+      );
   }
 
   .error-kicker {
     margin:
-      24px 0 0;
+      28px 0 0;
 
     color:
       var(--color-primary);
 
-    font-size:
-      14px;
-
-    font-weight:
-      700;
-
-    word-break:
-      keep-all;
+    font-size: 13px;
+    font-weight: 700;
   }
 
   .error-copy h1 {
+    max-width: 650px;
+
     margin:
       10px 0 0;
 
     font-size:
       clamp(
-        88px,
-        12vw,
-        150px
+        38px,
+        5vw,
+        58px
       );
 
-    line-height:
-      0.9;
+    line-height: 1.1;
 
     letter-spacing:
-      -0.07em;
+      -0.055em;
+
+    word-break: keep-all;
+  }
+
+  .error-copy h1 span {
+    display: block;
 
     background:
       linear-gradient(
@@ -325,34 +653,11 @@ import Layout from "../layouts/Layout.astro";
     background-clip:
       text;
 
-    color:
-      transparent;
-  }
-
-  .error-copy h2 {
-    margin:
-      24px 0 0;
-
-    font-size:
-      clamp(
-        32px,
-        4vw,
-        46px
-      );
-
-    line-height:
-      1.2;
-
-    letter-spacing:
-      -0.045em;
-
-    word-break:
-      normal;
+    color: transparent;
   }
 
   .error-description {
-    max-width:
-      620px;
+    max-width: 580px;
 
     margin:
       22px 0 0;
@@ -360,58 +665,56 @@ import Layout from "../layouts/Layout.astro";
     color:
       var(--text-secondary);
 
-    font-size:
-      15px;
-
-    line-height:
-      1.9;
+    font-size: 15px;
+    line-height: 1.9;
   }
 
   .error-actions {
-    margin-top:
-      32px;
+    margin-top: 30px;
 
-    display:
-      flex;
+    display: flex;
+    flex-wrap: wrap;
 
-    flex-wrap:
-      wrap;
-
-    gap:
-      10px;
+    gap: 11px;
   }
 
   .primary-action,
   .secondary-action {
-    min-height:
-      46px;
+    min-height: 46px;
 
     padding:
       0 18px;
 
-    display:
-      inline-flex;
+    display: inline-flex;
 
-    align-items:
-      center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-      center;
+    gap: 10px;
 
-    gap:
-      9px;
+    border-radius: 13px;
 
-    border-radius:
-      13px;
+    font-size: 12px;
+    font-weight: 650;
 
-    font-size:
-      12px;
-
-    font-weight:
-      650;
+    transition:
+      transform
+        var(--transition-fast),
+      border-color
+        var(--transition-fast),
+      box-shadow
+        var(--transition-fast);
   }
 
   .primary-action {
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--color-primary) 48%,
+        transparent
+      );
+
     background:
       linear-gradient(
         135deg,
@@ -419,22 +722,30 @@ import Layout from "../layouts/Layout.astro";
         var(--color-secondary)
       );
 
-    color:
-      #ffffff;
+    color: #ffffff;
 
     box-shadow:
       0 12px 28px
       color-mix(
         in srgb,
-        var(--color-primary)
-          24%,
+        var(--color-primary) 22%,
         transparent
       );
   }
 
   .primary-action:hover {
-    color:
-      #ffffff;
+    color: #ffffff;
+
+    transform:
+      translateY(-2px);
+
+    box-shadow:
+      0 17px 36px
+      color-mix(
+        in srgb,
+        var(--color-primary) 29%,
+        transparent
+      );
   }
 
   .secondary-action {
@@ -443,218 +754,179 @@ import Layout from "../layouts/Layout.astro";
       var(--border);
 
     background:
-      var(--color-surface);
+      color-mix(
+        in srgb,
+        var(--color-surface) 80%,
+        transparent
+      );
 
     color:
       var(--text-primary);
+
+    backdrop-filter:
+      blur(10px);
+
+    -webkit-backdrop-filter:
+      blur(10px);
   }
 
-  .error-hints {
-    margin-top:
-      42px;
-
-    padding-top:
-      24px;
-
-    display:
-      grid;
-
-    grid-template-columns:
-      repeat(
-        3,
-        minmax(0, 1fr)
-      );
-
-    gap:
-      16px;
-
-    border-top:
-      1px solid
-      var(--border);
-  }
-
-  .error-hints div {
-    min-width:
-      0;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      5px;
-  }
-
-  .error-hints span {
+  .secondary-action:hover {
     color:
-      var(--text-muted);
+      var(--color-primary);
 
-    font-size:
-      8px;
+    transform:
+      translateY(-2px);
 
-    letter-spacing:
-      0.1em;
+    border-color:
+      var(--border-strong);
   }
 
-  .error-hints strong {
-    font-size:
-      13px;
+  /* =========================
+     Lost panel
+     ========================= */
 
-    overflow-wrap:
-      anywhere;
+  .lost-panel {
+    position: relative;
+
+    z-index: 4;
+
+    min-height: 440px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
   }
 
-  .error-visual {
-    position:
-      relative;
+  .lost-card {
+    position: relative;
 
-    min-width:
-      0;
-
-    min-height:
-      470px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-  }
-
-  .visual-card {
-    position:
-      relative;
-
-    z-index:
-      3;
+    z-index: 3;
 
     width:
       min(
         100%,
-        380px
+        340px
       );
 
-    min-width:
-      0;
+    padding: 22px;
 
-    padding:
-      24px;
+    overflow: hidden;
 
     border:
       1px solid
       var(--glass-border);
 
-    border-radius:
-      28px;
+    border-radius: 27px;
 
     background:
-      linear-gradient(
-        145deg,
-        color-mix(
-          in srgb,
-          var(--glass-background)
-            92%,
-          var(--color-primary)
-            8%
-        ),
-        var(--glass-background)
-      );
-
-    box-shadow:
-      0 30px 80px
       color-mix(
         in srgb,
-        var(--color-primary)
-          16%,
+        var(--glass-background) 86%,
         transparent
       );
 
-    backdrop-filter:
-      blur(
-        var(--glass-blur)
+    box-shadow:
+      0 28px 78px
+      rgba(
+        20,
+        20,
+        50,
+        0.18
       );
+
+    backdrop-filter:
+      blur(18px);
 
     -webkit-backdrop-filter:
-      blur(
-        var(--glass-blur)
-      );
+      blur(18px);
 
     transform:
-      rotate(2deg);
+      rotate(-2deg);
   }
 
-  .visual-top {
-    display:
-      flex;
+  .lost-holo {
+    position: absolute;
 
-    justify-content:
-      space-between;
+    inset: 0;
+
+    background-image:
+      url(
+        "/images/anime/effects/holo.webp"
+      );
+
+    background-size: cover;
+    background-position: center;
+
+    mix-blend-mode:
+      soft-light;
+
+    opacity: 0.075;
+
+    pointer-events: none;
+  }
+
+  .lost-card-top {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
 
     color:
       var(--text-muted);
 
-    font-size:
-      8px;
-
-    font-weight:
-      750;
+    font-size: 8px;
+    font-weight: 800;
 
     letter-spacing:
-      0.1em;
+      0.12em;
   }
 
-  .visual-main {
-    min-height:
-      220px;
+  .lost-icon {
+    position: relative;
 
-    display:
-      flex;
+    z-index: 2;
 
-    align-items:
-      center;
+    width: 92px;
+    height: 92px;
 
-    justify-content:
-      center;
+    margin:
+      40px auto 0;
 
-    flex-direction:
-      column;
-
-    gap:
-      10px;
-  }
-
-  .visual-symbol {
-    width:
-      96px;
-
-    height:
-      96px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
+    padding: 5px;
 
     border:
-      5px solid
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          16%,
-        transparent
-      );
+      1px solid
+      var(--border);
 
-    border-radius:
-      30px;
+    border-radius: 30px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-primary-soft),
+        color-mix(
+          in srgb,
+          var(--color-pink) 12%,
+          transparent
+        )
+      );
+  }
+
+  .lost-icon span {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 24px;
 
     background:
       linear-gradient(
@@ -664,47 +936,50 @@ import Layout from "../layouts/Layout.astro";
         var(--color-pink)
       );
 
-    color:
-      #ffffff;
+    color: #ffffff;
 
-    font-size:
-      44px;
-
-    font-weight:
-      800;
-
-    box-shadow:
-      0 16px 34px
-      color-mix(
-        in srgb,
-        var(--color-primary)
-          28%,
-        transparent
-      );
+    font-size: 38px;
+    font-weight: 800;
   }
 
-  .visual-main strong {
-    font-size:
-      26px;
+  .lost-message {
+    position: relative;
 
-    letter-spacing:
-      -0.03em;
+    z-index: 2;
+
+    margin-top: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    gap: 5px;
   }
 
-  .visual-main > span {
+  .lost-message strong {
+    font-size: 17px;
+  }
+
+  .lost-message span {
     color:
       var(--text-secondary);
 
-    font-size:
-      9px;
+    font-size: 9px;
 
     letter-spacing:
-      0.12em;
+      0.08em;
   }
 
-  .visual-grid {
-    display:
-      grid;
+  .lost-data {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 31px;
+
+    display: grid;
 
     grid-template-columns:
       repeat(
@@ -712,173 +987,144 @@ import Layout from "../layouts/Layout.astro";
         minmax(0, 1fr)
       );
 
-    gap:
-      8px;
+    gap: 8px;
   }
 
-  .visual-grid div {
-    min-width:
-      0;
+  .lost-data div {
+    min-width: 0;
 
-    padding:
-      12px;
+    padding: 12px;
 
-    display:
-      flex;
+    display: flex;
 
-    flex-direction:
-      column;
+    flex-direction: column;
 
-    gap:
-      5px;
+    gap: 5px;
 
     border:
       1px solid
       var(--border);
 
-    border-radius:
-      13px;
+    border-radius: 12px;
 
     background:
       color-mix(
         in srgb,
-        var(--color-surface)
-          72%,
+        var(--color-surface) 70%,
         transparent
       );
   }
 
-  .visual-grid span {
+  .lost-data span {
     color:
       var(--text-muted);
 
-    font-size:
-      7px;
+    font-size: 7px;
   }
 
-  .visual-grid strong {
-    font-size:
-      10px;
-
-    overflow-wrap:
-      anywhere;
+  .lost-data strong {
+    font-size: 10px;
   }
 
   .orbit {
-    position:
-      absolute;
+    position: absolute;
 
     border:
       1px dashed
       color-mix(
         in srgb,
-        var(--color-primary)
-          22%,
+        var(--color-primary) 28%,
         transparent
       );
 
-    border-radius:
-      50%;
+    border-radius: 50%;
   }
 
   .orbit-one {
-    width:
-      400px;
+    width: 390px;
+    height: 390px;
 
-    height:
-      400px;
+    transform:
+      rotate(18deg);
   }
 
   .orbit-two {
-    width:
-      320px;
-
-    height:
-      320px;
+    width: 300px;
+    height: 300px;
 
     transform:
-      rotate(25deg);
+      rotate(-25deg);
   }
 
-  .visual-star {
-    position:
-      absolute;
+  .panel-star {
+    position: absolute;
 
-    z-index:
-      4;
+    z-index: 5;
 
     color:
       var(--color-primary);
   }
 
-  .star-one {
-    top:
-      52px;
+  .panel-star-one {
+    right: 4px;
+    top: 74px;
 
-    right:
-      18px;
-
-    font-size:
-      26px;
+    font-size: 24px;
   }
 
-  .star-two {
-    bottom:
-      62px;
-
-    left:
-      18px;
+  .panel-star-two {
+    left: 12px;
+    bottom: 76px;
 
     color:
       var(--color-pink);
 
-    font-size:
-      20px;
+    font-size: 18px;
   }
 
-  .visual-label {
-    position:
-      absolute;
+  /* =========================
+     Bottom label
+     ========================= */
 
-    z-index:
-      5;
+  .bottom-note {
+    position: absolute;
 
-    right:
-      4px;
+    z-index: 5;
 
-    bottom:
-      88px;
+    left: 50%;
+    bottom: 22px;
 
-    padding:
-      8px 10px;
+    display: flex;
 
-    border:
-      1px solid
-      var(--border);
+    align-items: center;
 
-    border-radius:
-      10px;
-
-    background:
-      var(--color-surface-elevated);
-
-    color:
-      var(--text-secondary);
-
-    box-shadow:
-      var(--shadow-sm);
-
-    font-size:
-      9px;
-
-    font-weight:
-      700;
-
-    letter-spacing:
-      0.08em;
+    gap: 10px;
 
     transform:
-      rotate(5deg);
+      translateX(-50%);
+
+    color:
+      var(--text-muted);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing:
+      0.12em;
+
+    white-space: nowrap;
+  }
+
+  .bottom-note i {
+    width: 34px;
+    height: 1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-primary),
+        transparent
+      );
   }
 
   /* =========================
@@ -886,158 +1132,127 @@ import Layout from "../layouts/Layout.astro";
      ========================= */
 
   :global(html.mobile-device)
-  .error-page {
-    min-height:
-      auto;
+  .not-found {
+    min-height: auto;
+  }
+
+  :global(html.mobile-device)
+  .not-found-background img {
+    object-position:
+      67% center;
+  }
+
+  :global(html.mobile-device)
+  .background-tint {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(
+          in srgb,
+          var(--background) 45%,
+          transparent
+        ) 0%,
+        color-mix(
+          in srgb,
+          var(--background) 76%,
+          transparent
+        ) 46%,
+        var(--background) 100%
+      );
+  }
+
+  :global(html.mobile-device)
+  .not-found-inner {
+    width:
+      min(
+        calc(
+          100% - 36px
+        ),
+        1180px
+      );
 
     padding:
-      54px 0 62px;
+      58px 0 74px;
 
     grid-template-columns:
       minmax(0, 1fr);
 
-    align-items:
-      stretch;
-
-    gap:
-      38px;
+    gap: 24px;
   }
 
   :global(html.mobile-device)
-  .error-copy {
-    width:
-      100%;
-
-    max-width:
-      100%;
+  .error-code {
+    font-size:
+      clamp(
+        88px,
+        28vw,
+        132px
+      );
   }
 
   :global(html.mobile-device)
   .error-copy h1 {
-    font-size:
-      clamp(
-        82px,
-        25vw,
-        118px
-      );
-  }
-
-  :global(html.mobile-device)
-  .error-copy h2 {
-    width:
-      100%;
-
-    max-width:
-      100%;
+    width: 100%;
+    max-width: 100%;
 
     font-size:
       clamp(
-        30px,
-        9vw,
-        42px
+        38px,
+        11vw,
+        54px
       );
-
-    word-break:
-      normal;
   }
 
   :global(html.mobile-device)
   .error-description {
-    width:
-      100%;
-
-    max-width:
-      100%;
-
-    font-size:
-      14px;
+    font-size: 14px;
   }
 
   :global(html.mobile-device)
   .error-actions {
-    width:
-      100%;
+    width: 100%;
 
-    align-items:
-      stretch;
-
-    flex-direction:
-      column;
+    flex-direction: column;
   }
 
   :global(html.mobile-device)
   .primary-action,
   :global(html.mobile-device)
   .secondary-action {
-    width:
-      100%;
-
-    min-height:
-      50px;
+    width: 100%;
   }
 
   :global(html.mobile-device)
-  .error-hints {
-    width:
-      100%;
+  .lost-panel {
+    min-height: 350px;
 
-    grid-template-columns:
-      repeat(
-        3,
-        minmax(0, 1fr)
-      );
-
-    gap:
-      10px;
+    overflow: hidden;
   }
 
   :global(html.mobile-device)
-  .error-visual {
-    width:
-      100%;
-
-    max-width:
-      100%;
-
-    min-height:
-      400px;
-
-    overflow:
-      hidden;
-  }
-
-  :global(html.mobile-device)
-  .visual-card {
+  .lost-card {
     width:
       min(
-        calc(100% - 20px),
-        360px
+        calc(
+          100% - 22px
+        ),
+        340px
       );
 
-    max-width:
-      100%;
-
-    padding:
-      20px;
-
-    border-radius:
-      24px;
-
-    transform:
-      none;
+    transform: none;
   }
 
   :global(html.mobile-device)
   .orbit-one {
     width:
       min(
-        340px,
+        330px,
         84vw
       );
 
     height:
       min(
-        340px,
+        330px,
         84vw
       );
   }
@@ -1046,21 +1261,22 @@ import Layout from "../layouts/Layout.astro";
   .orbit-two {
     width:
       min(
-        280px,
-        70vw
+        270px,
+        68vw
       );
 
     height:
       min(
-        280px,
-        70vw
+        270px,
+        68vw
       );
   }
 
   :global(html.mobile-device)
-  .visual-label {
-    display:
-      none;
+  .panel-star,
+  :global(html.mobile-device)
+  .bottom-note {
+    display: none;
   }
 
   /* =========================
@@ -1068,61 +1284,107 @@ import Layout from "../layouts/Layout.astro";
      ========================= */
 
   @media (
-    max-width: 900px
+    max-width: 960px
   ) {
-    .error-page {
+    .not-found-inner {
       grid-template-columns:
         1fr;
 
-      gap:
-        40px;
+      gap: 20px;
+    }
+
+    .lost-panel {
+      min-height: 380px;
     }
   }
 
   @media (
     max-width: 700px
   ) {
-    .error-page {
-      min-height:
-        auto;
+    .not-found {
+      min-height: auto;
+    }
+
+    .not-found-inner {
+      width:
+        calc(
+          100% - 36px
+        );
 
       padding:
-        54px 0 62px;
+        58px 0 74px;
+    }
+
+    .error-code {
+      font-size:
+        clamp(
+          88px,
+          28vw,
+          132px
+        );
+    }
+
+    .error-copy h1 {
+      font-size:
+        clamp(
+          38px,
+          12vw,
+          54px
+        );
     }
 
     .error-actions {
-      flex-direction:
-        column;
+      flex-direction: column;
     }
 
     .primary-action,
     .secondary-action {
-      width:
-        100%;
+      width: 100%;
     }
 
-    .visual-card {
-      transform:
-        none;
+    .lost-card {
+      transform: none;
     }
 
-    .visual-label {
-      display:
-        none;
+    .panel-star,
+    .bottom-note {
+      display: none;
     }
   }
 
   @media (
-    max-width: 360px
+    max-width: 420px
   ) {
-    .error-hints {
-      grid-template-columns:
-        1fr;
+    .lost-card {
+      padding: 19px;
     }
 
-    .visual-grid {
-      grid-template-columns:
-        1fr;
+    .lost-data {
+      gap: 6px;
+    }
+  }
+
+  @media (
+    hover: none
+  ) {
+    .primary-action:hover,
+    .secondary-action:hover {
+      transform: none;
+    }
+  }
+
+  @media (
+    prefers-reduced-motion:
+      reduce
+  ) {
+    .lost-card,
+    .primary-action,
+    .secondary-action {
+      transition:
+        none !important;
+
+      transform:
+        none !important;
     }
   }
 </style>
