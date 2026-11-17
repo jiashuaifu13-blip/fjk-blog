@@ -1,0 +1,2805 @@
+---
+
+---
+
+<div
+  class="desktop-pet"
+  data-desktop-pet
+  aria-hidden="true"
+>
+  <canvas
+    class="desktop-pet__canvas"
+    data-pet-canvas
+  ></canvas>
+</div>
+
+
+<div
+  class="pet-speech"
+  data-pet-speech
+  hidden
+></div>
+
+
+<div
+  class="pet-controls"
+  data-pet-controls
+>
+  <button
+    class="pet-chat-trigger"
+    data-pet-chat-trigger
+    type="button"
+    aria-label="和桌宠聊天"
+    title="和桌宠聊天"
+  >
+    <span
+      class="pet-chat-trigger__dot"
+    ></span>
+
+    <span>
+      Chat
+    </span>
+  </button>
+
+
+  <button
+    class="pet-settings-trigger"
+    data-ai-settings-trigger
+    type="button"
+    aria-label="AI 设置"
+    title="AI 设置"
+  >
+    ⚙
+  </button>
+</div>
+
+
+<form
+  class="pet-prompt"
+  data-pet-prompt
+  hidden
+>
+  <textarea
+    class="pet-prompt__input"
+    data-chat-input
+    rows="1"
+    maxlength="1200"
+    placeholder="和我说点什么吧…"
+    aria-label="聊天内容"
+  ></textarea>
+
+
+  <div
+    class="pet-prompt__actions"
+  >
+    <button
+      type="button"
+      class="pet-prompt__stop"
+      data-chat-stop
+      hidden
+      aria-label="停止生成"
+      title="停止生成"
+    >
+      ■
+    </button>
+
+    <button
+      type="submit"
+      class="pet-prompt__send"
+      data-chat-send
+      aria-label="发送"
+      title="发送"
+      disabled
+    >
+      ↑
+    </button>
+
+    <button
+      type="button"
+      class="pet-prompt__close"
+      data-chat-close
+      aria-label="关闭"
+      title="关闭"
+    >
+      ×
+    </button>
+  </div>
+</form>
+
+
+<section
+  class="pet-ai-settings"
+  data-ai-settings
+  hidden
+  aria-label="AI 设置"
+>
+  <header
+    class="pet-ai-settings__header"
+  >
+    <div>
+      <strong>
+        AI 设置
+      </strong>
+
+      <span
+        class="pet-ai-settings__subtitle"
+      >
+        使用你自己的 API
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="pet-ai-settings__close"
+      data-ai-settings-close
+      aria-label="关闭 AI 设置"
+      title="关闭"
+    >
+      ×
+    </button>
+  </header>
+
+
+  <form
+    class="pet-ai-settings__form"
+    data-ai-settings-form
+  >
+    <label
+      class="pet-ai-settings__field"
+    >
+      <span>
+        Provider
+      </span>
+
+      <select
+        data-ai-provider
+        aria-label="AI Provider"
+      >
+        <option
+          value="deepseek"
+        >
+          DeepSeek
+        </option>
+
+        <option
+          value="openai"
+        >
+          OpenAI
+        </option>
+
+        <option
+          value="openrouter"
+        >
+          OpenRouter
+        </option>
+      </select>
+    </label>
+
+
+    <label
+      class="pet-ai-settings__field"
+    >
+      <span>
+        Model
+      </span>
+
+      <input
+        type="text"
+        data-ai-model
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="例如 deepseek-chat"
+      />
+    </label>
+
+
+    <label
+      class="pet-ai-settings__field"
+    >
+      <span>
+        API Key
+      </span>
+
+      <div
+        class="pet-ai-settings__key-row"
+      >
+        <input
+          type="password"
+          data-ai-key
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="sk-..."
+        />
+
+        <button
+          type="button"
+          class="pet-ai-settings__visibility"
+          data-ai-key-toggle
+          aria-label="显示或隐藏 API Key"
+          title="显示 / 隐藏"
+        >
+          ◉
+        </button>
+      </div>
+    </label>
+
+
+    <p
+      class="pet-ai-settings__note"
+    >
+      API Key 仅保存在当前浏览器会话中。
+      页面请求时临时发送给 fjksp.cn，
+      服务器后续不会保存它。
+    </p>
+
+
+    <div
+      class="pet-ai-settings__status"
+      data-ai-settings-status
+    ></div>
+
+
+    <div
+      class="pet-ai-settings__actions"
+    >
+      <button
+        type="button"
+        class="pet-ai-settings__clear"
+        data-ai-settings-clear
+      >
+        清除
+      </button>
+
+      <button
+        type="submit"
+        class="pet-ai-settings__save"
+      >
+        保存
+      </button>
+    </div>
+  </form>
+</section>
+
+
+<script>
+  import {
+    PetDataLoader,
+  } from "../../lib/pet/PetDataLoader.js";
+
+  import {
+    AnimationLibrary,
+  } from "../../lib/pet/AnimationLibrary.js";
+
+  import {
+    AnimationCache,
+  } from "../../lib/pet/AnimationCache.js";
+
+  import {
+    PetRenderer,
+  } from "../../lib/pet/PetRenderer.js";
+
+  import {
+    PetAnimator,
+  } from "../../lib/pet/PetAnimator.js";
+
+  import {
+    PetAudioManager,
+  } from "../../lib/pet/PetAudioManager.js";
+
+  import {
+    PetStates,
+  } from "../../lib/pet/PetStates.js";
+
+  import {
+    PetStateMachine,
+  } from "../../lib/pet/PetStateMachine.js";
+
+  import {
+    PetHitTest,
+  } from "../../lib/pet/PetHitTest.js";
+
+  import {
+    PetInteractionController,
+  } from "../../lib/pet/PetInteractionController.js";
+
+  import {
+    AiConfigStore,
+  } from "../../lib/chat/AiConfigStore.js";
+
+  import {
+    HttpChatClient,
+  } from "../../lib/chat/HttpChatClient.js";
+
+  import {
+    ChatController,
+  } from "../../lib/chat/ChatController.js";
+
+
+  async function initDesktopPet() {
+
+    const root =
+      document.querySelector(
+        "[data-desktop-pet]"
+      );
+
+    const canvas =
+      root?.querySelector(
+        "[data-pet-canvas]"
+      );
+
+    const speech =
+      document.querySelector(
+        "[data-pet-speech]"
+      );
+
+    const controls =
+      document.querySelector(
+        "[data-pet-controls]"
+      );
+
+    const chatTrigger =
+      document.querySelector(
+        "[data-pet-chat-trigger]"
+      );
+
+    const settingsTrigger =
+      document.querySelector(
+        "[data-ai-settings-trigger]"
+      );
+
+    const prompt =
+      document.querySelector(
+        "[data-pet-prompt]"
+      );
+
+    const input =
+      document.querySelector(
+        "[data-chat-input]"
+      );
+
+    const sendButton =
+      document.querySelector(
+        "[data-chat-send]"
+      );
+
+    const stopButton =
+      document.querySelector(
+        "[data-chat-stop]"
+      );
+
+    const closeButton =
+      document.querySelector(
+        "[data-chat-close]"
+      );
+
+    const settings =
+      document.querySelector(
+        "[data-ai-settings]"
+      );
+
+    const settingsForm =
+      document.querySelector(
+        "[data-ai-settings-form]"
+      );
+
+    const settingsClose =
+      document.querySelector(
+        "[data-ai-settings-close]"
+      );
+
+    const settingsClear =
+      document.querySelector(
+        "[data-ai-settings-clear]"
+      );
+
+    const settingsStatus =
+      document.querySelector(
+        "[data-ai-settings-status]"
+      );
+
+    const providerSelect =
+      document.querySelector(
+        "[data-ai-provider]"
+      );
+
+    const modelInput =
+      document.querySelector(
+        "[data-ai-model]"
+      );
+
+    const apiKeyInput =
+      document.querySelector(
+        "[data-ai-key]"
+      );
+
+    const apiKeyToggle =
+      document.querySelector(
+        "[data-ai-key-toggle]"
+      );
+
+
+    if (
+      !root ||
+      !(canvas instanceof HTMLCanvasElement) ||
+      !(speech instanceof HTMLElement) ||
+      !(controls instanceof HTMLElement) ||
+      !(chatTrigger instanceof HTMLButtonElement) ||
+      !(settingsTrigger instanceof HTMLButtonElement) ||
+      !(prompt instanceof HTMLFormElement) ||
+      !(input instanceof HTMLTextAreaElement) ||
+      !(sendButton instanceof HTMLButtonElement) ||
+      !(stopButton instanceof HTMLButtonElement) ||
+      !(closeButton instanceof HTMLButtonElement) ||
+      !(settings instanceof HTMLElement) ||
+      !(settingsForm instanceof HTMLFormElement) ||
+      !(settingsClose instanceof HTMLButtonElement) ||
+      !(settingsClear instanceof HTMLButtonElement) ||
+      !(settingsStatus instanceof HTMLElement) ||
+      !(providerSelect instanceof HTMLSelectElement) ||
+      !(modelInput instanceof HTMLInputElement) ||
+      !(apiKeyInput instanceof HTMLInputElement) ||
+      !(apiKeyToggle instanceof HTMLButtonElement)
+    ) {
+      return;
+    }
+
+
+    if (
+      root.dataset.initialized ===
+      "true"
+    ) {
+      return;
+    }
+
+
+    root.dataset.initialized =
+      "true";
+
+
+    try {
+
+      /*
+       * =====================================================
+       * Pet Runtime
+       * =====================================================
+       */
+
+      const loader =
+        new PetDataLoader(
+          "/pets/dsh1"
+        );
+
+
+      const {
+        actions,
+      } =
+        await loader.load();
+
+
+      const library =
+        new AnimationLibrary(
+          actions
+        );
+
+
+      const cache =
+        new AnimationCache();
+
+
+      const renderer =
+        new PetRenderer(
+          canvas
+        );
+
+
+      const audioManager =
+        new PetAudioManager();
+
+
+      const animator =
+        new PetAnimator({
+          renderer,
+          library,
+          cache,
+          audioManager,
+        });
+
+
+      const stateMachine =
+        new PetStateMachine({
+          animator,
+        });
+
+
+      animator.onError =
+        (error) => {
+
+          console.error(
+            "[FJK Pet Animator]",
+            error
+          );
+        };
+
+
+      stateMachine.onStateError =
+        (error) => {
+
+          console.error(
+            "[FJK Pet State]",
+            error
+          );
+        };
+
+
+      await stateMachine.setState(
+        PetStates.IDLE,
+        {
+          reason:
+            "blog-ready",
+        }
+      );
+
+
+      const hitTest =
+        new PetHitTest({
+          canvas,
+
+          alphaThreshold:
+            25,
+        });
+
+
+      /*
+       * =====================================================
+       * AI Configuration
+       * =====================================================
+       */
+
+      const aiConfigStore =
+        new AiConfigStore();
+
+
+      const clamp =
+        (
+          value,
+          min,
+          max
+        ) => {
+
+          return Math.min(
+            Math.max(
+              value,
+              min
+            ),
+            max
+          );
+        };
+
+
+      const setSpeech =
+        (
+          content
+        ) => {
+
+          const text =
+            String(
+              content ??
+              ""
+            ).trim();
+
+
+          speech.textContent =
+            text;
+
+
+          speech.hidden =
+            !text;
+
+
+          if (
+            text
+          ) {
+
+            requestAnimationFrame(
+              syncCompanionPosition
+            );
+          }
+        };
+
+
+      /*
+       * =====================================================
+       * Position
+       * =====================================================
+       */
+
+      const positionPrompt =
+        (
+          petRect
+        ) => {
+
+          if (
+            prompt.hidden
+          ) {
+            return;
+          }
+
+
+          const promptRect =
+            prompt
+              .getBoundingClientRect();
+
+
+          const margin =
+            10;
+
+          const gap =
+            16;
+
+
+          let left;
+
+          let top;
+
+
+          if (
+            window.innerWidth <=
+            700
+          ) {
+
+            left =
+              (
+                window.innerWidth -
+                promptRect.width
+              ) /
+              2;
+
+
+            top =
+              window.innerHeight -
+              promptRect.height -
+              Math.max(
+                12,
+                window.innerHeight *
+                0.03
+              );
+
+          } else {
+
+            left =
+              petRect.left +
+              petRect.width /
+              2 -
+              promptRect.width /
+              2;
+
+
+            top =
+              petRect.bottom +
+              gap;
+
+
+            if (
+              top +
+              promptRect.height >
+              window.innerHeight -
+              margin
+            ) {
+
+              top =
+                petRect.top -
+                promptRect.height -
+                gap;
+            }
+          }
+
+
+          left =
+            clamp(
+              left,
+              margin,
+              window.innerWidth -
+              promptRect.width -
+              margin
+            );
+
+
+          top =
+            clamp(
+              top,
+              margin,
+              window.innerHeight -
+              promptRect.height -
+              margin
+            );
+
+
+          prompt.style.left =
+            `${left}px`;
+
+
+          prompt.style.top =
+            `${top}px`;
+        };
+
+
+      const positionControls =
+        (
+          petRect
+        ) => {
+
+          const rect =
+            controls
+              .getBoundingClientRect();
+
+
+          const margin =
+            8;
+
+          const gap =
+            10;
+
+
+          const petCenterX =
+            petRect.left +
+            petRect.width /
+            2;
+
+
+          let left;
+
+
+          if (
+            petCenterX >
+            window.innerWidth /
+            2
+          ) {
+
+            left =
+              petRect.left -
+              rect.width -
+              gap;
+
+          } else {
+
+            left =
+              petRect.right +
+              gap;
+          }
+
+
+          let top =
+            petRect.top +
+            petRect.height *
+            0.58;
+
+
+          left =
+            clamp(
+              left,
+              margin,
+              window.innerWidth -
+              rect.width -
+              margin
+            );
+
+
+          top =
+            clamp(
+              top,
+              margin,
+              window.innerHeight -
+              rect.height -
+              margin
+            );
+
+
+          controls.style.left =
+            `${left}px`;
+
+
+          controls.style.top =
+            `${top}px`;
+        };
+
+
+      const positionSpeech =
+        (
+          petRect
+        ) => {
+
+          if (
+            speech.hidden
+          ) {
+            return;
+          }
+
+
+          const bubbleRect =
+            speech
+              .getBoundingClientRect();
+
+
+          const margin =
+            10;
+
+          const gap =
+            14;
+
+
+          let left =
+            petRect.left +
+            petRect.width /
+            2 -
+            bubbleRect.width /
+            2;
+
+
+          let top =
+            petRect.top -
+            bubbleRect.height -
+            gap;
+
+
+          if (
+            top <
+            margin
+          ) {
+
+            const roomRight =
+              window.innerWidth -
+              petRect.right;
+
+
+            if (
+              roomRight >=
+              bubbleRect.width +
+              gap
+            ) {
+
+              left =
+                petRect.right +
+                gap;
+
+            } else {
+
+              left =
+                petRect.left -
+                bubbleRect.width -
+                gap;
+            }
+
+
+            top =
+              petRect.top +
+              petRect.height *
+              0.1;
+          }
+
+
+          left =
+            clamp(
+              left,
+              margin,
+              window.innerWidth -
+              bubbleRect.width -
+              margin
+            );
+
+
+          top =
+            clamp(
+              top,
+              margin,
+              window.innerHeight -
+              bubbleRect.height -
+              margin
+            );
+
+
+          speech.style.left =
+            `${left}px`;
+
+
+          speech.style.top =
+            `${top}px`;
+        };
+
+
+      const positionSettings =
+        (
+          petRect
+        ) => {
+
+          if (
+            settings.hidden
+          ) {
+            return;
+          }
+
+
+          const rect =
+            settings
+              .getBoundingClientRect();
+
+
+          const margin =
+            10;
+
+          const gap =
+            18;
+
+
+          let left =
+            petRect.left +
+            petRect.width /
+            2 -
+            rect.width /
+            2;
+
+
+          let top =
+            petRect.top -
+            rect.height -
+            gap;
+
+
+          if (
+            window.innerWidth <=
+            700
+          ) {
+
+            left =
+              (
+                window.innerWidth -
+                rect.width
+              ) /
+              2;
+
+
+            top =
+              Math.max(
+                12,
+                (
+                  window.innerHeight -
+                  rect.height
+                ) /
+                2
+              );
+
+          } else if (
+            top <
+            margin
+          ) {
+
+            top =
+              petRect.bottom +
+              gap;
+          }
+
+
+          left =
+            clamp(
+              left,
+              margin,
+              window.innerWidth -
+              rect.width -
+              margin
+            );
+
+
+          top =
+            clamp(
+              top,
+              margin,
+              window.innerHeight -
+              rect.height -
+              margin
+            );
+
+
+          settings.style.left =
+            `${left}px`;
+
+
+          settings.style.top =
+            `${top}px`;
+        };
+
+
+      function syncCompanionPosition() {
+
+        const petRect =
+          root
+            .getBoundingClientRect();
+
+
+        positionSpeech(
+          petRect
+        );
+
+
+        positionPrompt(
+          petRect
+        );
+
+
+        positionControls(
+          petRect
+        );
+
+
+        positionSettings(
+          petRect
+        );
+      }
+
+
+      /*
+       * =====================================================
+       * Interaction
+       * =====================================================
+       */
+
+      const interactionController =
+        new PetInteractionController({
+          root,
+          canvas,
+          stateMachine,
+          hitTest,
+
+          dragThreshold:
+            6,
+
+          viewportPadding:
+            4,
+
+          storageKey:
+            "fjk-blog-pet-position-v1",
+        });
+
+
+      interactionController.onInteraction =
+        (
+          event
+        ) => {
+
+          root.dataset.interaction =
+            event.type;
+
+
+          if (
+            event.type ===
+            "drag-start"
+          ) {
+
+            root.dataset.dragging =
+              "true";
+
+          } else if (
+            event.type ===
+              "drag-end" ||
+            event.type ===
+              "pointer-cancel"
+          ) {
+
+            delete root.dataset.dragging;
+          }
+
+
+          if (
+            event.type ===
+              "drag-move" ||
+            event.type ===
+              "drag-end" ||
+            event.type ===
+              "viewport-resize"
+          ) {
+
+            requestAnimationFrame(
+              syncCompanionPosition
+            );
+          }
+        };
+
+
+      interactionController.mount();
+
+
+      /*
+       * =====================================================
+       * Settings
+       * =====================================================
+       */
+
+      const updateConfigIndicator =
+        () => {
+
+          const configured =
+            aiConfigStore
+              .isConfigured();
+
+
+          settingsTrigger.dataset.configured =
+            configured
+              ? "true"
+              : "false";
+
+
+          settingsTrigger.title =
+            configured
+              ? "AI 已配置"
+              : "配置自己的 AI";
+
+
+          return configured;
+        };
+
+
+      const fillSettings =
+        () => {
+
+          const config =
+            aiConfigStore.get();
+
+
+          if (
+            config
+          ) {
+
+            providerSelect.value =
+              config.provider;
+
+
+            modelInput.value =
+              config.model;
+
+
+            apiKeyInput.value =
+              config.apiKey;
+
+
+            return;
+          }
+
+
+          providerSelect.value =
+            "deepseek";
+
+
+          modelInput.value =
+            aiConfigStore
+              .getDefaultModel(
+                "deepseek"
+              );
+
+
+          apiKeyInput.value =
+            "";
+        };
+
+
+      const openSettings =
+        () => {
+
+          fillSettings();
+
+
+          settingsStatus.textContent =
+            "";
+
+
+          settings.hidden =
+            false;
+
+
+          prompt.hidden =
+            true;
+
+
+          chatTrigger
+            .classList
+            .remove(
+              "is-open"
+            );
+
+
+          requestAnimationFrame(
+            () => {
+
+              syncCompanionPosition();
+
+
+              providerSelect.focus();
+            }
+          );
+        };
+
+
+      const closeSettings =
+        () => {
+
+          settings.hidden =
+            true;
+        };
+
+
+      providerSelect.addEventListener(
+        "change",
+        () => {
+
+          const defaultModel =
+            aiConfigStore
+              .getDefaultModel(
+                providerSelect.value
+              );
+
+
+          /*
+           * DeepSeek 提供默认值。
+           * 其他 Provider 不猜测用户账户里的模型。
+           */
+          if (
+            defaultModel
+          ) {
+
+            modelInput.value =
+              defaultModel;
+
+          } else {
+
+            modelInput.value =
+              "";
+          }
+        }
+      );
+
+
+      apiKeyToggle.addEventListener(
+        "click",
+        () => {
+
+          const visible =
+            apiKeyInput.type ===
+            "text";
+
+
+          apiKeyInput.type =
+            visible
+              ? "password"
+              : "text";
+        }
+      );
+
+
+      settingsTrigger.addEventListener(
+        "click",
+        () => {
+
+          if (
+            settings.hidden
+          ) {
+
+            openSettings();
+
+          } else {
+
+            closeSettings();
+          }
+        }
+      );
+
+
+      settingsClose.addEventListener(
+        "click",
+        closeSettings
+      );
+
+
+      settingsClear.addEventListener(
+        "click",
+        () => {
+
+          aiConfigStore.clear();
+
+
+          fillSettings();
+
+
+          updateConfigIndicator();
+
+
+          settingsStatus.textContent =
+            "本次会话中的 AI 配置已清除。";
+
+
+          setSpeech(
+            "AI 配置已清除。"
+          );
+        }
+      );
+
+
+      settingsForm.addEventListener(
+        "submit",
+        (
+          event
+        ) => {
+
+          event.preventDefault();
+
+
+          const provider =
+            providerSelect.value;
+
+
+          const model =
+            modelInput.value
+              .trim();
+
+
+          const apiKey =
+            apiKeyInput.value
+              .trim();
+
+
+          if (
+            !provider ||
+            !model ||
+            !apiKey
+          ) {
+
+            settingsStatus.textContent =
+              "请完整填写 Provider、Model 和 API Key。";
+
+
+            return;
+          }
+
+
+          try {
+
+            aiConfigStore.save({
+              provider,
+              model,
+              apiKey,
+            });
+
+
+            updateConfigIndicator();
+
+
+            settingsStatus.textContent =
+              "已保存。";
+
+
+            closeSettings();
+
+
+            setSpeech(
+              "AI 配置已保存，本次浏览器会话中有效。"
+            );
+
+
+            openPrompt();
+
+          } catch (error) {
+
+            console.error(
+              "[FJK AI Config]",
+              error
+            );
+
+
+            settingsStatus.textContent =
+              "配置保存失败。";
+          }
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * HTTP Chat
+       * =====================================================
+       */
+
+      const httpClient =
+        new HttpChatClient({
+          endpoint:
+            "/api/chat",
+
+          getConfig:
+            () =>
+              aiConfigStore.get(),
+        });
+
+
+      const chatController =
+        new ChatController({
+          client:
+            httpClient,
+
+          stateMachine,
+        });
+
+
+      chatController.onMessagesChange =
+        () => {};
+
+
+      chatController.onGeneratingChange =
+        (
+          generating
+        ) => {
+
+          input.disabled =
+            generating;
+
+
+          stopButton.hidden =
+            !generating;
+
+
+          sendButton.disabled =
+            generating ||
+            input.value
+              .trim()
+              .length === 0;
+
+
+          prompt.dataset.generating =
+            generating
+              ? "true"
+              : "false";
+        };
+
+
+      chatController.onBubbleChange =
+        (
+          content
+        ) => {
+
+          setSpeech(
+            content
+          );
+        };
+
+
+      chatController.onError =
+        (
+          error
+        ) => {
+
+          console.error(
+            "[FJK Chat]",
+            error
+          );
+        };
+
+
+      /*
+       * =====================================================
+       * Prompt
+       * =====================================================
+       */
+
+      function openPrompt() {
+
+        if (
+          !aiConfigStore
+            .isConfigured()
+        ) {
+
+          setSpeech(
+            "请先配置自己的 AI API。"
+          );
+
+
+          openSettings();
+
+
+          return;
+        }
+
+
+        settings.hidden =
+          true;
+
+
+        prompt.hidden =
+          false;
+
+
+        chatTrigger
+          .classList
+          .add(
+            "is-open"
+          );
+
+
+        requestAnimationFrame(
+          () => {
+
+            syncCompanionPosition();
+
+
+            input.focus();
+          }
+        );
+      }
+
+
+      const closePrompt =
+        () => {
+
+          prompt.hidden =
+            true;
+
+
+          chatTrigger
+            .classList
+            .remove(
+              "is-open"
+            );
+        };
+
+
+      chatTrigger.addEventListener(
+        "click",
+        () => {
+
+          if (
+            !aiConfigStore
+              .isConfigured()
+          ) {
+
+            openSettings();
+
+            return;
+          }
+
+
+          if (
+            prompt.hidden
+          ) {
+
+            openPrompt();
+
+          } else {
+
+            closePrompt();
+          }
+        }
+      );
+
+
+      closeButton.addEventListener(
+        "click",
+        closePrompt
+      );
+
+
+      stopButton.addEventListener(
+        "click",
+        () => {
+
+          chatController.stop();
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * Input
+       * =====================================================
+       */
+
+      const resizeInput =
+        () => {
+
+          input.style.height =
+            "auto";
+
+
+          const maxHeight =
+            82;
+
+
+          input.style.height =
+            `${Math.min(
+              input.scrollHeight,
+              maxHeight
+            )}px`;
+
+
+          requestAnimationFrame(
+            syncCompanionPosition
+          );
+        };
+
+
+      input.addEventListener(
+        "input",
+        () => {
+
+          sendButton.disabled =
+            chatController.generating ||
+            input.value
+              .trim()
+              .length === 0;
+
+
+          resizeInput();
+        }
+      );
+
+
+      input.addEventListener(
+        "keydown",
+        (
+          event
+        ) => {
+
+          if (
+            event.key ===
+              "Enter" &&
+            !event.shiftKey
+          ) {
+
+            event.preventDefault();
+
+
+            if (
+              !chatController.generating
+            ) {
+
+              prompt.requestSubmit();
+            }
+          }
+        }
+      );
+
+
+      prompt.addEventListener(
+        "submit",
+        async (
+          event
+        ) => {
+
+          event.preventDefault();
+
+
+          if (
+            !aiConfigStore
+              .isConfigured()
+          ) {
+
+            setSpeech(
+              "请先配置自己的 AI API。"
+            );
+
+
+            openSettings();
+
+
+            return;
+          }
+
+
+          const content =
+            input.value
+              .trim();
+
+
+          if (
+            !content ||
+            chatController.generating
+          ) {
+            return;
+          }
+
+
+          input.value =
+            "";
+
+
+          input.style.height =
+            "auto";
+
+
+          sendButton.disabled =
+            true;
+
+
+          await chatController.send(
+            content
+          );
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * Responsive
+       * =====================================================
+       */
+
+      window.addEventListener(
+        "resize",
+        () => {
+
+          requestAnimationFrame(
+            syncCompanionPosition
+          );
+        }
+      );
+
+
+      window.visualViewport
+        ?.addEventListener(
+          "resize",
+          () => {
+
+            requestAnimationFrame(
+              syncCompanionPosition
+            );
+          }
+        );
+
+
+      /*
+       * =====================================================
+       * Init
+       * =====================================================
+       */
+
+      updateConfigIndicator();
+
+
+      window.fjkPet = {
+        loader,
+        library,
+        cache,
+        renderer,
+        audioManager,
+        animator,
+        stateMachine,
+        hitTest,
+        interactionController,
+
+        aiConfigStore,
+        httpClient,
+        chatController,
+
+        openPrompt,
+        closePrompt,
+        openSettings,
+        closeSettings,
+
+        syncCompanionPosition,
+      };
+
+
+      root.dataset.ready =
+        "true";
+
+
+      requestAnimationFrame(
+        syncCompanionPosition
+      );
+
+
+      console.log(
+        "[FJK Pet] ready"
+      );
+
+
+      console.log(
+        "[FJK AI] BYOK configuration ready"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "[FJK Pet] initialization failed",
+        error
+      );
+
+
+      root.remove();
+
+      speech.remove();
+
+      controls.remove();
+
+      prompt.remove();
+
+      settings.remove();
+    }
+  }
+
+
+  initDesktopPet();
+</script>
+
+
+<style>
+  .desktop-pet {
+    position: fixed;
+    right: 18px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 90;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    opacity: 0;
+    transform: translateY(8px);
+    transform-origin: bottom right;
+
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease;
+
+    -webkit-touch-callout: none;
+  }
+
+
+  .desktop-pet[data-ready="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+
+  .desktop-pet[data-dragging="true"] {
+    transition: none;
+  }
+
+
+  .desktop-pet__canvas {
+    display: block;
+
+    width: clamp(
+      210px,
+      29vw,
+      330px
+    );
+
+    max-width: none;
+    height: auto;
+
+    background: transparent;
+    pointer-events: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    filter:
+      drop-shadow(
+        0 10px 20px
+        rgba(75, 90, 170, 0.16)
+      );
+  }
+
+
+  /*
+   * Speech
+   */
+
+  .pet-speech {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 110;
+
+    width: min(
+      310px,
+      62vw
+    );
+
+    max-height: 170px;
+    overflow-y: auto;
+
+    padding: 12px 15px;
+
+    border:
+      1px solid
+      rgba(229, 234, 255, 0.26);
+
+    border-radius:
+      21px 21px 8px 21px;
+
+    color: #ffffff;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(137, 143, 245, 0.98),
+        rgba(94, 119, 224, 0.98)
+      );
+
+    box-shadow:
+      0 15px 38px
+      rgba(5, 9, 32, 0.28);
+
+    backdrop-filter:
+      blur(16px);
+
+    -webkit-backdrop-filter:
+      blur(16px);
+
+    font-size: 12px;
+    line-height: 1.58;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+
+    pointer-events: none;
+  }
+
+
+  .pet-speech[hidden] {
+    display: none;
+  }
+
+
+  /*
+   * Controls
+   */
+
+  .pet-controls {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 105;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+
+  .pet-chat-trigger,
+  .pet-settings-trigger {
+    border:
+      1px solid
+      rgba(211, 220, 255, 0.11);
+
+    color:
+      rgba(232, 237, 255, 0.60);
+
+    background:
+      rgba(27, 34, 65, 0.42);
+
+    backdrop-filter:
+      blur(12px);
+
+    -webkit-backdrop-filter:
+      blur(12px);
+
+    box-shadow:
+      0 6px 18px
+      rgba(4, 8, 28, 0.10);
+
+    cursor: pointer;
+
+    transition:
+      transform 150ms ease,
+      opacity 150ms ease,
+      background 150ms ease,
+      border-color 150ms ease;
+  }
+
+
+  .pet-chat-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    height: 31px;
+
+    padding: 0 10px;
+
+    border-radius: 999px;
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+
+  .pet-settings-trigger {
+    width: 31px;
+    height: 31px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+  }
+
+
+  .pet-chat-trigger:hover,
+  .pet-settings-trigger:hover {
+    color:
+      rgba(245, 247, 255, 0.88);
+
+    background:
+      rgba(48, 59, 105, 0.65);
+
+    border-color:
+      rgba(213, 222, 255, 0.17);
+
+    transform:
+      translateY(-1px);
+  }
+
+
+  .pet-chat-trigger.is-open {
+    opacity: 0.34;
+  }
+
+
+  .pet-chat-trigger__dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+      rgba(159, 184, 255, 0.68);
+
+    box-shadow:
+      0 0 7px
+      rgba(159, 184, 255, 0.42);
+  }
+
+
+  /*
+   * AI 已配置时齿轮显示一个很淡的绿色状态。
+   */
+
+  .pet-settings-trigger[
+    data-configured="true"
+  ] {
+    border-color:
+      rgba(143, 230, 194, 0.22);
+
+    color:
+      rgba(181, 244, 219, 0.78);
+  }
+
+
+  /*
+   * Compact Prompt
+   */
+
+  .pet-prompt {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 115;
+
+    width:
+      min(
+        390px,
+        calc(100vw - 20px)
+      );
+
+    min-height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+      6px 6px 6px 14px;
+
+    border:
+      1px solid
+      rgba(221, 228, 255, 0.10);
+
+    border-radius: 999px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(245, 247, 255, 0.22),
+        rgba(213, 221, 252, 0.15)
+      );
+
+    backdrop-filter:
+      blur(18px)
+      saturate(125%);
+
+    -webkit-backdrop-filter:
+      blur(18px)
+      saturate(125%);
+
+    box-shadow:
+      0 8px 24px
+      rgba(4, 8, 28, 0.08);
+
+    transition:
+      background 170ms ease,
+      border-color 170ms ease,
+      box-shadow 170ms ease;
+  }
+
+
+  .pet-prompt[hidden] {
+    display: none;
+  }
+
+
+  .pet-prompt:hover {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(247, 249, 255, 0.30),
+        rgba(218, 225, 253, 0.21)
+      );
+  }
+
+
+  .pet-prompt:focus-within {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(249, 250, 255, 0.42),
+        rgba(223, 229, 253, 0.30)
+      );
+
+    border-color:
+      rgba(221, 228, 255, 0.21);
+
+    box-shadow:
+      0 10px 28px
+      rgba(5, 9, 30, 0.12);
+  }
+
+
+  .pet-prompt__input {
+    flex: 1;
+    min-width: 0;
+
+    height: 24px;
+    max-height: 82px;
+
+    overflow-y: auto;
+
+    resize: none;
+
+    padding: 2px 0;
+
+    border: 0;
+    outline: 0;
+
+    color:
+      rgba(238, 241, 255, 0.82);
+
+    background: transparent;
+
+    font: inherit;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+
+  .pet-prompt:focus-within
+  .pet-prompt__input {
+    color:
+      rgba(250, 251, 255, 0.96);
+  }
+
+
+  .pet-prompt__input::placeholder {
+    color:
+      rgba(226, 232, 255, 0.42);
+  }
+
+
+  .pet-prompt__input:disabled {
+    opacity: 0.62;
+  }
+
+
+  .pet-prompt__actions {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    flex: 0 0 auto;
+  }
+
+
+  .pet-prompt__send,
+  .pet-prompt__stop,
+  .pet-prompt__close {
+    display: grid;
+    place-items: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 50%;
+
+    font: inherit;
+
+    cursor: pointer;
+
+    transition:
+      background 150ms ease,
+      opacity 150ms ease,
+      transform 150ms ease;
+  }
+
+
+  .pet-prompt__send {
+    width: 36px;
+    height: 36px;
+
+    color:
+      rgba(255, 255, 255, 0.92);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(119, 139, 239, 0.72),
+        rgba(146, 124, 239, 0.72)
+      );
+
+    font-size: 17px;
+  }
+
+
+  .pet-prompt__send:disabled {
+    opacity: 0.18;
+    cursor: default;
+  }
+
+
+  .pet-prompt__stop {
+    width: 28px;
+    height: 28px;
+
+    color:
+      rgba(231, 235, 255, 0.54);
+
+    background:
+      rgba(218, 225, 255, 0.08);
+
+    font-size: 8px;
+  }
+
+
+  .pet-prompt__stop[hidden] {
+    display: none;
+  }
+
+
+  .pet-prompt__close {
+    width: 28px;
+    height: 28px;
+
+    color:
+      rgba(229, 234, 255, 0.38);
+
+    background: transparent;
+
+    font-size: 14px;
+  }
+
+
+  .pet-prompt[data-generating="true"] {
+    border-color:
+      rgba(154, 167, 245, 0.15);
+  }
+
+
+  /*
+   * ========================================================
+   * AI Settings
+   * ========================================================
+   */
+
+  .pet-ai-settings {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 120;
+
+    width:
+      min(
+        330px,
+        calc(100vw - 24px)
+      );
+
+    padding: 14px;
+
+    border:
+      1px solid
+      rgba(216, 224, 255, 0.16);
+
+    border-radius: 20px;
+
+    color:
+      rgba(243, 246, 255, 0.92);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(29, 36, 72, 0.88),
+        rgba(39, 44, 83, 0.78)
+      );
+
+    backdrop-filter:
+      blur(24px)
+      saturate(120%);
+
+    -webkit-backdrop-filter:
+      blur(24px)
+      saturate(120%);
+
+    box-shadow:
+      0 20px 48px
+      rgba(5, 8, 28, 0.28);
+  }
+
+
+  .pet-ai-settings[hidden] {
+    display: none;
+  }
+
+
+  .pet-ai-settings__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+  }
+
+
+  .pet-ai-settings__header
+  strong {
+    display: block;
+
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+
+  .pet-ai-settings__subtitle {
+    display: block;
+
+    margin-top: 2px;
+
+    color:
+      rgba(219, 226, 255, 0.48);
+
+    font-size: 9px;
+  }
+
+
+  .pet-ai-settings__close {
+    width: 27px;
+    height: 27px;
+
+    border: 0;
+    border-radius: 50%;
+
+    color:
+      rgba(232, 237, 255, 0.50);
+
+    background:
+      rgba(226, 232, 255, 0.06);
+
+    cursor: pointer;
+  }
+
+
+  .pet-ai-settings__form {
+    display: grid;
+    gap: 11px;
+  }
+
+
+  .pet-ai-settings__field {
+    display: grid;
+    gap: 5px;
+  }
+
+
+  .pet-ai-settings__field
+  > span {
+    color:
+      rgba(224, 230, 255, 0.58);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.02em;
+  }
+
+
+  .pet-ai-settings
+  select,
+  .pet-ai-settings
+  input {
+    width: 100%;
+    height: 36px;
+
+    padding: 0 11px;
+
+    border:
+      1px solid
+      rgba(218, 225, 255, 0.10);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    color:
+      rgba(246, 248, 255, 0.92);
+
+    background:
+      rgba(10, 15, 38, 0.32);
+
+    font: inherit;
+    font-size: 11px;
+  }
+
+
+  .pet-ai-settings
+  select:focus,
+  .pet-ai-settings
+  input:focus {
+    border-color:
+      rgba(145, 161, 242, 0.38);
+
+    background:
+      rgba(13, 18, 45, 0.44);
+  }
+
+
+  .pet-ai-settings
+  select option {
+    color: #111827;
+  }
+
+
+  .pet-ai-settings__key-row {
+    display: grid;
+
+    grid-template-columns:
+      1fr auto;
+
+    gap: 5px;
+  }
+
+
+  .pet-ai-settings__visibility {
+    width: 36px;
+    height: 36px;
+
+    border:
+      1px solid
+      rgba(218, 225, 255, 0.10);
+
+    border-radius: 11px;
+
+    color:
+      rgba(233, 238, 255, 0.56);
+
+    background:
+      rgba(10, 15, 38, 0.28);
+
+    cursor: pointer;
+  }
+
+
+  .pet-ai-settings__note {
+    margin: 2px 0 0;
+
+    color:
+      rgba(214, 222, 255, 0.44);
+
+    font-size: 9px;
+    line-height: 1.55;
+  }
+
+
+  .pet-ai-settings__status {
+    min-height: 14px;
+
+    color:
+      rgba(177, 205, 255, 0.76);
+
+    font-size: 9px;
+  }
+
+
+  .pet-ai-settings__actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 7px;
+  }
+
+
+  .pet-ai-settings__clear,
+  .pet-ai-settings__save {
+    min-width: 62px;
+    height: 31px;
+
+    padding: 0 12px;
+
+    border: 0;
+    border-radius: 999px;
+
+    font: inherit;
+    font-size: 10px;
+
+    cursor: pointer;
+  }
+
+
+  .pet-ai-settings__clear {
+    color:
+      rgba(228, 233, 255, 0.55);
+
+    background:
+      rgba(225, 231, 255, 0.06);
+  }
+
+
+  .pet-ai-settings__save {
+    color: #ffffff;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(117, 137, 236, 0.82),
+        rgba(145, 121, 238, 0.82)
+      );
+  }
+
+
+  /*
+   * Tablet
+   */
+
+  @media (
+    max-width:
+      1000px
+  ) {
+
+    .desktop-pet {
+      right: 10px;
+    }
+
+
+    .desktop-pet__canvas {
+      width:
+        clamp(
+          190px,
+          28vw,
+          270px
+        );
+    }
+  }
+
+
+  /*
+   * Mobile
+   */
+
+  @media (
+    max-width:
+      700px
+  ) {
+
+    .desktop-pet {
+      right:
+        max(
+          2px,
+          env(
+            safe-area-inset-right
+          )
+        );
+
+      bottom:
+        max(
+          4px,
+          env(
+            safe-area-inset-bottom
+          )
+        );
+    }
+
+
+    .desktop-pet__canvas {
+      width:
+        clamp(
+          135px,
+          38vw,
+          190px
+        );
+    }
+
+
+    .pet-speech {
+      width:
+        min(
+          245px,
+          68vw
+        );
+
+      max-height: 120px;
+
+      font-size: 10px;
+    }
+
+
+    .pet-prompt {
+      width:
+        calc(
+          100vw -
+          24px
+        );
+
+      min-height: 48px;
+
+      padding:
+        5px 5px 5px 12px;
+    }
+
+
+    .pet-prompt__input {
+      font-size: 10px;
+    }
+
+
+    .pet-prompt__send {
+      width: 34px;
+      height: 34px;
+    }
+
+
+    .pet-ai-settings {
+      width:
+        calc(
+          100vw -
+          24px
+        );
+
+      max-height:
+        calc(
+          100vh -
+          24px
+        );
+
+      overflow-y: auto;
+    }
+  }
+
+
+  :global(
+    html.mobile-device
+  )
+  .desktop-pet {
+    right:
+      max(
+        2px,
+        env(
+          safe-area-inset-right
+        )
+      );
+
+    bottom:
+      max(
+        4px,
+        env(
+          safe-area-inset-bottom
+        )
+      );
+  }
+
+
+  :global(
+    html.mobile-device
+  )
+  .desktop-pet__canvas {
+    width:
+      clamp(
+        135px,
+        38vw,
+        190px
+      );
+  }
+
+
+  @media (
+    max-width:
+      390px
+  ) {
+
+    .desktop-pet__canvas {
+      width:
+        clamp(
+          125px,
+          36vw,
+          150px
+        );
+    }
+
+
+    .pet-prompt__close {
+      display: none;
+    }
+  }
+
+
+  @media (
+    max-height:
+      500px
+  )
+  and
+  (
+    orientation:
+      landscape
+  ) {
+
+    .desktop-pet__canvas {
+      width: auto;
+
+      height:
+        min(
+          42vh,
+          180px
+        );
+    }
+
+
+    .pet-speech {
+      max-height: 88px;
+    }
+
+
+    .pet-ai-settings {
+      max-height:
+        calc(
+          100vh -
+          20px
+        );
+
+      overflow-y: auto;
+    }
+  }
+
+
+  @media (
+    prefers-reduced-motion:
+      reduce
+  ) {
+
+    .desktop-pet,
+    .pet-controls,
+    .pet-prompt,
+    .pet-ai-settings {
+      transition: none;
+    }
+  }
+</style>
