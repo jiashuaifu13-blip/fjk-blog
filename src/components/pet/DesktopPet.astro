@@ -2559,18 +2559,21 @@
     border-radius:
       21px 21px 8px 21px;
 
-    color: #ffffff;
+    color: #18213d;
 
     background:
       linear-gradient(
         135deg,
-        rgba(137, 143, 245, 0.98),
-        rgba(94, 119, 224, 0.98)
+        rgba(255, 255, 255, 0.98),
+        rgba(232, 238, 255, 0.98)
       );
+
+    border-color:
+      rgba(91, 108, 164, 0.32);
 
     box-shadow:
       0 15px 38px
-      rgba(5, 9, 32, 0.28);
+      rgba(35, 47, 92, 0.22);
 
     backdrop-filter:
       blur(16px);
@@ -2617,6 +2620,54 @@
 
   .pet-speech[hidden] {
     display: none;
+  }
+
+
+  :global(html.dark) .pet-speech {
+    color: #f7f8ff;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(48, 56, 112, 0.98),
+        rgba(34, 42, 88, 0.98)
+      );
+
+    border-color:
+      rgba(183, 194, 255, 0.28);
+
+    box-shadow:
+      0 15px 38px
+      rgba(0, 0, 0, 0.42);
+  }
+
+
+  @media (prefers-contrast: more) {
+
+    .pet-speech {
+      color: #111827;
+      background: #ffffff;
+      border: 2px solid #111827;
+      box-shadow: none;
+    }
+
+
+    :global(html.dark) .pet-speech {
+      color: #ffffff;
+      background: #111827;
+      border-color: #ffffff;
+    }
+  }
+
+
+  @media (forced-colors: active) {
+
+    .pet-speech {
+      color: CanvasText;
+      background: Canvas;
+      border: 2px solid CanvasText;
+      box-shadow: none;
+    }
   }
 
 
@@ -2844,8 +2895,7 @@
     border: 0;
     outline: 0;
 
-    color:
-      rgba(238, 241, 255, 0.82);
+    color: #18213d;
 
     background: transparent;
 
@@ -2857,14 +2907,35 @@
 
   .pet-prompt:focus-within
   .pet-prompt__input {
-    color:
-      rgba(250, 251, 255, 0.96);
+    color: #111827;
   }
 
 
   .pet-prompt__input::placeholder {
     color:
-      rgba(226, 232, 255, 0.42);
+      rgba(24, 33, 61, 0.54);
+  }
+
+
+  :global(html.dark)
+  .pet-prompt__input {
+    color:
+      rgba(238, 241, 255, 0.90);
+  }
+
+
+  :global(html.dark)
+  .pet-prompt:focus-within
+  .pet-prompt__input {
+    color:
+      rgba(250, 251, 255, 0.98);
+  }
+
+
+  :global(html.dark)
+  .pet-prompt__input::placeholder {
+    color:
+      rgba(226, 232, 255, 0.60);
   }
 
 

@@ -13,6 +13,10 @@ export class PetInteractionController {
 
     dragThreshold = 6,
 
+    dragAnimationStartFrame = 12,
+
+    dragAnimationEndFrame = 32,
+
     viewportPadding = 4,
 
     storageKey =
@@ -52,6 +56,12 @@ export class PetInteractionController {
 
     this.dragThreshold =
       dragThreshold
+
+    this.dragAnimationStartFrame =
+      dragAnimationStartFrame
+
+    this.dragAnimationEndFrame =
+      dragAnimationEndFrame
 
     this.viewportPadding =
       viewportPadding
@@ -507,6 +517,37 @@ export class PetInteractionController {
           event.clientY,
       }
     )
+
+
+    /*
+     * 鼠标按下命中角色后，
+     * 立即进入预起飞悬空动画。
+     */
+    this.stateMachine
+      .setState(
+        PetStates.DRAGGING,
+        {
+          force:
+            true,
+
+          startFrame:
+            this.dragAnimationStartFrame,
+
+          endFrame:
+            this.dragAnimationEndFrame,
+
+          reason:
+            'pointer-down-pre-drag',
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(
+            '[PetInteraction] Failed to enter pre-drag:',
+            error
+          )
+        }
+      )
   }
 
 
@@ -549,9 +590,11 @@ export class PetInteractionController {
     /*
      * 第一次超过阈值：
      *
-     * 立即进入 DRAGGING。
+     * 才正式进入位置拖拽。
      *
-     * 不 await。
+     * 动画已经在 pointerdown 时启动，
+     * 这里不重复调用 setState，
+     * 避免动画跳回起始帧。
      */
     if (
       !this.dragging
@@ -583,28 +626,6 @@ export class PetInteractionController {
       this.emitInteraction(
         'drag-start'
       )
-
-
-      this.stateMachine
-        .setState(
-          PetStates.DRAGGING,
-          {
-            force:
-              true,
-
-            reason:
-              'pointer-drag-start',
-          }
-        )
-        .catch(
-          (error) => {
-
-            console.error(
-              '[PetInteraction] Failed to enter DRAGGING:',
-              error
-            )
-          }
-        )
     }
 
 

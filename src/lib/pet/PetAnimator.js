@@ -15,6 +15,9 @@ export class PetAnimator {
     this.currentAction = null
     this.currentFrame = 0
 
+    this.playStartFrame = 0
+    this.playEndFrame = 0
+
     this.running = false
     this.looping = true
 
@@ -34,6 +37,8 @@ export class PetAnimator {
     actionId,
     {
       loop = true,
+      startFrame = 0,
+      endFrame = null,
     } = {}
   ) {
     const token =
@@ -62,6 +67,36 @@ export class PetAnimator {
       return
     }
 
+    const frameCount =
+      action.spritesheet.frameCount
+
+    const safeStartFrame =
+      Math.max(
+        0,
+        Math.min(
+          Number(startFrame) || 0,
+          frameCount - 1
+        )
+      )
+
+    const requestedEndFrame =
+      endFrame === null
+        ? frameCount - 1
+        : Number(endFrame)
+
+    const safeEndFrame =
+      Math.max(
+        safeStartFrame,
+        Math.min(
+          Number.isFinite(
+            requestedEndFrame
+          )
+            ? requestedEndFrame
+            : frameCount - 1,
+          frameCount - 1
+        )
+      )
+
     /*
      * 停止前一个动画和音频。
      */
@@ -82,8 +117,14 @@ export class PetAnimator {
     this.currentAction =
       action
 
+    this.playStartFrame =
+      safeStartFrame
+
+    this.playEndFrame =
+      safeEndFrame
+
     this.currentFrame =
-      0
+      safeStartFrame
 
     this.looping =
       loop
@@ -99,7 +140,9 @@ export class PetAnimator {
       image
     )
 
-    this.renderer.renderFrame(0)
+    this.renderer.renderFrame(
+      safeStartFrame
+    )
 
     /*
      * 检查动作是否具有音频。
@@ -204,6 +247,9 @@ export class PetAnimator {
     this.currentAction = null
     this.currentFrame = 0
 
+    this.playStartFrame = 0
+    this.playEndFrame = 0
+
     this.usingAudioClock =
       false
   }
@@ -247,18 +293,32 @@ export class PetAnimator {
     try {
       const {
         fps,
-        frameCount,
       } =
         this.currentAction
           .spritesheet
 
+      const startFrame =
+        this.playStartFrame
+
+      const endFrame =
+        this.playEndFrame
+
+      const frameSpan =
+        endFrame -
+        startFrame +
+        1
+
       const elapsedSeconds =
         this.getElapsedSeconds()
 
-      let frame =
+      const elapsedFrame =
         Math.floor(
           elapsedSeconds * fps
         )
+
+      let frame =
+        startFrame +
+        elapsedFrame
 
       /*
        * 音频动作：
@@ -277,11 +337,15 @@ export class PetAnimator {
 
       if (this.looping) {
         frame =
-          frame % frameCount
+          startFrame +
+          (
+            elapsedFrame %
+            frameSpan
+          )
       } else {
         if (
           frame >=
-          frameCount
+          endFrame + 1
         ) {
           this.finishAnimation()
           return
@@ -327,17 +391,12 @@ export class PetAnimator {
     const action =
       this.currentAction
 
-    const {
-      frameCount,
-    } =
-      action.spritesheet
-
     /*
-     * 停留在最后一帧。
+     * 停留在本次播放范围的最后一帧。
      */
 
     this.currentFrame =
-      frameCount - 1
+      this.playEndFrame
 
     this.renderer.renderFrame(
       this.currentFrame

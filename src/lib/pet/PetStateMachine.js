@@ -258,6 +258,8 @@ export class PetStateMachine {
       tags = [],
       actionId = null,
       avoidRepeat = true,
+      startFrame = 0,
+      endFrame = null,
     } = {}
   ) {
 
@@ -331,6 +333,10 @@ export class PetStateMachine {
         action.id,
         {
           loop,
+
+          startFrame,
+
+          endFrame,
         }
       );
 
@@ -444,6 +450,13 @@ export class PetStateMachine {
 
       reason =
         "direct-action",
+
+      startFrame =
+        0,
+
+      endFrame =
+        null,
+
     } = {}
   ) {
 
@@ -474,6 +487,10 @@ export class PetStateMachine {
           loop:
             action.loop ??
             loop,
+
+          startFrame,
+
+          endFrame,
         }
       );
 
