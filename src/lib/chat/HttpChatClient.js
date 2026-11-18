@@ -16,6 +16,7 @@ export class HttpChatClient {
 
   async send({
     message,
+    messages = [],
     signal,
     onStart,
     onToken,
@@ -69,6 +70,28 @@ export class HttpChatClient {
     }
 
 
+    /*
+     * ========================================================
+     * Context Messages
+     * ========================================================
+     *
+     * ChatController 已经负责：
+     *
+     * - 保留最近若干完整轮次
+     * - 排除 aborted
+     * - 排除 error
+     * - 排除 streaming
+     *
+     * HttpChatClient 再做一层格式清洗，
+     * 防止非法对象进入网络请求。
+     */
+    const contextMessages =
+      this.normalizeMessages(
+        messages,
+        content
+      )
+
+
     const response =
       await fetch(
         this.endpoint,
@@ -93,8 +116,25 @@ export class HttpChatClient {
 
           body:
             JSON.stringify({
+
+              /*
+               * 保留旧字段，
+               * 兼容当前线上 Go 后端。
+               *
+               * 等新版后端完成并验收后，
+               * 再决定是否彻底删除。
+               */
               message:
                 content,
+
+
+              /*
+               * 新字段：
+               * 用于真正的多轮上下文。
+               */
+              messages:
+                contextMessages,
+
 
               provider:
                 config.provider,
@@ -352,6 +392,128 @@ export class HttpChatClient {
         // ignore
       }
     }
+  }
+
+
+  /*
+   * ========================================================
+   * Normalize Context
+   * ========================================================
+   *
+   * 网络层只接受：
+   *
+   * {
+   *   role: 'user' | 'assistant',
+   *   content: '...'
+   * }
+   *
+   * 不把 UI 内部字段发送出去：
+   *
+   * id
+   * status
+   * generating
+   * ...
+   */
+  normalizeMessages(
+    messages,
+    fallbackMessage
+  ) {
+
+    const result =
+      []
+
+
+    if (
+      Array.isArray(
+        messages
+      )
+    ) {
+
+      for (
+        const item of messages
+      ) {
+
+        if (
+          !item ||
+          typeof item !==
+            'object'
+        ) {
+          continue
+        }
+
+
+        const role =
+          String(
+            item.role ??
+            ''
+          ).trim()
+
+
+        if (
+          role !==
+            'user' &&
+          role !==
+            'assistant'
+        ) {
+          continue
+        }
+
+
+        const content =
+          String(
+            item.content ??
+            ''
+          ).trim()
+
+
+        if (
+          !content
+        ) {
+          continue
+        }
+
+
+        result.push({
+          role,
+          content,
+        })
+      }
+    }
+
+
+    /*
+     * 理论上 ChatController 一定会提供 messages。
+     *
+     * 这里保留 fallback，
+     * 防止未来其他地方直接调用 HttpChatClient。
+     */
+    if (
+      result.length ===
+      0
+    ) {
+
+      const content =
+        String(
+          fallbackMessage ??
+          ''
+        ).trim()
+
+
+      if (
+        content
+      ) {
+
+        result.push({
+          role:
+            'user',
+
+          content,
+        })
+      }
+    }
+
+
+    return result
   }
 
 

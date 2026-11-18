@@ -93,12 +93,36 @@ export class PetInteractionController {
 
 
     /*
-     * 当桌宠覆盖在链接 / 按钮上时，
-     * pointerdown 已经被我们拦截，
-     * 浏览器之后仍有可能生成 click。
+     * ==========================================
+     * Drag render scheduling
+     * ==========================================
      *
-     * 用这个标记拦掉那一次 click，
-     * 防止点桌宠同时点到下面的链接。
+     * pointermove 可能远高于屏幕刷新率。
+     *
+     * 我们不在每一次 pointermove 中
+     * 直接修改 DOM。
+     *
+     * 而是：
+     *
+     * pointermove
+     * → 保存最新目标位置
+     * → requestAnimationFrame
+     * → 每帧最多更新一次 DOM
+     */
+
+    this.pendingLeft =
+      null
+
+    this.pendingTop =
+      null
+
+    this.dragFrameId =
+      null
+
+
+    /*
+     * 用于防止点击桌宠时，
+     * 事件穿透到下面的网页元素。
      */
     this.suppressNextClick =
       false
@@ -109,7 +133,9 @@ export class PetInteractionController {
 
 
     /*
-     * 绑定函数，方便 mount / unmount。
+     * ==========================================
+     * Bind handlers
+     * ==========================================
      */
 
     this.handlePointerDown =
@@ -146,6 +172,11 @@ export class PetInteractionController {
       this.handleVisibilityChange.bind(
         this
       )
+
+    this.flushDragPosition =
+      this.flushDragPosition.bind(
+        this
+      )
   }
 
 
@@ -167,24 +198,6 @@ export class PetInteractionController {
     this.mounted =
       true
 
-
-    /*
-     * 关键设计：
-     *
-     * Canvas / root 自身 pointer-events:none。
-     *
-     * 因此透明矩形不会阻挡博客。
-     *
-     * 我们从 document 捕获 Pointer Events，
-     * 再通过 Alpha hit-test 判断：
-     *
-     * - 命中角色实体：
-     *   拦截事件，交给桌宠。
-     *
-     * - 命中透明区域：
-     *   什么都不做，
-     *   浏览器继续把事件交给下面的网页。
-     */
 
     document.addEventListener(
       'pointerdown',
@@ -238,9 +251,6 @@ export class PetInteractionController {
     )
 
 
-    /*
-     * 阻止点桌宠时触发下面元素的 click。
-     */
     document.addEventListener(
       'click',
       this.handleClick,
@@ -266,10 +276,6 @@ export class PetInteractionController {
     )
 
 
-    /*
-     * CSS / Canvas 尺寸完成后
-     * 再恢复位置。
-     */
     requestAnimationFrame(
       () => {
 
@@ -280,7 +286,10 @@ export class PetInteractionController {
               this.restorePosition()
 
 
-            if (!restored) {
+            if (
+              !restored
+            ) {
+
               this.clampToViewport()
             }
           }
@@ -356,6 +365,9 @@ export class PetInteractionController {
     )
 
 
+    this.cancelDragFrame()
+
+
     this.resetPointer()
   }
 
@@ -396,13 +408,10 @@ export class PetInteractionController {
    * ==========================================
    */
 
-  async handlePointerDown(
+  handlePointerDown(
     event
   ) {
 
-    /*
-     * 同时只处理一个 pointer。
-     */
     if (
       this.pointerDown
     ) {
@@ -410,12 +419,6 @@ export class PetInteractionController {
     }
 
 
-    /*
-     * 鼠标只响应左键。
-     *
-     * touch / pen 的 button
-     * 行为可能不同，因此只限制 mouse。
-     */
     if (
       event.pointerType ===
         'mouse' &&
@@ -426,11 +429,6 @@ export class PetInteractionController {
     }
 
 
-    /*
-     * 最关键的一步：
-     * 只有 Alpha 真正命中桌宠
-     * 才接管这次事件。
-     */
     const hit =
       this.hitTest.hit(
         event.clientX,
@@ -442,26 +440,9 @@ export class PetInteractionController {
       !hit
     ) {
 
-      /*
-       * 透明区域：
-       *
-       * 不 preventDefault
-       * 不 stopPropagation
-       *
-       * 下面的博客链接、按钮、
-       * 滚动、文本选择全部照常。
-       */
-
       return
     }
 
-
-    /*
-     * 点中角色实体。
-     *
-     * 从这里开始，
-     * 这次 Pointer 归桌宠所有。
-     */
 
     event.preventDefault()
 
@@ -505,6 +486,13 @@ export class PetInteractionController {
       false
 
 
+    this.pendingLeft =
+      null
+
+    this.pendingTop =
+      null
+
+
     this.suppressNextClick =
       true
 
@@ -528,7 +516,7 @@ export class PetInteractionController {
    * ==========================================
    */
 
-  async handlePointerMove(
+  handlePointerMove(
     event
   ) {
 
@@ -541,9 +529,6 @@ export class PetInteractionController {
     }
 
 
-    /*
-     * 当前 Pointer 已由桌宠接管。
-     */
     event.preventDefault()
 
     event.stopPropagation()
@@ -561,6 +546,13 @@ export class PetInteractionController {
       this.startClientY
 
 
+    /*
+     * 第一次超过阈值：
+     *
+     * 立即进入 DRAGGING。
+     *
+     * 不 await。
+     */
     if (
       !this.dragging
     ) {
@@ -593,29 +585,34 @@ export class PetInteractionController {
       )
 
 
-      try {
+      this.stateMachine
+        .setState(
+          PetStates.DRAGGING,
+          {
+            force:
+              true,
 
-        await this.stateMachine
-          .setState(
-            PetStates.DRAGGING,
-            {
-              force:
-                true,
-
-              reason:
-                'pointer-drag-start',
-            }
-          )
-
-      } catch (error) {
-
-        console.error(
-          '[PetInteraction] Failed to enter DRAGGING:',
-          error
+            reason:
+              'pointer-drag-start',
+          }
         )
-      }
+        .catch(
+          (error) => {
+
+            console.error(
+              '[PetInteraction] Failed to enter DRAGGING:',
+              error
+            )
+          }
+        )
     }
 
+
+    /*
+     * 只计算目标坐标。
+     *
+     * 不在这里直接写 DOM。
+     */
 
     const position =
       this.clampPosition(
@@ -627,20 +624,186 @@ export class PetInteractionController {
       )
 
 
-    this.applyPosition(
-      position.left,
+    this.pendingLeft =
+      position.left
+
+    this.pendingTop =
       position.top
+
+
+    /*
+     * 同一个浏览器绘制周期内，
+     * 最多安排一个更新任务。
+     */
+
+    this.scheduleDragFrame()
+  }
+
+
+  /*
+   * ==========================================
+   * Drag RAF
+   * ==========================================
+   */
+
+  scheduleDragFrame() {
+
+    if (
+      this.dragFrameId !==
+      null
+    ) {
+      return
+    }
+
+
+    this.dragFrameId =
+      requestAnimationFrame(
+        this.flushDragPosition
+      )
+  }
+
+
+  flushDragPosition() {
+
+    this.dragFrameId =
+      null
+
+
+    if (
+      !this.dragging
+    ) {
+      return
+    }
+
+
+    if (
+      this.pendingLeft ===
+        null ||
+      this.pendingTop ===
+        null
+    ) {
+      return
+    }
+
+
+    const left =
+      this.pendingLeft
+
+    const top =
+      this.pendingTop
+
+
+    this.pendingLeft =
+      null
+
+    this.pendingTop =
+      null
+
+
+    this.applyPosition(
+      left,
+      top
     )
 
 
     this.emitInteraction(
       'drag-move',
       {
-        left:
-          position.left,
+        left,
+        top,
+      }
+    )
+  }
 
-        top:
-          position.top,
+
+  cancelDragFrame() {
+
+    if (
+      this.dragFrameId !==
+      null
+    ) {
+
+      cancelAnimationFrame(
+        this.dragFrameId
+      )
+
+
+      this.dragFrameId =
+        null
+    }
+
+
+    this.pendingLeft =
+      null
+
+    this.pendingTop =
+      null
+  }
+
+
+  /*
+   * ==========================================
+   * Flush final drag position
+   * ==========================================
+   *
+   * 松手时可能刚好还有一帧尚未提交。
+   *
+   * 这里强制把最后坐标落到 DOM，
+   * 避免松手瞬间少掉最后几像素。
+   */
+
+  flushFinalDragPosition() {
+
+    if (
+      this.dragFrameId !==
+      null
+    ) {
+
+      cancelAnimationFrame(
+        this.dragFrameId
+      )
+
+
+      this.dragFrameId =
+        null
+    }
+
+
+    if (
+      this.pendingLeft ===
+        null ||
+      this.pendingTop ===
+        null
+    ) {
+      return
+    }
+
+
+    const left =
+      this.pendingLeft
+
+    const top =
+      this.pendingTop
+
+
+    this.pendingLeft =
+      null
+
+    this.pendingTop =
+      null
+
+
+    this.applyPosition(
+      left,
+      top
+    )
+
+
+    this.emitInteraction(
+      'drag-move',
+      {
+        left,
+        top,
       }
     )
   }
@@ -680,6 +843,13 @@ export class PetInteractionController {
       wasDragging
     ) {
 
+      /*
+       * 先确保最后一个 pointermove
+       * 对应的位置已经提交。
+       */
+      this.flushFinalDragPosition()
+
+
       delete this.root
         .dataset
         .dragging
@@ -717,10 +887,8 @@ export class PetInteractionController {
 
     } else {
 
-      /*
-       * 没达到拖动距离，
-       * 视为点击桌宠。
-       */
+      this.cancelDragFrame()
+
 
       this.emitInteraction(
         'click'
@@ -785,6 +953,9 @@ export class PetInteractionController {
       wasDragging
     ) {
 
+      this.flushFinalDragPosition()
+
+
       delete this.root
         .dataset
         .dragging
@@ -814,6 +985,10 @@ export class PetInteractionController {
           error
         )
       }
+
+    } else {
+
+      this.cancelDragFrame()
     }
 
 
@@ -945,10 +1120,6 @@ export class PetInteractionController {
       `${top}px`
 
 
-    /*
-     * 一旦开始使用 left/top，
-     * 就解除默认 right/bottom 定位。
-     */
     this.root.style.right =
       'auto'
 
@@ -994,15 +1165,6 @@ export class PetInteractionController {
         .getBoundingClientRect()
 
 
-    /*
-     * 使用相对于可用区域的比例，
-     * 而不是只保存绝对 px。
-     *
-     * 这样桌面缩放到手机、
-     * 手机横竖屏切换后，
-     * 位置更容易保持合理。
-     */
-
     const maxX =
       Math.max(
         1,
@@ -1047,8 +1209,8 @@ export class PetInteractionController {
 
     } catch {
       /*
-       * localStorage 不可用时，
-       * 不影响桌宠本身。
+       * localStorage 不可用时
+       * 不影响桌宠。
        */
     }
   }
@@ -1067,7 +1229,9 @@ export class PetInteractionController {
         )
 
 
-      if (!raw) {
+      if (
+        !raw
+      ) {
         return false
       }
 
@@ -1179,12 +1343,6 @@ export class PetInteractionController {
 
   handleResize() {
 
-    /*
-     * 浏览器 resize /
-     * 手机旋转之后 CSS 尺寸可能变化，
-     * 等布局完成后再修正。
-     */
-
     requestAnimationFrame(
       () => {
 
@@ -1192,9 +1350,6 @@ export class PetInteractionController {
           this.clampToViewport()
 
 
-        /*
-         * 更新为新的屏幕比例。
-         */
         this.savePosition()
 
 
@@ -1209,16 +1364,11 @@ export class PetInteractionController {
 
   /*
    * ==========================================
-   * Tab visibility
+   * Visibility
    * ==========================================
    */
 
   async handleVisibilityChange() {
-
-    /*
-     * 用户在拖动期间切换标签页，
-     * 避免状态永久卡在 DRAGGING。
-     */
 
     if (
       document.visibilityState !==
@@ -1232,6 +1382,9 @@ export class PetInteractionController {
     if (
       this.dragging
     ) {
+
+      this.flushFinalDragPosition()
+
 
       delete this.root
         .dataset
@@ -1262,6 +1415,10 @@ export class PetInteractionController {
           error
         )
       }
+
+    } else {
+
+      this.cancelDragFrame()
     }
 
 
@@ -1276,6 +1433,9 @@ export class PetInteractionController {
    */
 
   resetPointer() {
+
+    this.cancelDragFrame()
+
 
     this.pointerDown =
       false

@@ -295,6 +295,10 @@
   } from "../../lib/pet/PetStateMachine.js";
 
   import {
+    PetActionSelector,
+  } from "../../lib/pet/PetActionSelector.js";
+
+  import {
     PetHitTest,
   } from "../../lib/pet/PetHitTest.js";
 
@@ -464,13 +468,18 @@
        * =====================================================
        */
 
+      const petBasePath =
+        "/pets/dsh";
+
+
       const loader =
         new PetDataLoader(
-          "/pets/dsh1"
+          petBasePath
         );
 
 
       const {
+        manifest,
         actions,
       } =
         await loader.load();
@@ -483,7 +492,9 @@
 
 
       const cache =
-        new AnimationCache();
+        new AnimationCache(
+          petBasePath
+        );
 
 
       const renderer =
@@ -493,7 +504,9 @@
 
 
       const audioManager =
-        new PetAudioManager();
+        new PetAudioManager(
+          petBasePath
+        );
 
 
       const animator =
@@ -505,9 +518,337 @@
         });
 
 
+      const actionSelector =
+        new PetActionSelector({
+          library,
+        });
+
+
+      /*
+       * =====================================================
+       * Realtime Resource Preload
+       * =====================================================
+       *
+       * 用户可直接感知延迟的状态：
+       *
+       * DRAGGING
+       * INTERACT
+       * THINKING
+       * SPEAKING
+       *
+       * 在开放交互前全部完成 WebP 缓存。
+       */
+
+
+      const preloadStateActions =
+        async (
+          state,
+          label
+        ) => {
+
+          const candidates =
+            actionSelector
+              .getCandidates({
+                state,
+              });
+
+
+          const availableActions =
+            candidates
+              .map(
+                (action) =>
+                  library.get(
+                    action.id
+                  )
+              )
+              .filter(Boolean);
+
+
+          const results =
+            await Promise.allSettled(
+              availableActions.map(
+                (action) =>
+                  cache.load(
+                    action
+                  )
+              )
+            );
+
+
+          const loaded =
+            results
+              .filter(
+                (result) =>
+                  result.status ===
+                  "fulfilled"
+              )
+              .length;
+
+
+          const failed =
+            results.length -
+            loaded;
+
+
+          console.log(
+            `[FJK Pet] ${label} preload: ${loaded}/${results.length}`
+          );
+
+
+          if (
+            failed > 0
+          ) {
+
+            console.warn(
+              `[FJK Pet] ${label} preload failed: ${failed}`
+            );
+          }
+
+
+          return {
+            state,
+            label,
+            candidates,
+            availableActions,
+            loaded,
+            failed,
+            total:
+              results.length,
+          };
+        };
+
+
+      /*
+       * -----------------------------------------------------
+       * DRAGGING
+       * -----------------------------------------------------
+       */
+
+      const dragActionId =
+        "被鼠标拖拽悬空反馈";
+
+
+      const dragAction =
+        library.get(
+          dragActionId
+        );
+
+
+      if (
+        !dragAction
+      ) {
+
+        throw new Error(
+          `Missing required drag action: ${dragActionId}`
+        );
+      }
+
+
+      await cache.load(
+        dragAction
+      );
+
+
+      console.log(
+        "[FJK Pet] drag action ready"
+      );
+
+
+      /*
+       * -----------------------------------------------------
+       * INTERACT
+       * -----------------------------------------------------
+       */
+
+      const interactPreload =
+        await preloadStateActions(
+          PetStates.INTERACT,
+          "interact"
+        );
+
+
+      /*
+       * -----------------------------------------------------
+       * THINKING + SPEAKING
+       * -----------------------------------------------------
+       *
+       * 用户发送消息后立即 THINKING；
+       * 收到首个 token 后立即 SPEAKING。
+       *
+       * 两组动作并发预热。
+       */
+
+      const [
+        thinkingPreload,
+        speakingPreload,
+      ] =
+        await Promise.all([
+          preloadStateActions(
+            PetStates.THINKING,
+            "thinking"
+          ),
+
+          preloadStateActions(
+            PetStates.SPEAKING,
+            "speaking"
+          ),
+        ]);
+
+
+      const interactActions =
+        interactPreload.candidates;
+
+
+      const realtimePreloadFailed =
+        interactPreload.failed +
+        thinkingPreload.failed +
+        speakingPreload.failed;
+
+
+      if (
+        realtimePreloadFailed >
+        0
+      ) {
+
+        console.warn(
+          `[FJK Pet] realtime preload incomplete: ${realtimePreloadFailed} failed`
+        );
+      }
+
+
+      console.log(
+        "[FJK Pet] realtime actions ready",
+        {
+          dragging:
+            dragActionId,
+
+          interact:
+            interactPreload.loaded,
+
+          thinking:
+            thinkingPreload.loaded,
+
+          speaking:
+            speakingPreload.loaded,
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * Background IDLE Preload
+       * =====================================================
+       *
+       * IDLE 动作池较大，只后台预热常用动作。
+       */
+
+      const idlePreloadIds =
+        [
+          "待机呼吸休闲",
+          "东张西望",
+          "哈欠连天",
+          "超大伸懒腰",
+          "悠闲哼歌",
+          "三球抛接",
+          "原地专心玩魔方",
+          "原地小憩沉眠",
+        ];
+
+
+      const preloadIdleActions =
+        async () => {
+
+          const idleActions =
+            idlePreloadIds
+              .map(
+                (id) =>
+                  library.get(id)
+              )
+              .filter(Boolean);
+
+
+          const results =
+            await Promise.allSettled(
+              idleActions.map(
+                (action) =>
+                  cache.load(
+                    action
+                  )
+              )
+            );
+
+
+          const loaded =
+            results
+              .filter(
+                (result) =>
+                  result.status ===
+                  "fulfilled"
+              )
+              .length;
+
+
+          const failed =
+            results.length -
+            loaded;
+
+
+          console.log(
+            `[FJK Pet] idle preload: ${loaded}/${results.length}`
+          );
+
+
+          if (
+            failed > 0
+          ) {
+
+            console.warn(
+              `[FJK Pet] idle preload failed: ${failed}`
+            );
+          }
+        };
+
+
+      if (
+        "requestIdleCallback"
+        in window
+      ) {
+
+        window.requestIdleCallback(
+          () => {
+
+            preloadIdleActions();
+
+          },
+          {
+            timeout:
+              1500,
+          }
+        );
+
+      } else {
+
+        window.setTimeout(
+          () => {
+
+            preloadIdleActions();
+
+          },
+          300
+        );
+      }
+
+
+      /*
+       * =====================================================
+       * State Machine
+       * =====================================================
+       */
+
       const stateMachine =
         new PetStateMachine({
           animator,
+          actionSelector,
         });
 
 
@@ -530,6 +871,32 @@
           );
         };
 
+
+      stateMachine.onStateChange =
+        ({
+          from,
+          to,
+          reason,
+          actionId,
+          tags,
+        }) => {
+
+          console.log(
+            "[FJK Pet State]",
+            {
+              from,
+              to,
+              reason,
+              actionId,
+              tags,
+            }
+          );
+        };
+
+
+      /*
+       * 启动 IDLE。
+       */
 
       await stateMachine.setState(
         PetStates.IDLE,
@@ -594,6 +961,15 @@
 
           speech.hidden =
             !text;
+
+
+          if (
+            !text
+          ) {
+
+            speech.scrollTop =
+              0;
+          }
 
 
           if (
@@ -1235,10 +1611,6 @@
               );
 
 
-          /*
-           * DeepSeek 提供默认值。
-           * 其他 Provider 不猜测用户账户里的模型。
-           */
           if (
             defaultModel
           ) {
@@ -1556,6 +1928,7 @@
 
             openSettings();
 
+
             return;
           }
 
@@ -1750,6 +2123,238 @@
 
       /*
        * =====================================================
+       * Development Helpers
+       * =====================================================
+       */
+
+      const listActions =
+        () => {
+
+          const ids =
+            library.getIds();
+
+
+          console.table(
+            ids.map(
+              (
+                id,
+                index
+              ) => ({
+                index:
+                  index + 1,
+
+                id,
+              })
+            )
+          );
+
+
+          return ids;
+        };
+
+
+      const listCatalog =
+        () => {
+
+          const catalogActions =
+            actionSelector
+              .getAvailableActions();
+
+
+          console.table(
+            catalogActions.map(
+              (action) => ({
+                id:
+                  action.id,
+
+                states:
+                  action.states.join(
+                    ", "
+                  ),
+
+                tags:
+                  action.tags.join(
+                    ", "
+                  ),
+
+                weight:
+                  action.weight,
+              })
+            )
+          );
+
+
+          return catalogActions;
+        };
+
+
+      const playAction =
+        async (
+          actionId
+        ) => {
+
+          return stateMachine
+            .playAction(
+              actionId,
+              {
+                state:
+                  PetStates.SPECIAL,
+
+                loop:
+                  false,
+
+                reason:
+                  "dev-play-action",
+              }
+            );
+        };
+
+
+      const playState =
+        async (
+          state,
+          tags = []
+        ) => {
+
+          const normalizedState =
+            String(
+              state ??
+              ""
+            )
+              .trim()
+              .toUpperCase();
+
+
+          if (
+            !PetStates[
+              normalizedState
+            ]
+          ) {
+
+            throw new Error(
+              `Unknown pet state: ${state}`
+            );
+          }
+
+
+          return stateMachine
+            .setState(
+              PetStates[
+                normalizedState
+              ],
+              {
+                force:
+                  true,
+
+                tags:
+                  Array.isArray(
+                    tags
+                  )
+                    ? tags
+                    : [
+                        tags,
+                      ],
+
+                reason:
+                  "dev-play-state",
+              }
+            );
+        };
+
+
+      const getCurrentPetState =
+        () => ({
+          state:
+            stateMachine.currentState,
+
+          previousState:
+            stateMachine.previousState,
+
+          action:
+            stateMachine.currentAction?.id ??
+            null,
+
+          previousAction:
+            stateMachine.previousAction?.id ??
+            null,
+
+          tags:
+            stateMachine.currentAction?.tags ??
+            [],
+        });
+
+
+      /*
+       * 检查实时动作是否全部缓存。
+       */
+
+      const getRealtimeCacheStatus =
+        () => {
+
+          const createStatus =
+            (
+              preload
+            ) => {
+
+              return preload
+                .candidates
+                .map(
+                  (action) => ({
+                    state:
+                      preload.state,
+
+                    id:
+                      action.id,
+
+                    cached:
+                      cache.has(
+                        action.id
+                      ),
+                  })
+                );
+            };
+
+
+          const rows =
+            [
+              {
+                state:
+                  PetStates.DRAGGING,
+
+                id:
+                  dragActionId,
+
+                cached:
+                  cache.has(
+                    dragActionId
+                  ),
+              },
+
+              ...createStatus(
+                interactPreload
+              ),
+
+              ...createStatus(
+                thinkingPreload
+              ),
+
+              ...createStatus(
+                speakingPreload
+              ),
+            ];
+
+
+          console.table(
+            rows
+          );
+
+
+          return rows;
+        };
+
+
+      /*
+       * =====================================================
        * Init
        * =====================================================
        */
@@ -1758,13 +2363,18 @@
 
 
       window.fjkPet = {
+        petBasePath,
         loader,
+        manifest,
         library,
         cache,
+
         renderer,
         audioManager,
         animator,
+        actionSelector,
         stateMachine,
+
         hitTest,
         interactionController,
 
@@ -1776,8 +2386,15 @@
         closePrompt,
         openSettings,
         closeSettings,
-
         syncCompanionPosition,
+
+        listActions,
+        listCatalog,
+        playAction,
+        playState,
+        getCurrentPetState,
+
+        getRealtimeCacheStatus,
       };
 
 
@@ -1792,6 +2409,30 @@
 
       console.log(
         "[FJK Pet] ready"
+      );
+
+
+      console.log(
+        `[FJK Pet] resource: ${petBasePath}`
+      );
+
+
+      console.log(
+        `[FJK Pet] loaded animations: ${library.size}`
+      );
+
+
+      console.log(
+        `[FJK Pet] catalog available: ${
+          actionSelector
+            .getAvailableActions()
+            .length
+        }`
+      );
+
+
+      console.log(
+        `[FJK Pet] realtime cache: drag=1, interact=${interactPreload.loaded}, thinking=${thinkingPreload.loaded}, speaking=${speakingPreload.loaded}`
       );
 
 
@@ -1884,10 +2525,6 @@
   }
 
 
-  /*
-   * Speech
-   */
-
   .pet-speech {
     position: fixed;
     left: 0;
@@ -1901,7 +2538,17 @@
     );
 
     max-height: 170px;
+
     overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+      rgba(255, 255, 255, 0.34)
+      transparent;
 
     padding: 12px 15px;
 
@@ -1936,8 +2583,35 @@
 
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+    word-break: break-word;
 
-    pointer-events: none;
+    pointer-events: auto;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .pet-speech::-webkit-scrollbar {
+    width: 5px;
+  }
+
+
+  .pet-speech::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+
+  .pet-speech::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+
+    background:
+      rgba(255, 255, 255, 0.28);
+  }
+
+
+  .pet-speech::-webkit-scrollbar-thumb:hover {
+    background:
+      rgba(255, 255, 255, 0.42);
   }
 
 
@@ -1945,10 +2619,6 @@
     display: none;
   }
 
-
-  /*
-   * Controls
-   */
 
   .pet-controls {
     position: fixed;
@@ -2060,10 +2730,6 @@
   }
 
 
-  /*
-   * AI 已配置时齿轮显示一个很淡的绿色状态。
-   */
-
   .pet-settings-trigger[
     data-configured="true"
   ] {
@@ -2074,10 +2740,6 @@
       rgba(181, 244, 219, 0.78);
   }
 
-
-  /*
-   * Compact Prompt
-   */
 
   .pet-prompt {
     position: fixed;
@@ -2304,12 +2966,6 @@
       rgba(154, 167, 245, 0.15);
   }
 
-
-  /*
-   * ========================================================
-   * AI Settings
-   * ========================================================
-   */
 
   .pet-ai-settings {
     position: fixed;
@@ -2577,10 +3233,6 @@
   }
 
 
-  /*
-   * Tablet
-   */
-
   @media (
     max-width:
       1000px
@@ -2601,10 +3253,6 @@
     }
   }
 
-
-  /*
-   * Mobile
-   */
 
   @media (
     max-width:
